@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <head>
+    <th:block th:include="include :: header('Chat')" />
+    <link th:href="@{/css/chat.css}" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+
+    <div class="container">
+        <input type="hidden" th:value="${email}" th:id="email">
+        <input type="hidden" th:value="${userName}" th:id="userName">
+        <h3 class=" text-center">Messaging</h3>
+        <div class="messaging">
+            <div class="inbox_msg">
+                <div class="inbox_people">
+                    <div class="headind_srch">
+                        <div class="recent_heading">
+                            <h4>Đang mở</h4>
+                        </div>
+                    </div>
+                    <div class="inbox_chat" id="tblData">
+
+                    </div>
+                </div>	
+
+                <div class="mesgs" id="detail">
+
+                </div>
+                <div class="history">
+                    <p> Đang chat...</p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+<th:block th:include="include :: footer" />
+
+
+<script th:inline="javascript">
+    const COL_NAME = "rooms";
+    const DEFAULT_PW = "";
+    const DISPLAY_NAME = $("#userName").val();
+    const EMAIL = $("#email").val();
+    const prefix = ctx + "chat";
+    const PLEASE_WAIT = "Đang tải dữ liệu, vui lòng chờ...";
+    var list = [];
+    let USER_LOGIN = null;
+	var acRoom ='';
+    const chatContrller = {
+        init: function () {
+            // Start loading
+            $.modal.loading(PLEASE_WAIT);
+            chatContrller.initialFirebase();
+            firebase.auth().signOut();
+
+            chatContrller.loadData();
+        },
+        initialFirebase: function () {
+            var firebaseConfig = {
+            		apiKey: "AIzaSyDcEQKAUluWCjG_DWsrzChLnZIedCTdB1Y",
+            		authDomain: "qlcx-a67b9.firebaseapp.com",
+            		projectId: "qlcx-a67b9",
+            		storageBucket: "qlcx-a67b9.appspot.com",
+            		messagingSenderId: "787839252839",
+            		appId: "1:787839252839:web:2c7036b25254ec9593d7c2",
+            		measurementId: "G-YLBWN5G5FP"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+        },
+        registerEvent: function () {
+            $('.btn-join-chat').off('click').on('click', function () {
+                let id = $(this).data('id');
+                let url = prefix + "/chat-detail/" + id;
+                $('#detail').load(url)
+                //$.modal.openFullDo("Hỗ trợ khách hàng", url);
+            });
+        },
+        loadData: function () {
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    // User is signed in.
+                    USER_LOGIN = user;
+                    chatContrller.loadRooms();
+                } else {
+                    // No user is signed in.
+                    chatContrller.signInOrSignUp(EMAIL);
+                }
+            });
+        },
+        signInOrSignUp: function (email) {
+            firebase.auth().fetchSignInMethodsForEmail(email).then(function (providers) {
+                if (providers.length > 0) {
+                    return firebase.auth().signInWithEmailAndPassword(email, DEFAULT_PW).then((data) => {
+                        return data
+                    }).catch((error) => {
+                        console.log(error)
+                    });
+                } else {
+                    // No account exists with this email address.
+                    return firebase.auth().createUserWithEmailAndPassword(email, DEFAULT_PW).then((data) => {
+                        // add display name during signup
+                        if (data.user) {
+                            data.user.updateProfile({
+                                displayName: DISPLAY_NAME,
+                            });
+                        }
+                        return data;
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }
+            }).then(function (data) {
+                // User is signed in!
+                return data;
+            });
+        },
+        loadRooms: function () {
+            let html = '';
+            firebase.firestore()
+                    .collection(COL_NAME)
+                    .where("isClosed", "==", false)
+                    .orderBy("timestamp","desc")
+                    .onSnapshot((snapshot) => {
+                        html = '';
+                        if (snapshot.docs.length == 0) {
+                            html = `<tr>
+                                    <td colspan="5" class="text-center">Không có phòng chat nào !!!</td>
+                                </tr>`;
+                        } else {
+                            snapshot.docs.forEach(doc => {
+                                //console.log("Current data: ", doc.data());
+                                let room = doc.data();
+                                if (room.admin != null && room.admin.id == USER_LOGIN.uid) {
+
+                                    html += `<div class="chat_list active_chat" >
+                                                        <div class="chat_people">				
+                                                        <div class="chat_ib chat_img" >
+                                                                                        <img src="https://res.cloudinary.com/hungta/image/upload/v1603474355/images/avatar-default.png" alt="sunil" width="40px" height="40px"> 
+                                                                                        <h5>${room.user.displayName}</h5>
+                                                                                        <p> Nôi dung......</p>
+                                                                                        <p style="padding-left:30px;font-size:12px">${moment.unix(room.timestamp).format("DD/MM/YYYY HH:mm:ss")}</p>
+                                                                </div>
+                                                                                <div class="trangthai">
+                                                                                        <h5 style="margin-bottom:5px;">${room.isClosed ?
+                                            `<span class="label label-danger">Đóng</span>` :
+                                            `<span class="label label-success">Mở</span>`}</h5>                								
+                                                                                        <button class="btn btn-warning btn-sm btn-join-chat"
+                                                            data-id="${doc.id}">Quay trở lại phòng</button>
+                                                            
+                                                            <img id="notification${doc.id}" ${room.isCheckAdmin==false && doc.id != acRoom ? ' src="/tb.jpg" alt="sunil" style="margin:10px 0px 0px 89%;width:15px;height:15px"':''}>
+	                                              
+                                                                                </div>
+                                                                        </div>	
+                                                </div>`;
+                                }
+                                if (!room.admin) {
+                                    html += `<div class="chat_list active_chat" >
+                                                        <div class="chat_people">				
+                                                        <div class="chat_ib chat_img" >
+                                                                                        <img src="https://res.cloudinary.com/hungta/image/upload/v1603474355/images/avatar-default.png" alt="sunil" width="40px" height="40px"> 
+                                                                                        <h5>${room.user.displayName}</h5>
+                                                                                        <p> Nôi dung......</p>
+                                                                                        <p style="padding-left:30px;font-size:12px">${moment.unix(room.timestamp).format("DD/MM/YYYY HH:mm:ss")}</p>
+                                                                </div>
+                                                                                <div class="trangthai">
+                                                                                        <h5 style="margin-bottom:5px;">${room.isClosed ?
+                                            `<span class="label label-danger">Đóng</span>` :
+                                            `<span class="label label-success">Mở</span>`}</h5>                								
+                                                           <button class="btn btn-primary btn-sm btn-join-chat"
+                                                            data-id="${doc.id}">Vào phòng chát</button>
+                                                            <img id="notification${doc.id}" src="/tb.jpg" alt="sunil" style="margin:10px 0px 0px 89%;width:0px;height:0px">
+	                                              
+                                                                                </div>
+                                                                        </div>	
+                                                </div>`;
+                                }
+                            })
+
+                        }
+                        $('#tblData').html(html);
+                        chatContrller.registerEvent();
+                        // End loading
+                        $.modal.closeLoading();
+                    });
+        }
+    };
+    chatContrller.init();
+</script>
+</body>
+</html>

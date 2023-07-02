@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <th:block th:include="include :: header('表格Tìm kiếm')" />
+    <th:block th:include="include :: bootstrap-select-css" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <p class="select-title">General condition query</p>
+                <form id="ordinary-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                Merchant ID: <input type="text" name="userId" />
+                            </li>
+                            <li>
+                                Terminal number: <input type="text" name="termId" />
+                            </li>
+                            <li>
+                                Processing status:
+                                <select name="status">
+                                    <option value="">All</option>
+                                    <option value="0">Initial</option>
+                                    <option value="1">Processing</option>
+                                    <option value="2">Successful transaction</option>
+                                    <option value="3">Transaction failed</option>
+                                    </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12 search-collapse">
+                <p class="select-title">Time condition query</p>
+                <form id="time-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                Merchant ID: <input type="text" name="userId" />
+                            </li>
+                            <li>
+                                Terminal number: <input type="text" name="termId" />
+                            </li>
+                            <li class="select-time">
+                                <label>Created time: </label>
+                                <input type="text" class="time-input" id="startTime" placeholder="start time" name="params[beginTime]" />
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="end time" name="params[endTime]" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset('time-form')"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12 search-collapse">
+                <p class="select-title">Multi-level linkage drop-down query</p>
+                <form id="select-form">
+                    <div class="select-list">
+                        <ul id="element">
+                            <li>
+                                Merchant ID: <input type="text" name="userId" />
+                            </li>
+                            <li>
+                                Recharge type: <select class="type"></select>
+                            </li>
+                            <li>
+                                Recharge route: <select class="router"></select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset('select-form')"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12 search-collapse">
+                <p class="select-title">Drop down multiple selection criteria query</p>
+                <form id="select-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                Merchant ID: <input type="text" name="userId" />
+                            </li>
+                            <li>
+                                Terminal number: <input type="text" name="termId" />
+                            </li>
+                            <li class="select-selectpicker">
+                                <label>Operation type: </label>
+                                <select class="selectpicker" data-none-selected-text="Please select" multiple>
+								<option value="">All</option>
+								<option value="0">Initial</option>
+								<option value="1">Processing</option>
+								<option value="2">Successful transaction</option>
+								<option value="3">Transaction failed</option>
+							</select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset('select-form')"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12 search-collapse">
+                <p class="select-title">Query with complex conditions</p>
+                <form id="complex-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label style="width: 80px">Merchant number:</label>
+                                <input type="text" name="userId" />
+                            </li>
+                            <li>
+                                <label style="width: 80px">Order number:</label>
+                                <input type="text" name="orderNo" />
+                            </li>
+                            <li>
+                                <label style="width: 80px">Date:</label>
+                                <input type="text" class="time-input" placeholder="date" />
+                            </li>
+                            <li class="select-selectpicker">
+                                <label style="width: 80px">Status:</label>
+                                <select class="selectpicker" data-none-selected-text="Please select" multiple>
+								<option value="">All</option>
+								<option value="0">Initial</option>
+								<option value="1">Processing</option>
+								<option value="2">Successful transaction</option>
+								<option value="3">Transaction failed</option>
+								</select>
+                            </li>
+                            <li>
+                                <label style="width: 80px">Supplier channel:</label>
+                                <select>
+								<option value="">All</option>
+								<option value="0">Tencent</option>
+								<option value="1">Tmall</option>
+								<option value="2">Jingdong</option>
+								</select>
+                            </li>
+                            <li>
+                                <label style="width: 80px">Source:</label>
+                                <select>
+								<option value="">All</option>
+								<option value="0">Mobile phone</option>
+								<option value="1">computer</option>
+								<option value="2">third party</option>
+								</select>
+                            </li>
+                            <li>
+                                <label style="width: 80px">Operator:</label>
+                                <select>
+								<option value="">All</option>
+								<option value="0">Mobile</option>
+								<option value="1">Telecom</option>
+								<option value="2">Unicom</option>
+								</select>
+                            </li>
+                            <li class="select-time">
+                                <label style="width: 80px">Callback time:</label>
+                                <input type="text" class="time-input" placeholder="Start time" />
+                                <span>-</span>
+                                <input type="text" class="time-input" placeholder="End time" />
+                            </li>
+
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm m50" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset('complex-form')"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-select-js" />
+    <th:block th:include="include :: jquery-cxselect-js" />
+
+    <script th:inline="javascript">
+        // Return directly to get
+        var data = [{
+            "v": "taobao",
+            "n": "Taobao",
+            "s": [{
+                "v": "tm",
+                "n": "Tmall"
+            }, {
+                "v": "jhs",
+                "n": "Gather cost-effectively"
+            }]
+        }, {
+            "v": "jd",
+            "n": "Jingdong",
+            "s": [{
+                "v": "jdcs",
+                "n": "Jingdong Supermarket"
+            }, {
+                "v": "jdsx",
+                "n": "Jingdong Fresh"
+            }]
+        }];
+        $('#element').cxSelect({
+            selects: ['type', 'router'],
+            jsonValue: 'v',
+            data: data
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <th:block th:include="include :: header('弹层表格')" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Bouncing frame</h5>
+                    </div>
+                    <div class="ibox-content" id="test">
+                        <p>The check box form and the single check box form pop up (click to submit to get the data). </p>
+                        <button type="button" class="btn btn-primary" onclick="selectCheckUser()">pop-up form (checkbox)</button>
+                        <button type="button" class="btn btn-success" onclick="selectRadioUser()">pop-up form (radio box)</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Bouncing frame</h5>
+                    </div>
+                    <div class="ibox-content" id="test">
+                        <p>The check box form and the single check box form pop up (click to submit to get the data and echo it to the parent form). </p>
+                        <button type="button" class="btn btn-info" onclick="selectUsersToParent()">pop-up form (checkbox)</button>
+                        <p id="userids"> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "demo/modal";
+
+        function selectCheckUser() {
+            $.modal.open("Select user", prefix + "/check");
+        }
+
+        function selectRadioUser() {
+            $.modal.open("Select user", prefix + "/radio");
+        }
+        The
+
+        function selectUsersToParent() {
+            $.modal.open("Select user", prefix + "/parent");
+        }
+
+        function selectUsers() {
+            alert(1);
+        }
+    </script>
+</body>
+
+</html>

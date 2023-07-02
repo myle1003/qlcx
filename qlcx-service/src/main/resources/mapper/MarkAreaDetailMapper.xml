@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.MarkAreaDetailMapper">
+    
+    <resultMap type="MarkAreaDetail" id="MarkAreaDetailResult">
+        <result property="id"    column="id"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="idMarkArea"    column="id_mark_area"    />
+    </resultMap>
+
+    <sql id="selectMarkAreaDetailVo">
+        select id, longitude, latitude, id_mark_area from mark_area_detail
+    </sql>
+
+    <select id="selectMarkAreaDetailList" parameterType="MarkAreaDetail" resultMap="MarkAreaDetailResult">
+        <include refid="selectMarkAreaDetailVo"/>
+        <where>  
+            <if test="longitude != null  and longitude != ''"> and longitude = #{longitude}</if>
+            <if test="latitude != null  and latitude != ''"> and latitude = #{latitude}</if>
+            <if test="idMarkArea != null "> and id_mark_area = #{idMarkArea}</if>
+        </where>
+    </select>
+    
+    <select id="selectMarkAreaDetailById" parameterType="Long" resultMap="MarkAreaDetailResult">
+        <include refid="selectMarkAreaDetailVo"/>
+        where id_mark_area = #{id}
+    </select>
+        
+    <insert id="insertMarkAreaDetail" parameterType="MarkAreaDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into mark_area_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="longitude != null  and longitude != ''">longitude,</if>
+            <if test="latitude != null  and latitude != ''">latitude,</if>
+            <if test="idMarkArea != null ">id_mark_area,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="idMarkArea != null ">#{idMarkArea},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMarkAreaDetail" parameterType="MarkAreaDetail">
+        update mark_area_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="longitude != null  and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">latitude = #{latitude},</if>
+            <if test="idMarkArea != null ">id_mark_area = #{idMarkArea},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMarkAreaDetailById" parameterType="Long">
+        delete from mark_area_detail where id = #{id}
+    </delete>
+    
+    <delete id="deleteMarkAreaDetailByIdParent" parameterType="Long">
+        delete from mark_area_detail where id_mark_area = #{id}
+    </delete>
+
+    <delete id="deleteMarkAreaDetailByIds" parameterType="String">
+        delete from mark_area_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

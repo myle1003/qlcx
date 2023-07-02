@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.TreeHistoryMapper">
+    
+    <resultMap type="TreeHistory" id="TreeHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="type"    column="type"    />
+        <result property="idCategory"    column="id_category"    />
+        <result property="description"    column="description"    />
+        <result property="idTree"    column="id_tree"    />
+    </resultMap>
+
+    <sql id="selectTreeHistoryVo">
+        select id, name, create_time, type, id_category, description, id_tree from tree_history
+    </sql>
+
+    <select id="selectTreeHistoryList" parameterType="TreeHistory" resultMap="TreeHistoryResult">
+        <include refid="selectTreeHistoryVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="idCategory != null "> and id_category = #{idCategory}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="idTree != null "> and id_tree = #{idTree}</if>
+        </where>
+    </select>
+    
+    <select id="selectTreeHistoryById" parameterType="Long" resultMap="TreeHistoryResult">
+        <include refid="selectTreeHistoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTreeHistory" parameterType="TreeHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into tree_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="true">create_time,</if>
+            <if test="type != null ">type,</if>
+            <if test="idCategory != null ">id_category,</if>
+            <if test="description != null  and description != ''">description,</if>
+            <if test="idTree != null ">id_tree,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="true">NOW(),</if>
+            <if test="type != null ">#{type},</if>
+            <if test="idCategory != null ">#{idCategory},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+            <if test="idTree != null ">#{idTree},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTreeHistory" parameterType="TreeHistory">
+        update tree_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="idCategory != null ">id_category = #{idCategory},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+            <if test="idTree != null ">id_tree = #{idTree},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTreeHistoryById" parameterType="Long">
+        delete from tree_history where id = #{id}
+    </delete>
+
+    <delete id="deleteTreeHistoryByIds" parameterType="String">
+        delete from tree_history where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

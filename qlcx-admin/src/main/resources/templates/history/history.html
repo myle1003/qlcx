@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header(' Danh sách')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>Tên cây：</label>
+                                <input type="text" name="name"/>
+                            </li>
+							<li>
+                                <label>Danh mục cây：</label>
+                                <select id="idCategory" name="idCategory">
+                                	<option value="" >Tất cả</option>
+                                    <th:block th:each="item, iState : ${category}">
+                                        <option th:value="${item.id}" th:text="${item.name}" ></option>
+                                    </th:block>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Loại cây：</label>
+                                <select id="type" name="type">
+                                	<option value="" >Tất cả</option>
+                                    <option value="0" >Cây non</option>
+									<option value="1" >Loại I</option>
+									<option value="2" >Loại II</option>
+									<option value="3" >Loại III</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>ID cây：</label>
+                                <input type="text" name="idTree"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:history:remove">
+                    <i class="fa fa-remove"></i>Xóa</a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:history:export">
+                    <i class="fa fa-download"></i> Xuất file excel
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:history:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:history:remove')}]];
+        var prefix = ctx + "system/history";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id', 
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'name', 
+                    title: 'Tên cây'
+                },
+                {
+                    field: 'type', 
+                    title: 'Loại',
+					formatter: function(value, row, index) {
+                       if(value==0)
+                       {
+                             return "Cây non";
+                       }else if(value==1)
+                       {
+                             return "Cây loại I";
+                       }else if(value==2)
+                       {
+                             return "Cây loại II";
+                       }else
+                       {
+                             return "Cây loại III";
+                       }
+					}
+                },
+                {
+                    field: 'idCategory', 
+                    title: 'Danh mục'
+                },
+                {
+                    field: 'description', 
+                    title: 'Mô tả'
+                },
+                {
+                    field: 'idTree', 
+                    title: 'Mã cây'
+                },
+                {
+                    title: 'Action',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>Xóa</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

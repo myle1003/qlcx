@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.ToolsMapper">
+    
+    <resultMap type="Tools" id="ToolsResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectToolsVo">
+        select id, name, description from tools
+    </sql>
+
+    <select id="selectToolsList" parameterType="Tools" resultMap="ToolsResult">
+        <include refid="selectToolsVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectToolsById" parameterType="Long" resultMap="ToolsResult">
+        <include refid="selectToolsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTools" parameterType="Tools" useGeneratedKeys="true" keyProperty="id">
+        insert into tools
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="description != null  and description != ''">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTools" parameterType="Tools">
+        update tools
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteToolsById" parameterType="Long">
+        delete from tools where id = #{id}
+    </delete>
+
+    <delete id="deleteToolsByIds" parameterType="String">
+        delete from tools where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

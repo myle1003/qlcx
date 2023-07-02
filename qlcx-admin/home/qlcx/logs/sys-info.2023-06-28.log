@@ -1,0 +1,121 @@
+16:39:32.672 [restartedMain] INFO  c.q.qlcxApplication - [logStarting,50] - Starting qlcxApplication on DESKTOP-IFEAUMD with PID 2124 (E:\PBL\qlcx-develop\qlcx-admin\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-admin)
+16:39:32.687 [restartedMain] INFO  c.q.qlcxApplication - [logStartupProfileInfo,679] - The following profiles are active: druid
+16:39:38.954 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,158] - Cache with name 'com.qlcx.framework.shiro.realm.UserRealm.authorizationCache' does not yet exist.  Creating now.
+16:39:38.955 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,165] - Added EhCache named [com.qlcx.framework.shiro.realm.UserRealm.authorizationCache]
+16:39:40.613 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [loginRecordCache]
+16:39:40.908 [restartedMain] INFO  c.a.d.p.DruidDataSource - [init,991] - {dataSource-1} inited
+16:39:40.922 [restartedMain] INFO  c.a.d.p.DruidDataSource - [close,1928] - {dataSource-1} closed
+16:40:29.850 [restartedMain] INFO  c.q.qlcxApplication - [logStarting,50] - Starting qlcxApplication on DESKTOP-IFEAUMD with PID 15424 (E:\PBL\qlcx-develop\qlcx-admin\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-admin)
+16:40:29.855 [restartedMain] INFO  c.q.qlcxApplication - [logStartupProfileInfo,679] - The following profiles are active: druid
+16:40:33.150 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,158] - Cache with name 'com.qlcx.framework.shiro.realm.UserRealm.authorizationCache' does not yet exist.  Creating now.
+16:40:33.151 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,165] - Added EhCache named [com.qlcx.framework.shiro.realm.UserRealm.authorizationCache]
+16:40:34.492 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [loginRecordCache]
+16:40:34.820 [restartedMain] INFO  c.a.d.p.DruidDataSource - [init,991] - {dataSource-1} inited
+16:40:34.828 [restartedMain] INFO  c.a.d.p.DruidDataSource - [close,1928] - {dataSource-1} closed
+16:42:12.347 [restartedMain] INFO  c.q.qlcxApplication - [logStarting,50] - Starting qlcxApplication on DESKTOP-IFEAUMD with PID 17656 (E:\PBL\qlcx-develop\qlcx-admin\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-admin)
+16:42:12.352 [restartedMain] INFO  c.q.qlcxApplication - [logStartupProfileInfo,679] - The following profiles are active: druid
+16:42:15.585 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,158] - Cache with name 'com.qlcx.framework.shiro.realm.UserRealm.authorizationCache' does not yet exist.  Creating now.
+16:42:15.586 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,165] - Added EhCache named [com.qlcx.framework.shiro.realm.UserRealm.authorizationCache]
+16:42:16.855 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [loginRecordCache]
+16:42:17.181 [restartedMain] INFO  c.a.d.p.DruidDataSource - [init,991] - {dataSource-1} inited
+16:42:17.477 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.483 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.484 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.484 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.485 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.486 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.487 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.487 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:42:17.720 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-userCache]
+16:42:17.721 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-userCache]
+16:42:18.457 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-1005"]
+16:42:18.475 [restartedMain] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+16:42:18.475 [restartedMain] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet Engine: Apache Tomcat/9.0.13
+16:42:18.492 [restartedMain] INFO  o.a.c.c.AprLifecycleListener - [log,173] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Users\OS\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin/server;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;D:\Maven\apache-maven-3.8.7-bin\apache-maven-3.8.7\bin;D:\Java_JDK\jdk1.8.0_191\jdk1.8.0_191\bin;C:\Program Files\dotnet\;C:\Users\OS\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\OS\AppData\Local\Programs\Python\Python311\;C:\Users\OS\AppData\Local\Microsoft\WindowsApps;C:\Users\OS\AppData\Roaming\npm;C:\Users\OS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\OS\AppData\Local\Programs\Python\Python310;;C:\Windows\System32;;.]
+16:42:18.680 [restartedMain] INFO  o.a.c.c.C.[.[.[/] - [log,173] - Initializing Spring embedded WebApplicationContext
+16:42:19.266 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.272 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.277 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.282 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.289 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.294 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.298 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.307 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.313 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.320 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+16:42:19.772 [restartedMain] INFO  o.q.i.StdSchedulerFactory - [instantiate,1208] - Using default implementation for ThreadExecutor
+16:42:19.793 [restartedMain] INFO  o.q.c.SchedulerSignalerImpl - [<init>,61] - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+16:42:19.793 [restartedMain] INFO  o.q.c.QuartzScheduler - [<init>,229] - Quartz Scheduler v.2.3.0 created.
+16:42:19.804 [restartedMain] INFO  o.q.c.QuartzScheduler - [initialize,294] - Scheduler meta-data: Quartz Scheduler (v2.3.0) 'RuoyiScheduler' with instanceId 'DESKTOP-IFEAUMD1687945339776'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 20 threads.
+  Using job-store 'org.springframework.scheduling.quartz.LocalDataSourceJobStore' - which supports persistence. and is clustered.
+
+16:42:19.804 [restartedMain] INFO  o.q.i.StdSchedulerFactory - [instantiate,1362] - Quartz scheduler 'RuoyiScheduler' initialized from an externally provided properties instance.
+16:42:19.805 [restartedMain] INFO  o.q.i.StdSchedulerFactory - [instantiate,1366] - Quartz scheduler version: 2.3.0
+16:42:19.807 [restartedMain] INFO  o.q.c.QuartzScheduler - [setJobFactory,2287] - JobFactory set to: org.springframework.scheduling.quartz.AdaptableJobFactory@5df69f89
+16:42:21.030 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - [initHandlerMethods,69] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+16:42:22.599 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - [start,160] - Context refreshed
+16:42:22.640 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - [start,163] - Found 1 custom documentation plugin(s)
+16:42:22.814 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner - [scan,41] - Scanning for api listing references
+16:42:23.101 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-1005"]
+16:42:23.154 [restartedMain] INFO  o.a.t.u.n.NioSelectorPool - [log,173] - Using a shared selector for servlet write/read
+16:42:23.199 [restartedMain] INFO  c.q.qlcxApplication - [logStarted,59] - Started qlcxApplication in 11.382 seconds (JVM running for 12.243)
+16:42:24.129 [Quartz Scheduler [RuoyiScheduler]] INFO  o.q.c.QuartzScheduler - [start,547] - Scheduler RuoyiScheduler_$_DESKTOP-IFEAUMD1687945339776 started.
+16:42:24.316 [http-nio-1005-exec-1] INFO  o.a.c.c.C.[.[.[/] - [log,173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+16:42:24.444 [http-nio-1005-exec-1] INFO  o.a.s.s.m.AbstractValidatingSessionManager - [enableSessionValidation,233] - Enabling session validation scheduler...
+16:42:24.563 [http-nio-1005-exec-1] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [shiro-activeSessionCache]
+16:42:25.448 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+16:42:25.539 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. [1] sessions were stopped.
+16:45:39.327 [schedule-pool-2] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+16:45:39.460 [http-nio-1005-exec-1] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:45:39.463 [http-nio-1005-exec-1] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+16:52:26.181 [schedule-pool-4] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+16:52:26.189 [schedule-pool-4] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+17:16:33.785 [schedule-pool-3] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+17:16:33.805 [schedule-pool-3] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+17:16:33.806 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+17:16:33.816 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+17:48:45.756 [schedule-pool-9] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+17:48:45.767 [schedule-pool-9] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+17:48:45.768 [schedule-pool-9] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+17:48:45.768 [schedule-pool-1] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+17:48:45.777 [schedule-pool-9] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+17:48:45.778 [schedule-pool-6] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+17:48:45.786 [schedule-pool-6] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+17:48:45.803 [http-nio-1005-exec-12] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+17:48:45.803 [http-nio-1005-exec-12] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+17:50:46.632 [http-nio-1005-exec-17] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+17:50:46.663 [http-nio-1005-exec-17] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+17:50:55.008 [http-nio-1005-exec-8] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+17:51:08.456 [http-nio-1005-exec-25] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+17:51:08.457 [http-nio-1005-exec-25] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+17:52:25.448 [schedule-pool-8] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+17:52:25.454 [schedule-pool-8] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+17:58:57.161 [http-nio-1005-exec-19] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+17:58:57.161 [http-nio-1005-exec-19] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:02:25.447 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+18:02:25.454 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+18:04:35.778 [http-nio-1005-exec-8] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:04:35.779 [http-nio-1005-exec-8] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:06:59.495 [http-nio-1005-exec-17] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:06:59.496 [http-nio-1005-exec-17] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:10:10.992 [http-nio-1005-exec-5] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:10:10.994 [http-nio-1005-exec-5] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:12:25.447 [schedule-pool-15] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+18:12:25.462 [schedule-pool-15] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+18:19:04.668 [http-nio-1005-exec-12] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:19:04.669 [http-nio-1005-exec-12] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:22:25.447 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+18:22:25.473 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. [1] sessions were stopped.
+18:23:28.549 [http-nio-1005-exec-21] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:23:28.549 [http-nio-1005-exec-21] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:32:11.048 [http-nio-1005-exec-16] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:32:11.049 [http-nio-1005-exec-16] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+18:32:25.448 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+18:32:25.453 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+18:42:25.457 [schedule-pool-23] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+18:42:25.473 [schedule-pool-23] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.

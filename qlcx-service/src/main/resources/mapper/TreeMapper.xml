@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.TreeMapper">
+
+	<resultMap type="Tree" id="TreeResult">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="treeCode" column="tree_code" />
+		<result property="size" column="size" />
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+		<result property="createBy" column="create_by" />
+		<result property="createTime" column="create_time" />
+		<result property="updateBy" column="update_by" />
+		<result property="updateTime" column="update_time" />
+		<result property="address" column="address" />
+		<result property="provinces" column="provinces" />
+		<result property="cities" column="cities" />
+		<result property="wards" column="wards" />
+		<result property="idCategory" column="id_category" />
+		<result property="nameCategory" column="name_category" />
+		<result property="waterTheTree" column="water_the_tree" />
+		<result property="prune" column="prune" />
+		<result property="fertilize" column="fertilize" />
+		<result property="againstTree" column="against_tree" />
+		<result property="cleanTheStump" column="clean_the_stump" />
+		<result property="statusCleanTheStump"
+			column="status_clean_the_stump" />
+		<result property="statusAgainstTree"
+			column="status_against_tree" />
+		<result property="statusFertilize" column="status_fertilize" />
+		<result property="statusPrune" column="status_prune" />
+		<result property="statusWaterTheTree"
+			column="status_water_the_tree" />
+		<result property="type" column="type" />
+		<result property="createNew" column="create_new" />
+		<result property="status" column="status" />
+		<result property="statusUpdate" column="status_update" />
+		<collection property="listAttribute"
+			ofType="TreeAttributes"
+			select="com.qlcx.system.mapper.AttributeTreeAreaMapper.selectAttributeListByIdTree"
+			column="id" />
+	</resultMap>
+
+	<sql id="selectTreeVo">
+		select id, name, tree_code, size, longitude, latitude,
+		create_by,
+		create_time, update_by, update_time,
+		address,provinces,cities,wards,
+		id_category,(select name from
+		tree_category a2 where
+		a2.id=b1.id_category) name_category,
+		water_the_tree, prune, fertilize, against_tree,
+		clean_the_stump,status_clean_the_stump, status_against_tree,
+		status_fertilize, status_prune,
+		status_water_the_tree,type,status,status_update,image from tree b1
+	</sql>
+
+	<select id="selectTreeList" parameterType="Tree"
+		resultMap="TreeResult">
+		<include refid="selectTreeVo" />
+		<where>
+			<if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+			<if test="treeCode != null  and treeCode != ''"> and tree_code like concat('%', #{treeCode}, '%')</if>
+			<if test="size != null "> and size = #{size}</if>
+			<if test="longitude != null and longitude != '' "> and longitude = #{longitude}</if>
+			<if test="latitude != null and latitude != ''"> and latitude = #{latitude}</if>
+			<if test="address != null and address != ''">and address = #{address}</if>
+			<if test="provinces != null ">and provinces = #{provinces}</if>
+			<if test="cities != null ">and cities = #{cities}</if>
+			<if test="wards != null ">and wards = #{wards}</if>
+			<if test="idCategory != null "> and id_category = #{idCategory}</if>
+			<if test="statusCleanTheStump != null "> and status_clean_the_stump = #{statusCleanTheStump}</if>
+			<if test="statusAgainstTree != null "> and status_against_tree = #{statusAgainstTree}</if>
+			<if test="statusFertilize != null "> and status_fertilize = #{statusFertilize}</if>
+			<if test="statusPrune != null "> and status_prune = #{statusPrune}</if>
+			<if test="statusWaterTheTree != null "> and status_water_the_tree = #{statusWaterTheTree}</if>
+			<if test="type != null"> and type = #{type}</if>
+			<if test="status != null"> and status = #{status}</if>
+			<if test="statusUpdate != null"> and status_update = #{statusUpdate}</if>
+			<if test="params.listTreeId != null">
+				and id in
+				<foreach item="id" collection="params.listTreeId" open="("
+					separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="selectTreeListWork" parameterType="Tree"
+		resultMap="TreeResult">
+		<include refid="selectTreeVo" />
+		<where>
+			status_clean_the_stump = 1
+			or status_against_tree = 1
+			or
+			status_fertilize = 1
+			or status_prune = 1
+			or status_water_the_tree = 1
+		</where>
+	</select>
+
+	<select id="selectTreeById" parameterType="Long"
+		resultMap="TreeResult">
+		<include refid="selectTreeVo" />
+		where id = #{id}
+	</select>
+
+	<select id="selectTreeByLngLatAdjacent" parameterType="String"
+		resultMap="TreeResult">
+		<include refid="selectTreeVo" />
+		ORDER BY ABS(left(longitude,10) - left(#{lng},10)) +
+		ABS(left(latitude,9) - left(#{lat},9))
+		limit 1
+	</select>
+
+	<select id="selectTreeLngLat" parameterType="String"
+		resultMap="TreeResult">
+		<include refid="selectTreeVo" />
+		where left(longitude,9) = left(#{lng},9) and left(latitude,8) =
+		left(#{lat},8)
+		<if test="treeId != null"> and id != #{treeId}</if>
+	</select>
+
+	<select id="selectTreeCode" parameterType="String"
+		resultMap="TreeResult">
+		<include refid="selectTreeVo" />
+		where tree_code = #{treeCode}
+		<if test="treeId != null"> and id != #{treeId}</if>
+	</select>
+
+	<select id="selectTreeImageByLngLat" parameterType="String"
+		resultType="String">
+		select image from tree where left(longitude,10) =
+		left(#{lng},10) and
+		left(latitude,9) = left(#{lat},9)
+	</select>
+
+	<insert id="insertTree" parameterType="Tree"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tree
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''">name,</if>
+			<if test="treeCode != null  and treeCode != ''">tree_code,</if>
+			<if test="size != null ">size,</if>
+			<if test="longitude != null ">longitude,</if>
+			<if test="latitude != null ">latitude,</if>
+			<if test="createBy != null  and createBy != ''">create_by,</if>
+			<if test="createTime != null ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''">update_by,</if>
+			<if test="updateTime != null ">update_time,</if>
+			<if test="true">take_care_day,</if>
+			<if test="true">create_new,</if>
+			<if test="address != null ">address,</if>
+			<if test="provinces != null ">provinces,</if>
+			<if test="cities != null ">cities,</if>
+			<if test="wards != null ">wards,</if>
+			<if test="idCategory != null ">id_category,</if>
+			<if test="waterTheTree != null ">water_the_tree,</if>
+			<if test="prune != null ">prune,</if>
+			<if test="fertilize != null ">fertilize,</if>
+			<if test="againstTree != null ">against_tree,</if>
+			<if test="cleanTheStump != null ">clean_the_stump,</if>
+			<if test="statusCleanTheStump != null ">status_clean_the_stump,</if>
+			<if test="statusAgainstTree != null ">status_against_tree,</if>
+			<if test="statusFertilize != null ">status_fertilize,</if>
+			<if test="statusPrune != null ">status_prune,</if>
+			<if test="statusWaterTheTree != null ">status_water_the_tree,</if>
+			<if test="type != null ">type,</if>
+			<if test="status != null ">status,</if>
+			<if test="true ">status_update,</if>
+			<if test="image != null  and image != ''">image,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null  and name != ''">#{name},</if>
+			<if test="treeCode != null  and treeCode != ''">#{treeCode},</if>
+			<if test="size != null ">#{size},</if>
+			<if test="longitude != null ">#{longitude},</if>
+			<if test="latitude != null ">#{latitude},</if>
+			<if test="createBy != null  and createBy != ''">#{createBy},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="true ">NOW(),</if>
+			<if test="true">NOW(),</if>
+			<if test="address != null ">#{address},</if>
+			<if test="provinces != null ">#{provinces},</if>
+			<if test="cities != null ">#{cities},</if>
+			<if test="wards != null ">#{wards},</if>
+			<if test="idCategory != null ">#{idCategory},</if>
+			<if test="waterTheTree != null ">#{waterTheTree},</if>
+			<if test="prune != null ">#{prune},</if>
+			<if test="fertilize != null ">#{fertilize},</if>
+			<if test="againstTree != null ">#{againstTree},</if>
+			<if test="cleanTheStump != null ">#{cleanTheStump},</if>
+			<if test="statusCleanTheStump != null ">#{statusCleanTheStump},</if>
+			<if test="statusAgainstTree != null ">#{statusAgainstTree},</if>
+			<if test="statusFertilize != null ">#{statusFertilize},</if>
+			<if test="statusPrune != null ">#{statusPrune},</if>
+			<if test="statusWaterTheTree != null ">#{statusWaterTheTree},</if>
+			<if test="type != null ">#{type},</if>
+			<if test="status != null ">#{status},</if>
+			<if test="true">#{statusUpdate},</if>
+			<if test="image != null  and image != ''">#{image},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTree" parameterType="Tree">
+		update tree
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="name != null  and name != ''">name = #{name},</if>
+			<if test="treeCode != null  and treeCode != ''">tree_code = #{treeCode},</if>
+			<if test="size != null ">size = #{size},</if>
+			<if test="longitude != null ">longitude = #{longitude},</if>
+			<if test="latitude != null ">latitude = #{latitude},</if>
+			<if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+			<if test="createTime != null ">create_time = #{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="updateTime != null ">update_time = NOW(),</if>
+			<if test="takeCareDay != null ">take_care_day = #{takeCareDay},</if>
+			<if test="createNew != null ">create_new = #{createNew},</if>
+			<if test="address != null ">address = #{address},</if>
+			<if test="provinces != null ">provinces = #{provinces},</if>
+			<if test="cities != null ">cities = #{cities},</if>
+			<if test="wards != null ">wards = #{wards},</if>
+			<if test="waterTheTree != null">water_the_tree = #{waterTheTree},</if>
+			<if test="prune != null ">prune = #{prune},</if>
+			<if test="fertilize != null ">fertilize = #{fertilize},</if>
+			<if test="againstTree != null">against_tree = #{againstTree},</if>
+			<if test="cleanTheStump != null ">clean_the_stump = #{cleanTheStump},</if>
+			<if test="statusCleanTheStump != null ">status_clean_the_stump = #{statusCleanTheStump},</if>
+			<if test="statusAgainstTree != null ">status_against_tree = #{statusAgainstTree},</if>
+			<if test="statusFertilize != null ">status_fertilize = #{statusFertilize},</if>
+			<if test="statusPrune != null ">status_prune = #{statusPrune},</if>
+			<if test="statusWaterTheTree != null ">status_water_the_tree = #{statusWaterTheTree},</if>
+			<if test="type != null ">type = #{type},</if>
+			<if test="status != null ">status = #{status},</if>
+			<if test="true">status_update = #{statusUpdate},</if>
+			<if test="image != null  and image != ''">image = #{image},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<update id="updateTrees" parameterType="Tree">
+		update tree
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="name != null  and name != ''">name = #{name},</if>
+			<if test="size != null ">size = #{size},</if>
+			<if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="updateTime != null ">update_time = NOW(),</if>
+			<if test="address != null ">address = #{address},</if>
+			<if test="provinces != null ">provinces = #{provinces},</if>
+			<if test="cities != null ">cities = #{cities},</if>
+			<if test="wards != null ">wards = #{wards},</if>
+			<if test="type != null ">type = #{type},</if>
+			<if test="true">status_update = #{statusUpdate},</if>
+			<if test="image != null  and image != ''">image = #{image},</if>
+		</trim>
+		where id in
+		<foreach item="id" collection="params.rows" open="("
+			separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+
+	<delete id="deleteTreeById" parameterType="Long">
+		delete from tree where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteTreeByIds" parameterType="String">
+		delete from tree where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="selectTreeStatisticalResponse"
+		resultType="StatisticalResponse">
+		SELECT
+		(SELECT COUNT(*) FROM tree
+		WHERE status=0
+		<if test="listTreeId != null ">
+			and id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as good,
+		(SELECT COUNT(*) FROM tree
+		WHERE status=1
+		<if test="listTreeId != null ">
+			and id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as kha,
+		(SELECT COUNT(*) FROM tree
+		WHERE status=2
+		<if test="listTreeId != null ">
+			and id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as medium,
+		(SELECT COUNT(*) FROM tree
+		WHERE status=3
+		<if test="listTreeId != null ">
+			and id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as needCare,
+		(SELECT COUNT(*) FROM tree
+		WHERE status>=4
+		<if test="listTreeId != null ">
+			and id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as immediately
+	</select>
+
+	<select id="selectTreeBarResponse" parameterType="Long"
+		resultType="BarResponse">
+		SELECT g1.name as wardName,
+		(SELECT COUNT(*) FROM tree f2
+		WHERE f2.wards
+		= f1.wards AND type = 0
+		<if test="listTreeId != null ">
+			and f2.id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as type0,
+		(SELECT COUNT(*) FROM tree f2
+		WHERE f2.wards = f1.wards AND
+		type = 1
+		<if test="listTreeId != null ">
+			and f2.id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as type1,
+		(SELECT COUNT(*) FROM tree f2
+		WHERE f2.wards = f1.wards AND
+		type = 2
+		<if test="listTreeId != null ">
+			and f2.id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as type2,
+		(SELECT COUNT(*) FROM tree f2
+		WHERE f2.wards = f1.wards AND
+		type = 3
+		<if test="listTreeId != null ">
+			and f2.id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		) as type3
+		FROM tree f1 INNER JOIN (SELECT id,name FROM wards) g1 on
+		f1.wards = g1.id
+		<if test="listTreeId != null ">
+			where f1.id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		GROUP BY wards
+	</select>
+
+	<select id="selectTreeLineResponse" parameterType="Date"
+		resultType="LineResponse">
+		SELECT DAY(create_time) as day,COUNT(*) as sumTree
+		FROM tree_history as
+		b1
+		where create_time >= #{startDay} and #{endDay}>=create_time
+		<if test="listTreeId != null ">
+			and id in
+			<foreach item="id" collection="listTreeId" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		GROUP by create_time
+	</select>
+
+	<update id="checkStatus" parameterType="Tree">
+		update tree set status =
+		status +1,take_care_day=DATE_ADD(take_care_day,
+		INTERVAL 7 DAY)
+		WHERE
+		NOW() > DATE_ADD(take_care_day, INTERVAL 15 DAY)
+	</update>
+
+	<update id="checkStatusCleanTheStump" parameterType="Long">
+		update tree
+		set status_clean_the_stump = 1,clean_the_stump=clean_the_stump
+		-1
+		WHERE
+		NOW() > DATE_ADD(create_new, INTERVAL ((12 - clean_the_stump +
+		1) * 30)
+		DAY)
+	</update>
+
+
+	<update id="checkStatusFertilize" parameterType="Long">
+		update tree set
+		status_fertilize = 1,fertilize = fertilize -1
+		WHERE NOW() >
+		DATE_ADD(create_new, INTERVAL ((1 - fertilize + 1) * 365) DAY) and
+		type = 0
+	</update>
+
+	<update id="checkStatusPrune01" parameterType="Long">
+		update tree set
+		status_prune = 1,prune = prune -1
+		WHERE NOW() >
+		DATE_ADD(create_new,
+		INTERVAL ((4 - prune +1) * 91) DAY) and ( type =
+		0 or type = 1)
+	</update>
+
+	<update id="checkStatusPrune23" parameterType="Long">
+		update tree set
+		status_prune = 1,prune = prune -1
+		WHERE NOW() >
+		DATE_ADD(create_new,
+		INTERVAL ((2 - prune +1) * 182) DAY) and ( type =
+		2 or type = 3)
+	</update>
+
+	<update id="checkStatusAgainstTree" parameterType="Long">
+		update tree
+		set status_against_tree = 1,against_tree = against_tree -1
+		WHERE
+		NOW() >
+		DATE_ADD(create_new, INTERVAL ((1 - against_tree + 1) * 365)
+		DAY) and
+		type != 0
+	</update>
+
+	<update id="checkStatusWaterTheTree" parameterType="Long">
+		update tree
+		set status_water_the_tree = 1,water_the_tree = water_the_tree -1
+		WHERE
+		NOW() > DATE_ADD(create_new, INTERVAL ((120 - water_the_tree +
+		1) * 3)
+		DAY) and type = 0
+	</update>
+	<!-- update sau 1 năm -->
+	<update id="checkStatusOneYearOnType0" parameterType="Long">
+		update tree
+		set water_the_tree =
+		120,prune=4,fertilize=1,clean_the_stump=12,against_tree = 0,
+		create_new = NOW(), year_update = year_update + 1
+		WHERE NOW() >
+		DATE_ADD(create_new, INTERVAL (year_update * 365) DAY) and type = 0
+	</update>
+
+	<update id="checkStatusOneYearOnType1" parameterType="Long">
+		update tree
+		set water_the_tree = 0,prune=4,fertilize=1, clean_the_stump=12,
+		against_tree = 1, create_new = NOW(), year_update = year_update + 1
+		WHERE NOW() > DATE_ADD(create_new, INTERVAL (year_update * 365) DAY)
+		and type = 1
+	</update>
+
+	<update id="checkStatusOneYearOnType23" parameterType="Long">
+		update
+		tree set water_the_tree = 120,prune=2,fertilize=0,
+		clean_the_stump=12,
+		against_tree = 1, create_new = NOW(), year_update
+		= year_update + 1
+		WHERE NOW() > DATE_ADD(create_new, INTERVAL
+		(year_update * 365) DAY)
+		and (type = 2 or type = 3)
+	</update>
+
+</mapper>	

@@ -1,0 +1,91 @@
+00:04:27.992 [schedule-pool-6] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+00:04:28.010 [schedule-pool-6] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+00:14:27.994 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+00:14:28.006 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+21:38:03.991 [restartedMain] INFO  c.q.qlcxApplication - [logStarting,50] - Starting qlcxApplication on DESKTOP-IFEAUMD with PID 9988 (E:\PBL\qlcx-develop\qlcx-admin\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-admin)
+21:38:03.999 [restartedMain] INFO  c.q.qlcxApplication - [logStartupProfileInfo,679] - The following profiles are active: druid
+21:38:11.948 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,158] - Cache with name 'com.qlcx.framework.shiro.realm.UserRealm.authorizationCache' does not yet exist.  Creating now.
+21:38:11.949 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,165] - Added EhCache named [com.qlcx.framework.shiro.realm.UserRealm.authorizationCache]
+21:38:14.521 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [loginRecordCache]
+21:38:14.831 [restartedMain] INFO  c.a.d.p.DruidDataSource - [init,991] - {dataSource-1} inited
+21:38:15.046 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.051 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.052 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.053 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.054 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.054 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.055 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.056 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:15.271 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-userCache]
+21:38:15.272 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-userCache]
+21:38:15.798 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-1005"]
+21:38:15.810 [restartedMain] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+21:38:15.811 [restartedMain] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet Engine: Apache Tomcat/9.0.13
+21:38:15.825 [restartedMain] INFO  o.a.c.c.AprLifecycleListener - [log,173] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Users\OS\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin/server;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;D:\Maven\apache-maven-3.8.7-bin\apache-maven-3.8.7\bin;D:\Java_JDK\jdk1.8.0_191\jdk1.8.0_191\bin;C:\Program Files\dotnet\;C:\Users\OS\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\OS\AppData\Local\Programs\Python\Python311\;C:\Users\OS\AppData\Local\Microsoft\WindowsApps;C:\Users\OS\AppData\Roaming\npm;C:\Users\OS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\OS\AppData\Local\Programs\Python\Python310;;C:\Windows\System32;;.]
+21:38:15.971 [restartedMain] INFO  o.a.c.c.C.[.[.[/] - [log,173] - Initializing Spring embedded WebApplicationContext
+21:38:16.584 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.590 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.595 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.600 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.606 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.611 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.616 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.624 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.632 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:16.639 [restartedMain] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-dict]
+21:38:17.168 [restartedMain] INFO  o.q.i.StdSchedulerFactory - [instantiate,1208] - Using default implementation for ThreadExecutor
+21:38:17.186 [restartedMain] INFO  o.q.c.SchedulerSignalerImpl - [<init>,61] - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+21:38:17.187 [restartedMain] INFO  o.q.c.QuartzScheduler - [<init>,229] - Quartz Scheduler v.2.3.0 created.
+21:38:17.194 [restartedMain] INFO  o.q.c.QuartzScheduler - [initialize,294] - Scheduler meta-data: Quartz Scheduler (v2.3.0) 'RuoyiScheduler' with instanceId 'DESKTOP-IFEAUMD1687271897171'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 20 threads.
+  Using job-store 'org.springframework.scheduling.quartz.LocalDataSourceJobStore' - which supports persistence. and is clustered.
+
+21:38:17.194 [restartedMain] INFO  o.q.i.StdSchedulerFactory - [instantiate,1362] - Quartz scheduler 'RuoyiScheduler' initialized from an externally provided properties instance.
+21:38:17.194 [restartedMain] INFO  o.q.i.StdSchedulerFactory - [instantiate,1366] - Quartz scheduler version: 2.3.0
+21:38:17.197 [restartedMain] INFO  o.q.c.QuartzScheduler - [setJobFactory,2287] - JobFactory set to: org.springframework.scheduling.quartz.AdaptableJobFactory@1c18bee7
+21:38:18.261 [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - [initHandlerMethods,69] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+21:38:19.786 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - [start,160] - Context refreshed
+21:38:19.819 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - [start,163] - Found 1 custom documentation plugin(s)
+21:38:19.948 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner - [scan,41] - Scanning for api listing references
+21:38:20.131 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-1005"]
+21:38:20.155 [restartedMain] INFO  o.a.t.u.n.NioSelectorPool - [log,173] - Using a shared selector for servlet write/read
+21:38:20.184 [restartedMain] INFO  c.q.qlcxApplication - [logStarted,59] - Started qlcxApplication in 17.098 seconds (JVM running for 18.377)
+21:38:21.155 [Quartz Scheduler [RuoyiScheduler]] INFO  o.q.c.QuartzScheduler - [start,547] - Scheduler RuoyiScheduler_$_DESKTOP-IFEAUMD1687271897171 started.
+21:38:35.872 [http-nio-1005-exec-1] INFO  o.a.c.c.C.[.[.[/] - [log,173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+21:38:35.941 [http-nio-1005-exec-1] INFO  o.a.s.s.m.AbstractValidatingSessionManager - [enableSessionValidation,233] - Enabling session validation scheduler...
+21:38:36.023 [http-nio-1005-exec-1] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [shiro-activeSessionCache]
+21:38:36.996 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+21:38:37.342 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. [1] sessions were stopped.
+21:38:39.457 [schedule-pool-2] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+21:38:39.568 [http-nio-1005-exec-26] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:38:39.587 [http-nio-1005-exec-26] INFO  o.a.s.c.e.EhCacheManager - [getCache,169] - Using existing EHCache named [sys-config]
+21:48:36.972 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+21:48:36.994 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+21:58:36.972 [schedule-pool-3] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+21:58:36.998 [schedule-pool-3] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+22:08:36.972 [schedule-pool-5] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+22:08:36.994 [schedule-pool-5] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+22:18:36.971 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+22:18:36.991 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+22:28:36.971 [schedule-pool-4] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+22:28:36.995 [schedule-pool-4] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+22:38:36.971 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+22:38:36.993 [schedule-pool-1] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+22:48:36.973 [schedule-pool-6] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+22:48:36.989 [schedule-pool-6] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+22:58:36.970 [schedule-pool-3] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+22:58:36.977 [schedule-pool-3] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+23:08:36.971 [schedule-pool-7] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+23:08:36.978 [schedule-pool-7] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+23:18:36.971 [schedule-pool-5] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+23:18:37.017 [schedule-pool-5] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. [1] sessions were stopped.
+23:28:36.972 [schedule-pool-8] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+23:28:36.990 [schedule-pool-8] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+23:38:36.972 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+23:38:36.989 [schedule-pool-2] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.
+23:48:36.971 [schedule-pool-9] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,99] - invalidation sessions...
+23:48:36.985 [schedule-pool-9] INFO  c.q.f.s.w.s.OnlineWebSessionManager - [validateSessions,158] - Finished invalidation session. No sessions were stopped.

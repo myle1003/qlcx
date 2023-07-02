@@ -1,0 +1,10 @@
+22:05:12.312 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+22:05:12.316 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+22:11:32.159 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+22:11:32.165 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+22:16:03.881 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+22:16:03.887 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+22:19:27.235 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+22:19:27.239 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+22:24:17.988 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+22:24:17.992 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====

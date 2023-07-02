@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('Role assignment user')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="role-form">
+				    <input type="hidden" id="roleId" name="roleId" th:value="${role.roleId}">
+					<div class="select-list">
+						<ul>
+							<li>
+								Login name:<input type="text" name="loginName"/>
+							</li>
+							<li>
+								Cellphone number:<input type="text" name="phonenumber"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search for</a>
+							    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+	        
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="selectUser()" shiro:hasPermission="system:role:add">
+	                <i class="fa fa-plus"></i> Add user
+	            </a>
+				<a class="btn btn-danger multiple disabled" onclick="cancelAuthUserAll()" shiro:hasPermission="system:role:remove">
+		            <i class="fa fa-remove"></i> Bulk deauthorization
+		        </a>
+		        <a class="btn btn-warning" onclick="closeItem()">
+		            <i class="fa fa-reply-all"></i> shut down
+		        </a>
+	        </div>
+	        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var removeFlag = [[${@permission.hasPermi('system:role:remove')}]];
+		var datas = [[${@dict.getType('sys_normal_disable')}]];
+		var prefix = ctx + "system/role/authUser";
+
+		$(function() {
+			var options = {
+		        url: prefix + "/allocatedList",
+		        createUrl: prefix + "/add",
+		        updateUrl: prefix + "/edit/{id}",
+		        removeUrl: prefix + "/remove",
+		        exportUrl: prefix + "/export",
+		        importUrl: prefix + "/importData",
+		        importTemplateUrl: prefix + "/importTemplate",
+		        queryParams: queryParams,
+		        sortName: "createTime",
+		        sortOrder: "desc",
+		        modalName: "user",
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'userId',
+		            title: 'User ID',
+		            visible: false
+		        },
+		        {
+					field:'loginName',
+					title:'Login name',
+					sortable: true
+				},
+				{
+					field:'userName',
+					title:'User name'
+				},
+				{
+					field:'email',
+					title:'Mailbox'
+				},
+				{
+					field:'phonenumber',
+					title:'Mobile'
+				},
+				{
+					field:'status',
+					title:'User status',
+					align:'center',
+					formatter: function (value, row, index) {
+					return $.table.selectDictLabel(datas, value);
+				}
+				},
+				{
+					field:'createTime',
+					title:'Creation time',
+					sortable: true
+				},
+				{
+					title:'Operation',
+					align:'center',
+					formatter: function(value, row, index) {
+					var actions = [];
+					actions.push('<a class="btn btn-danger btn-xs' + removeFlag +'" href="javascript:void(0)" onclick="cancelAuthUser(\" + row.userId +'\') "><i class="fa fa-remove"></i>Cancel authorization</a>');
+					return actions.join('');
+				}
+				}]
+				};
+				$.table.init(options);
+				});
+						
+			function queryParams(params) {
+			var search = $.table.queryParams(params);
+			search.roleId = $("#roleId").val();
+			return search;
+			}
+			The
+			/* Assign users-select users */
+			function selectUser() {
+			var url = prefix +'/selectUser/' + $("#roleId").val();
+			$.modal.open("Select user", url);
+			}
+			The
+			/* Assign users-batch cancel authorization */
+			function cancelAuthUserAll(userId) {
+			var rows = $.table.selectFirstColumns();
+				if (rows.length == 0) {
+				$.modal.alertWarning("Please select at least one record");
+				return;
+				}
+				$.modal.confirm("Are you sure you want to delete the selected "+ rows.length + "Data?", function() {
+				var data = {"roleId": $("#roleId").val(), "userIds": rows.join() };
+				$.operate.submit(prefix + "/cancelAll", "post", "json", data);
+				});
+			}
+			The
+			/* Assign users-cancel authorization */
+			function cancelAuthUser(userId) {
+			$.modal.confirm("Are you sure you want to cancel this user role?", function() {
+			$.operate.post(prefix + "/cancel", {"roleId": $("#roleId").val(), "userId": userId });
+			})
+			}
+			</script>
+</body>
+</html>

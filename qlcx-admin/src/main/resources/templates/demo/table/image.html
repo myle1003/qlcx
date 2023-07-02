@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('Nhảy至指定页')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "demo/table";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'userId',
+                    title: 'User ID'
+                }, {
+                    field: 'userCode',
+                    title: 'User ID'
+                }, {
+                    field: 'userName',
+                    title: 'User name'
+                }, {
+                    title: 'Image',
+                    formatter: function(value, row, index) {
+                        // Picture preview (note: if stored locally to get the database path directly, if you configure the context-path, you need to use the ctx+ path)
+                        // For example: /profile/upload/2019/08/08/3b7a839aced67397bac694d77611ce72.png
+                        if (index % 2 == 0) {
+                            return $.table.imageView('http://demo.qlcx.vip/img/profile.jpg');
+                        } else {
+                            return $.table.imageView('http://demo.qlcx.vip/qlcx.png');
+                        }
+                    }
+                }, {
+                    field: 'userPhone',
+                    title: 'User phone'
+                }, {
+                    field: 'userEmail',
+                    title: 'User mailbox'
+                }, {
+                    field: 'userBalance',
+                    title: 'User balance'
+                }, {
+                    title: 'Operation',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs" href="#"><i class="fa fa-edit"></i>Edit</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs" href="#"><i class="fa fa-remove"></i>Delete</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+
+</html>

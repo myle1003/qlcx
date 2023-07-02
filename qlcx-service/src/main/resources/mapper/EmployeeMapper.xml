@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.EmployeeMapper">
+    
+    <resultMap type="Employee" id="EmployeeResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="description"    column="description"    />
+        <result property="idPosition"    column="id_position"    />
+        <result property="namePosition"    column="name_position"    />
+    </resultMap>
+
+    <sql id="selectEmployeeVo">
+        select id, name,email,description, id_position,(select name from position a2 where a2.id = b1.id_position) name_position,longitude,latitude,image from employee b1
+    </sql>
+
+    <select id="selectEmployeeList" parameterType="Employee" resultMap="EmployeeResult">
+        <include refid="selectEmployeeVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="idPosition != null "> and id_position = #{idPosition}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmployeeListMap" parameterType="String" resultMap="EmployeeResult">
+        <include refid="selectEmployeeVo"/>
+        where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+    <select id="selectEmployeeById" parameterType="Long" resultMap="EmployeeResult">
+        <include refid="selectEmployeeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEmployee" parameterType="Employee" useGeneratedKeys="true" keyProperty="id">
+        insert into employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="description != null  and description != ''">description,</if>
+            <if test="idPosition != null ">id_position,</if>
+            <if test="email != null  and email != ''">email,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+            <if test="idPosition != null ">#{idPosition},</if>
+            <if test="email != null and email != ''">#{email},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployee" parameterType="Employee">
+        update employee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+            <if test="idPosition != null ">id_position = #{idPosition},</if>
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="longitude != null  and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">latitude = #{latitude},</if>
+            <if test="image != null  and image != ''">image = #{image},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmployeeById" parameterType="Long">
+        delete from employee where id = #{id}
+    </delete>
+
+    <delete id="deleteEmployeeByIds" parameterType="String">
+        delete from employee where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

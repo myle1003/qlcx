@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('Online user list')" />
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="online-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								Login address: <input type="text" name="ipaddr"/>
+							</li>
+							<li>
+								Login name: <input type="text" name="loginName"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Search for</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+	            <a class="btn btn-danger multiple disabled" onclick="javascript:batchForceLogout()" shiro:hasPermission="monitor:online:batchForceLogout">
+	                <i class="fa fa-sign-out"></i> Retreat
+	            </a>
+	        </div>
+	        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var forceFlag = [[${@permission.hasPermi('monitor:online:forceLogout')}]];
+		var prefix = ctx + "monitor/online";
+
+		$(function() {
+		    var options = {
+		    	uniqueId: "sessionId",
+		        url: prefix + "/list",
+		        exportUrl: prefix + "/export",
+		        sortName: "lastAccessTime",
+		        sortOrder: "desc",
+		        showExport: true,
+		        escape: true,
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+                    title: "Serial number",
+                    formatter: function (value, row, index) {
+                 	    return $.table.serialNumber(index);
+                    }
+                },
+		        {
+		            field: 'sessionId',
+		            title: 'Session ID'
+		        },
+		        {
+		            field: 'loginName',
+		            title: 'Login name',
+		            sortable: true
+		        },
+		        {
+		            field: 'deptName',
+		            title: 'Department name'
+		        },
+		        {
+		            field: 'ipaddr',
+		            title: 'Host'
+		        },
+		        {
+		            field: 'loginLocation',
+		            title: 'Login location'
+		        },
+		        {
+		            field: 'browser',
+		            title: 'Browser'
+		        },
+		        {
+		            field: 'os',
+		            title: 'operating system'
+		        },
+		        {
+		            field: 'status',
+		            title: 'Session state',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		                if (value == 'on_line') {
+		                    return '<span class="badge badge-primary">Online</span>';
+		                } else if (value == 'off_line') {
+		                    return '<span class="badge badge-danger">Offline</span>';
+		                }
+		            }
+		        },
+		        {
+		            field: 'startTimestamp',
+		            title: 'Log in time',
+		            sortable: true
+		        },
+		        {
+		            field: 'lastAccessTime',
+		            title: 'Last visit time',
+		            sortable: true
+		        },
+		        {
+		            title: 'Operating',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		                var msg = '<a class="btn btn-danger btn-xs ' + forceFlag + '" href="javascript:void(0)" onclick="forceLogout(\'' + row.sessionId + '\')"><i class="fa fa-sign-out"></i>Retreat</a> ';
+		                return msg;
+		            }
+		        }]
+		    };
+		    $.table.init(options);
+		});
+
+		// Single strong retreat
+		function forceLogout(sessionId) {
+		    $.modal.confirm("Are you sure you want to force the user offline?", function() {
+		    	var data = { "ids": sessionId };
+		        $.operate.post(prefix + "/batchForceLogout", data);
+		    })
+		}
+
+		// Forced withdrawal
+		function batchForceLogout() {
+		    var rows = $.table.selectColumns("sessionId");
+		    if (rows.length == 0) {
+		        $.modal.alertWarning("Please select the user to resign");
+		        return;
+		    }
+		    $.modal.confirm("Confirm to force out" + rows.length + "Data?", function() {
+		        var url = prefix + "/batchForceLogout";
+		        var data = { "ids": rows.join() };
+		        $.operate.post(url, data);
+		    });
+		}
+	</script>
+</body>
+</html>

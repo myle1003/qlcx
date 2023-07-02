@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.WorkTreeMapper">
+    
+    <resultMap type="WorkTree" id="WorkTreeResult">
+        <result property="idWork"    column="id_work"    />
+        <result property="idTree"    column="id_tree"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectWorkTreeVo">
+        select id_wordk, id_tree, description from work_tree
+    </sql>
+
+    <select id="selectWorkTreeList" parameterType="WorkTree" resultMap="WorkTreeResult">
+        <include refid="selectWorkTreeVo"/>
+        <where>  
+            <if test="idWork != null "> and id_work = #{idWork}</if>
+            <if test="idTree != null "> and id_tree = #{idTree}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectWorkTreeById" parameterType="Long" resultMap="WorkTreeResult">
+        <include refid="selectWorkTreeVo"/>
+        where id_word = #{idWork}
+    </select>
+    
+    <select id="selectWorkTreeListById" parameterType="Long" resultMap="com.qlcx.system.mapper.TreeMapper.TreeResult">
+        select id, name, tree_code, size, longitude, latitude, create_by, create_time, update_by, update_time, id_category,(select name from tree_category a2 where a2.id=b1.id_category) name_category,
+        water_the_tree, prune, fertilize, against_tree, clean_the_stump,status_clean_the_stump, status_against_tree, status_fertilize, status_prune, status_water_the_tree,type,status 
+        from tree b1 inner join work_tree c3 on b1.id=c3.id_tree 
+        where c3.id_work = #{id}
+    </select>
+        
+    <insert id="insertWorkTree" parameterType="WorkTree">
+        insert into work_tree
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="idWork != null ">id_work,</if>
+            <if test="idTree != null ">id_tree,</if>
+            <if test="description != null  and description != ''">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="idWork != null ">#{idWork},</if>
+            <if test="idTree != null ">#{idTree},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkTree" parameterType="WorkTree">
+        update work_tree
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idTree != null ">id_tree = #{idTree},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+        </trim>
+        where id_work = #{idWork}
+    </update>
+
+    <delete id="deleteWorkTreeById" parameterType="Long">
+        delete from work_tree where id_work = #{idWork}
+    </delete>
+
+    <delete id="deleteWorkTreeByIds" parameterType="String">
+        delete from work_tree where id_word in 
+        <foreach item="idWork" collection="array" open="(" separator="," close=")">
+            #{idWork}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('parameter list')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="config-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								Tên thông số: <input type="text" name="configName"/>
+							</li>
+							<li>
+								Tên khóa: <input type="text" name="configKey"/>
+							</li>
+							<li>
+								Hệ thống tích hợp: <select name="configType" th:with="type=${@dict.getType('sys_yes_no')}">
+									<option value="">all</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li class="select-time">
+								<label>Thời gian tạo: </label>
+								<input type="text" class="time-input" id="startTime" placeholder="Bắt đầu" name="params[beginTime]"/>
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="Kết thúc	" name="params[endTime]"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+		        <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:config:add">
+		            <i class="fa fa-plus"></i> Thêm
+		        </a>
+		        <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:config:edit">
+		            <i class="fa fa-edit"></i> Sửa
+		        </a>
+		        <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:config:remove">
+		            <i class="fa fa-remove"></i> Xóa
+		        </a>
+		        <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:config:export">
+		            <i class="fa fa-download"></i> Tài về
+		        </a>
+		        <a class="btn btn-danger" onclick="clearCache()" shiro:hasPermission="system:config:remove">
+		            <i class="fa fa-refresh"></i> Làm mới
+		        </a>
+	        </div>
+	        <div class="col-sm-12 select-table table-striped">
+	            <table id="bootstrap-table"></table>
+	        </div>
+	    </div>
+	</div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:config:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:config:remove')}]];
+        var datas = [[${@dict.getType('sys_yes_no')}]];
+        var prefix = ctx + "system/config";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                sortName: "createTime",
+		        sortOrder: "desc",
+                modalName: "Tham số",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'configId',
+                    title: 'ID'
+                },
+                {
+                    field: 'configName',
+                    title: 'Tên tham số',
+                    formatter: function(value, row, index) {
+                    	return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'configKey',
+                    title: 'Tên khóa',
+                    formatter: function(value, row, index) {
+                    	return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'configValue',
+                    title: 'Giá trị'
+                },
+                {
+                    field: 'configType',
+                    title: 'Hệ thống tích hợp',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                    	return $.table.selectDictLabel(datas, value);
+                    }
+                },
+                {
+                    field: 'remark',
+                    title: 'Nhận xét',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                    	return $.table.tooltip(value, 10, "open");
+                    }
+                },
+                {
+                    field: 'createTime',
+                    title: 'Thời gian tạo'
+                },
+                {
+                    title: 'Thao tác',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.configId + '\')"><i class="fa fa-edit"></i>Sửa</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.configId + '\')"><i class="fa fa-remove"></i>Xóa</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        /** Clear parameter cache */
+        function clearCache() {
+            $.operate.get(prefix + "/clearCache");
+        }
+    </script>
+</body>
+</html>

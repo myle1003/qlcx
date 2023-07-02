@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.MarkAreaMapper">
+    
+    <resultMap type="MarkArea" id="MarkAreaResult">
+        <result property="id"    column="id"    />
+        <result property="description"    column="description"    />
+        <result property="lineColor"    column="line_color"    />
+        <result property="fillColor"    column="fill_color"    />
+        <result property="status"    column="status"    />
+        <collection property="listDetail" ofType="MarkAreaDetail" select="com.qlcx.system.mapper.MarkAreaDetailMapper.selectMarkAreaDetailById" column="id" />
+    </resultMap>
+
+    <sql id="selectMarkAreaVo">
+        select id, description, line_color, fill_color, status from mark_area
+    </sql>
+
+    <select id="selectMarkAreaList" parameterType="MarkArea" resultMap="MarkAreaResult">
+        <include refid="selectMarkAreaVo"/>
+        <where>  
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="lineColor != null  and lineColor != ''"> and line_color = #{lineColor}</if>
+            <if test="fillColor != null  and fillColor != ''"> and fill_color = #{fillColor}</if>
+        </where>
+    </select>
+    
+    <select id="selectMarkAreaById" parameterType="Long" resultMap="MarkAreaResult">
+        <include refid="selectMarkAreaVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMarkArea" parameterType="MarkArea" useGeneratedKeys="true" keyProperty="id">
+        insert into mark_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="description != null  and description != ''">description,</if>
+            <if test="lineColor != null  and lineColor != ''">line_color,</if>
+            <if test="fillColor != null  and fillColor != ''">fill_color,</if>
+            <if test="status != null ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="description != null  and description != ''">#{description},</if>
+            <if test="lineColor != null  and lineColor != ''">#{lineColor},</if>
+            <if test="fillColor != null  and fillColor != ''">#{fillColor},</if>
+            <if test="status != null ">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMarkArea" parameterType="MarkArea">
+        update mark_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="description != null  and description != ''">description = #{description},</if>
+            <if test="lineColor != null  and lineColor != ''">line_color = #{lineColor},</if>
+            <if test="fillColor != null  and fillColor != ''">fill_color = #{fillColor},</if>
+            <if test="status != null ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMarkAreaById" parameterType="Long">
+        delete from mark_area where id = #{id}
+    </delete>
+
+    <delete id="deleteMarkAreaByIds" parameterType="String">
+        delete from mark_area where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

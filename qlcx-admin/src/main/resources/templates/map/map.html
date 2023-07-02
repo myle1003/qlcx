@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header(' Danh sách')" />
+	<script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+	<link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+
+	<style>
+		#map {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+		}
+
+		.css-icon {
+			width: 0;
+			height: 0;
+			border-top: 30px solid transparent;
+			border-bottom: 30px solid transparent;
+			border-left: 30px solid #ff8888;
+		}
+
+		#controlerTree {
+			position: absolute;
+			top: 0;
+			right: 0;
+			background: #fff;
+			width: 170px;
+			padding: 5px;
+		}
+
+
+		#menu {
+			position: absolute;
+			background: #efefef;
+			padding: 10px;
+			font-family: 'Open Sans', sans-serif;
+		}
+	</style>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg theme-dark skin-blue"
+	style="overflow: hidden; width: auto; height: auto; margin: 0px; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px;">
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width:420px">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Xác nhận</h4>
+				</div>
+
+				<div class="modal-body">
+					<p>Bạn muốn xem thống kê ở dạng nào?</p>
+					<p class="debug-url"></p>
+				</div>
+
+				<div class="modal-footer">
+					<a class="btn btn-primary" onclick="seeChart()" data-dismiss="modal">Biểu đồ</a>
+					<a class="btn btn-success" onclick="seeTable()" data-dismiss="modal">Bảng </a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div id="map"></div>
+	</div>
+	<div id="menu">
+		<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+		<!-- See a list of Mapbox-hosted public styles at -->
+		<!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+		<label for="satellite-v9">satellite</label>
+		<input id="light-v10" type="radio" name="rtoggle" value="light">
+		<label for="light-v10">light</label>
+		<input id="dark-v10" type="radio" name="rtoggle" value="dark">
+		<label for="dark-v10">dark</label>
+		<input id="streets-v11" type="radio" name="rtoggle" value="streets">
+		<label for="streets-v11">streets</label>
+		<input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+		<label for="outdoors-v11">outdoors</label>
+	</div>
+	<div id="controlerTree">
+		<div>
+			<form>
+				<div onclick="divStatusTree()">
+					<p style="text-align:center;padding:0px;margin:0px;color:blue;background:#efefef">Tình trạng cây
+					<p>
+				</div>
+				<div id="divStatusTree">
+					<div style="margin-top:-10px"><input id="color1" type='checkbox' name='filters'
+							onclick='showStations();' value='1' checked> Cây khỏe
+						mạnh</div>
+					<div><input id="color2" type='checkbox' name='filters' onclick='showStations();' value='2' checked>
+						Cây khá</div>
+					<div><input id="color3" type='checkbox' name='filters' onclick='showStations();' value='3' checked>
+						Cây bình thường </div>
+					<div><input id="color4" type='checkbox' name='filters' onclick='showStations();' value='4' checked>
+						Cây cần chăm sóc</div>
+					<div><input id="color5" type='checkbox' name='filters' onclick='showStations();' value='5' checked>
+						Cây chăm sóc gấp</div>
+				</div>
+			</form>
+			<div onclick="divManagerTree()">
+				<p style="text-align:center;margin:0px;color:blue;background:#efefef">Quản lý thông tin
+				</p>
+			</div>
+			<div id="divManagerTree">
+				<div style="margin-top:5px">
+					<button style=" width: 160px;" onclick="showimage360()">Xem thông tin ảnh 360 </button>
+				</div>
+				<div style=" display: flex;flex-wrap: nowrap;margin-top:5px">
+					<div>
+						<button style=" width: 78px;margin-right:4px" onclick="addTree()">Thêm cây</button>
+					</div>
+					<div>
+						<button style=" width: 78px;" onclick="editTree()">Sửa cây</button>
+					</div>
+				</div>
+				<div>
+					<button style=" width: 160px;margin-top:5px;padding-left:0px;padding-right:0px"
+						onclick="regionalStatistical()">Thống kê theo khu vực</button>
+				</div>
+				<div id="regionalStatistical" style="display:none">
+					<input id="location1" onclick="checkLocation('location1')" style="margin-top:5px;width: 160px;"
+						placeholder="Vị trí số 1">
+					<input id="location2" onclick="checkLocation('location2')" style="margin-top:5px;width: 160px;"
+						placeholder="Vị trí số 2">
+					<input id="location3" onclick="checkLocation('location3')" style="margin-top:5px;width: 160px;"
+						placeholder="Vị trí số 3">
+					<input id="location4" onclick="checkLocation('location4')" style="margin-top:5px;width: 160px;"
+						placeholder="Vị trí số 4">
+					<div style=" display: flex;flex-wrap: nowrap;margin-top:5px">
+						<div>
+							<button style=" width: 78px;margin-right:4px" onclick="preview()">Preview</button>
+						</div>
+						<div>
+							<button style=" width: 78px;" onclick="statistical()">Thống kê</button>
+						</div>
+					</div>
+				</div>
+				<div onclick="divMarkTree()">
+					<p style="text-align:center;margin-top:5px;color:blue;background:#efefef">Quản lý vùng đánh dấu
+					</p>
+				</div>
+				<div id="divMarkTree">
+
+					<div style=" display: flex;flex-wrap: nowrap;margin-top:-5px">
+						<div>
+							<button style=" width: 78px;margin-right:4px" onclick="note()">Hiển thị</button>
+						</div>
+						<div>
+							<button style=" width: 78px;" onclick="setup()">Cài đặt</button>
+						</div>
+					</div>
+					<div id="divMarkTreeSetup">
+						<input id="description" style="margin-top:5px;width: 160px;" placeholder="Mô tả nội dung">
+						<select id="lineColor" style="margin-top:5px;height:25px;width: 160px;">
+							<option value="#0099FF">Chọn màu viền</option>
+							<option style="background:#0099FF" value="#0099FF">Xanh da trời</option>
+							<option style="background:#FFFF00" value="#3366CC">Màu vàng</option>
+							<option style="background:#FF3333" value="#FF3333">Màu đỏ</option>
+							<option style="background:#008800" value="#008800">Xanh lá</option>
+							
+						</select>
+						<select id="fillColor" style="margin-top:5px;height:25px;width: 160px;">
+							<option value="#CCFFFF">Chọn màu nền</option>
+							<option style="background:#CCFFFF" value="#CCFFFF">Xanh da trời</option>							
+							<option style="background:#FFFFCC" value="#99CCFF">Màu vàng</option>
+							<option style="background:#FF3366" value="#FF3366">Màu đỏ</option>
+							<option style="background:#33CC66" value="#33CC66">Xanh lá</option>	
+							
+						</select>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<th:block th:include="include :: footer" />
+	<script>
+		var flDivStatusTree = true;
+		function divStatusTree() {
+			flDivStatusTree = !flDivStatusTree;
+			if (flDivStatusTree) {
+				$("#divStatusTree").css("display", "block");
+			} else {
+				$("#divStatusTree").css("display", "none");
+			}
+		}
+
+		var flDivManagerTree = true;
+		function divManagerTree() {
+			flDivManagerTree = !flDivManagerTree;
+			if (flDivManagerTree) {
+				$("#divManagerTree").css("display", "block");
+			} else {
+				$("#divManagerTree").css("display", "none");
+			}
+		}
+
+		var flDivMarkTree = true;
+		function divMarkTree() {
+			flDivMarkTree = !flDivMarkTree;
+			if (flDivMarkTree) {
+				$("#divMarkTree").css("display", "block");
+			} else {
+				$("#divMarkTree").css("display", "none");
+			}
+		}
+		
+		var flDivMarkTreeSetup = true;
+		function setup() {
+			flDivMarkTreeSetup = !flDivMarkTreeSetup;
+			if (flDivMarkTreeSetup) {
+				$("#divMarkTreeSetup").css("display", "block");
+			} else {
+				$("#divMarkTreeSetup").css("display", "none");
+			}
+		}
+	</script>
+	<script>
+		L.mapbox.accessToken = 'pk.eyJ1IjoicXVvY25naGlhIiwiYSI6ImNrb2syd2xncjBmYzMydnFmZW4yYnhka24ifQ.zFBA79NyujB4ihFqnKfLmQ';
+		var map = L.mapbox.map('map')
+			.setView([16.076061, 108.213076], 17)
+			.addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9'))
+			.addControl(L.mapbox.geocoderControl('mapbox.places', {
+				keepOpen: true
+			})
+			);
+
+		var info = document.getElementById('info');
+
+		// Creates a single, draggable marker on the page.
+		var m = L.marker(new L.LatLng(16.0782236, 108.213238), {
+			icon: L.mapbox.marker.icon({
+				'marker-color': 'FFFF66',
+				'marker-symbol': 'school',
+				'marker-size': 'large'
+			}),
+			draggable: false
+		}).bindPopup('Trường SPKT!!!').addTo(map);
+
+		//thay đổi kiểu (tot, kha,can cham soc, cham soc gap)
+		const layerList = document.getElementById('menu');
+		const inputs = layerList.getElementsByTagName('input');
+
+		for (const input of inputs) {
+			input.onclick = (layer) => {
+				const layerId = layer.target.id;
+				L.mapbox.styleLayer('mapbox://styles/mapbox/' + layerId).addTo(map);
+				//map.map.setStyle();
+			};
+		}
+
+
+		function genTitle(item) {
+			var title;
+			var type;
+			if (item.type == 0) {
+				type = "Cây non";
+			} else if (item.type == 1) {
+				type = "Cây loại 1";
+			} else if (item.type == 2) {
+				type = "Cây loại 2";
+			} else {
+				type = "Cây loại 3";
+			}
+			var img = "<div><img style='width:120px;height:120px;' src=" + item.image + "'/></div>"
+			title = img + 'Tên cây: ' + item.name + '<br/>' + 'Mã cây: ' + item.treeCode + '<br/>' + 'Loại: '
+						+ type + '<br/>'+'Kích thước'+item.size + '<br/>'+ 'Danh mục: ' + item.nameCategory + '<br/>' 
+						+ 'Địa chỉ : ' + item.address;
+			return title;
+		}
+		//load tree
+		var treeList = [];
+		function genDataTree(item) {
+			if (item.status == 0 && $("#color1").prop("checked")) {
+				var t = {
+					'type': 'Feature',
+					'properties': {
+						'title': genTitle(item),
+						'marker-color': '#008000',
+						'marker-size': 'small',
+						'marker-symbol': 'park2',
+						'marker-zoom': '17'
+					},
+					'geometry': {
+						'coordinates': [
+							item.longitude,
+							item.latitude
+						],
+						'type': 'Point'
+					}
+				}
+				treeList.push(t);
+			} else if (item.status == 1 && $("#color2").prop("checked")) {
+				var t = {
+					'type': 'Feature',
+					'properties': {
+						'title': genTitle(item),
+						'marker-color': '#008080',
+						'marker-size': 'small',
+						'marker-symbol': 'park2',
+						'marker-zoom': '17'
+					},
+					'geometry': {
+						'coordinates': [
+							item.longitude,
+							item.latitude
+						],
+						'type': 'Point'
+					}
+				}
+				treeList.push(t);
+			} else if (item.status == 2 && $("#color3").prop("checked")) {
+				var t = {
+					'type': 'Feature',
+					'properties': {
+						'title': genTitle(item),
+						'marker-color': '#00FF00',
+						'marker-size': 'small',
+						'marker-symbol': 'park2',
+						'marker-zoom': '17'
+					},
+					'geometry': {
+						'coordinates': [
+							item.longitude,
+							item.latitude
+						],
+						'type': 'Point'
+					}
+				}
+				treeList.push(t);
+			} else if (item.status == 3 && $("#color4").prop("checked")) {
+				var t = {
+					'type': 'Feature',
+					'properties': {
+						'title': genTitle(item),
+						'marker-color': '#FFFF00',
+						'marker-size': 'small',
+						'marker-symbol': 'park2',
+						'marker-zoom': '17'
+					},
+					'geometry': {
+						'coordinates': [
+							item.longitude,
+							item.latitude
+						],
+						'type': 'Point'
+					}
+				}
+				treeList.push(t);
+			} else if (item.status > 3 && $("#color5").prop("checked")) {
+				var t = {
+					'type': 'Feature',
+					'properties': {
+						'title': genTitle(item),
+						'marker-color': '#800000',
+						'marker-size': 'small',
+						'marker-symbol': 'park2',
+						'marker-zoom': '17',
+					},
+
+					'geometry': {
+						'coordinates': [
+							item.longitude,
+							item.latitude
+						],
+						'type': 'Point'
+					}
+				}
+				treeList.push(t);
+			}
+
+
+		}
+		showStations();
+		function showStations() {
+			$.ajax({
+				method: 'GET',
+				url: "/system/tree/listTreeByMapAjax",
+				success: function (data) {
+					treeList = [];
+					data.data.forEach(function (item) {
+						genDataTree(item);
+					});
+					loadGeojson();
+
+				},
+				error: function () {
+					console.log("Lỗi rồi");
+				},
+			});
+		}
+		var features;
+		function loadGeojson() {
+			var geojson = {
+				type: 'FeatureCollection',
+				features: treeList
+			}
+			if (features != null) {
+				features.clearLayers();
+			}
+
+			features = L.mapbox.featureLayer(geojson).addTo(map);
+			// set sự kiện show image 360 khi click item maker
+			features.on('click', function (e) {
+				valueImage360 = e.layer.getLatLng();
+				map.panTo(e.layer.getLatLng());
+			});
+			map.on('ready', function () {
+				// Display the tooltip after the
+				// marker has been added to the map.
+				m.openPopup();
+			});
+
+			// When the features layer is ready,
+			// ie. added to the map, run populateListing.
+			features.on('ready', populateListing);
+			function populateListing() {
+				// Clear out the listing container first.
+				info.innerHTML = '';
+				var listings = [];
+
+				// Build a listing of markers
+				features.eachLayer(function (marker) {
+					// Draggable marker coordinates.
+					var home = m.getLatLng();
+					var metresToMiles = 0.000621371192;
+					var distance = (metresToMiles * home.distanceTo(marker.getLatLng())).toFixed(1);
+
+					var link = document.createElement('a');
+					link.className = 'item';
+					link.href = '#';
+					link.setAttribute('data-distance', distance);
+					// Populate content from each markers object.
+					link.innerHTML = marker.feature.properties.title +
+						'<br /><small>' + distance + ' mi. away</small>';
+
+					link.onclick = function () {
+						if (/active/.test(this.className)) {
+							this.className = this.className.replace(/active/, '').replace(/\s\s*$/, '');
+						} else {
+							var siblings = info.getElementsByTagName('a');
+							for (var i = 0; i < siblings.length; i++) {
+								siblings[i].className = siblings[i].className
+									.replace(/active/, '').replace(/\s\s*$/, '');
+							};
+							this.className += ' active';
+
+							// When a menu item is clicked, animate the map to center
+							// its associated marker and open its popup.
+							map.panTo(marker.getLatLng());
+							marker.openPopup();
+						}
+						return false;
+					};
+
+					listings.push(link);
+				});
+
+				// Sort the listing based on the
+				// assigned attribute, 'data-listing'
+				listings.sort(function (a, b) {
+					return a.getAttribute('data-distance') - b.getAttribute('data-distance');
+				});
+
+				listings.forEach(function (listing) {
+					info.appendChild(listing);
+				});
+			}
+
+		}
+	</script>
+	//quản lý thông tin
+	<script>
+		//đánh dấu các điểm thay đổi
+		var markerLocation1;
+		var markerLocation2;
+		var markerLocation3;
+		var markerLocation4;
+		var listTreeId;
+		map.on('click', function (e) {
+			let lng = String(e.latlng.lng);
+			let lat = String(e.latlng.lat);
+			//nếu trường hợp thêm cây diễn ra
+			if (flAddTree) {
+				$.modal.confirm('Bạn muốn thêm ở vị trí này ' + e.latlng + '?', function () {
+					$.modal.open("Thêm cây xanh", "tree/addTreeMap/" + lng + "/" + lat, 800, 500)
+				});
+			}
+			//nếu trường hợp chọn vị trí thống kê diễn ra
+			if (flRegionalStatistical) {
+				//kiểm tra marker đã được khởi tạo chưa
+				if (markerLocation1 == null && loca == "location1") {
+					markerLocation1 = L.marker(new L.LatLng(e.latlng.lat, e.latlng.lng), {
+						icon: L.mapbox.marker.icon({
+							'marker-color': '1087bf',
+							'marker-symbol': 'embassy',
+							'marker-size': 'small'
+						}), draggable: true
+					}).bindPopup('Vị trí 1').addTo(map);
+					$("#" + loca).val(lng.substr(0, 10) + "," + lat.substr(0, 9));
+					//set sự thay đổi cho vị trí 1
+					markerLocation1.on('dragend', function () {
+						loca = "location1";
+						let lng1 = String(markerLocation1.getLatLng().lng);
+						let lat1 = String(markerLocation1.getLatLng().lat);
+						$("#" + loca).val(lng1.substr(0, 10) + "," + lat1.substr(0, 9));
+					});
+				}
+				if (markerLocation2 == null && loca == "location2") {
+					markerLocation2 = L.marker(new L.LatLng(e.latlng.lat, e.latlng.lng), {
+						icon: L.mapbox.marker.icon({
+							'marker-color': '1087bf',
+							'marker-symbol': 'embassy',
+							'marker-size': 'small'
+						}), draggable: true
+					}).bindPopup('Vị trí 2').addTo(map);
+					$("#" + loca).val(lng.substr(0, 10) + "," + lat.substr(0, 9));
+					//set sự thay đổi cho vị trí 2
+					markerLocation2.on('dragend', function () {
+						loca = "location2";
+						let lng2 = String(markerLocation2.getLatLng().lng);
+						let lat2 = String(markerLocation2.getLatLng().lat);
+						$("#" + loca).val(lng2.substr(0, 10) + "," + lat2.substr(0, 9));
+					});
+				}
+
+				if (markerLocation3 == null && loca == "location3") {
+					markerLocation3 = L.marker(new L.LatLng(e.latlng.lat, e.latlng.lng), {
+						icon: L.mapbox.marker.icon({
+							'marker-color': '1087bf',
+							'marker-symbol': 'embassy',
+							'marker-size': 'small'
+						}), draggable: true
+					}).bindPopup('Vị trí 3').addTo(map);
+					$("#" + loca).val(lng.substr(0, 10) + "," + lat.substr(0, 9));
+					//set sự thay đổi cho vị trí 3
+					markerLocation3.on('dragend', function () {
+						loca = "location3";
+						let lng3 = String(markerLocation3.getLatLng().lng);
+						let lat3 = String(markerLocation3.getLatLng().lat);
+						$("#" + loca).val(lng3.substr(0, 10) + "," + lat3.substr(0, 9));
+					});
+				}
+
+				if (markerLocation4 == null && loca == "location4") {
+					markerLocation4 = L.marker(new L.LatLng(e.latlng.lat, e.latlng.lng), {
+						icon: L.mapbox.marker.icon({
+							'marker-color': '1087bf',
+							'marker-symbol': 'embassy',
+							'marker-size': 'small'
+						}), draggable: true
+					}).bindPopup('Vị trí 4').addTo(map);
+					$("#" + loca).val(lng.substr(0, 10) + "," + lat.substr(0, 9));
+					//set sự thay đổi cho vị trí 4
+					markerLocation4.on('dragend', function () {
+						loca = "location4";
+						let lng4 = String(markerLocation4.getLatLng().lng);
+						let lat4 = String(markerLocation4.getLatLng().lat);
+						$("#" + loca).val(lng4.substr(0, 10) + "," + lat4.substr(0, 9));
+					});
+				}
+
+			}
+		});
+		var valueImage360;
+		function showimage360() {
+			if (valueImage360 != null) {
+				$.modal.open("Image 360", "map/image360?lat=" + valueImage360.lat + "&lng=" + valueImage360.lng, 800, 500);
+			} else {
+				$.modal.alertWarning("Chọn cây xanh cần xem!");
+			}
+		}
+		var flAddTree = false;
+		function addTree() {
+			if (!flAddTree) {
+				$.modal.alertWarning("Chọn vị trí cần thêm cây!");
+				flAddTree = true;
+			} else {
+				$.modal.alertWarning("Hủy tính năng thêm cây!");
+				flAddTree = false;
+			}
+
+		}
+
+		function editTree() {
+			if (valueImage360 != null) {
+				$.modal.open("Sửa thông tin cây", "tree/editTreeMap/" + valueImage360.lng + "/" + valueImage360.lat, 800, 500);
+			} else {
+				$.modal.alertWarning("Chọn cây xanh cần sửa!");
+			}
+		}
+		var flRegionalStatistical = false;
+		function regionalStatistical() {
+			//kiểm tra việc thao tác thống kê theo khu vực
+			flRegionalStatistical = !flRegionalStatistical;
+			if (flRegionalStatistical) {
+				$("#regionalStatistical").css("display", "block");
+			} else {
+				$("#regionalStatistical").css("display", "none");
+			}
+		}
+		var loca = "location1";
+		function checkLocation(l) {
+			//kiểm tra vị trí nào được chọn để set lnglat;
+			loca = l;
+		}
+		var polyline;
+		//xem trước các vị trí đã chọn theo dạng line
+		function preview() {
+			//clear polyline trước khi preview lại
+			if (polyline != null) {
+				polyline.remove();
+			}
+			//lấy vị trí từ input
+			var line_points = [
+				[Number($("#location1").val().substr(11, 9)), Number($("#location1").val().substr(0, 10))],
+				[Number($("#location2").val().substr(11, 9)), Number($("#location2").val().substr(0, 10))],
+				[Number($("#location3").val().substr(11, 9)), Number($("#location3").val().substr(0, 10))],
+				[Number($("#location4").val().substr(11, 9)), Number($("#location4").val().substr(0, 10))],
+				[Number($("#location1").val().substr(11, 9)), Number($("#location1").val().substr(0, 10))]
+			];
+			// Define polyline options
+			var polyline_options = {
+				color: '#00CCFF'
+			};
+			// Defining a polygon here instead of a polyline will connect the
+			// endpoints and fill the path.
+			// http://leafletjs.com/reference.html#polygon
+			polyline = L.polyline(line_points, polyline_options).addTo(map);
+		}
+
+		function statistical() {
+			var listLngLat = [
+				{"lng": Number($("#location1").val().substr(0, 10)), "lat": Number($("#location1").val().substr(11, 9))},
+				{"lng": Number($("#location2").val().substr(0, 10)), "lat": Number($("#location2").val().substr(11, 9))},
+				{"lng": Number($("#location3").val().substr(0, 10)), "lat": Number($("#location3").val().substr(11, 9))},
+				{"lng": Number($("#location4").val().substr(0, 10)), "lat": Number($("#location4").val().substr(11, 9))}
+			];
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				method: 'POST',
+				url: "/system/tree/statisticalAjax",
+				data: JSON.stringify(listLngLat),
+				success: function (data) {
+					listTreeId = "";
+					let i = true;
+
+					data.data.forEach(function (item) {
+						if (i) {
+							listTreeId = listTreeId + item.id;
+						} else {
+							listTreeId = listTreeId + "," + item.id;
+						}
+						i = false;
+
+					});
+					$('#confirm-delete').modal('show');
+				},
+				error: function () {
+					console.log("Lỗi rồi");
+				},
+			});
+		}
+		function seeChart() {
+			window.open("http://localhost:1005/system/main?listTreeId=" + listTreeId);
+		}
+
+		function seeTable() {
+			window.open("http://localhost:1005/system/tree?listTreeId=" + listTreeId);
+		}
+
+	</script>
+	<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.css' rel='stylesheet' />
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js'></script>
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-geodesy/v0.1.0/leaflet-geodesy.js'></script>
+
+	<script>
+		//setup cập nhật vùng đánh dấu 
+		var featureGroup = L.featureGroup().addTo(map);
+
+		var drawControl = new L.Control.Draw({
+			edit: {
+				featureGroup: featureGroup
+			},
+			draw: {
+				polygon: true,
+				polyline: false,
+				rectangle: false,
+				circle: false,
+				marker: false
+			}
+		}).addTo(map);
+
+		map.on('draw:created', showPolygonArea);
+		map.on('draw:edited', showPolygonAreaEdited);
+		map.on('draw:deleted', showPolygonAreaDeleted);
+
+
+
+		function showPolygonArea(e) {
+
+			e.layer.setStyle({
+				weight: 3,
+				color: $("#lineColor :selected").val(),
+				dashArray: '',
+				fillOpacity: 0.5,
+				fillColor: $("#fillColor :selected").val()
+			});
+			featureGroup.addLayer(e.layer);
+			e.layer.bindPopup($("#description").val());
+			e.layer.openPopup();
+			var layer = e.layer;
+			var listDetail = [];
+			for (const item of layer.getLatLngs()[0]) {
+				listDetail.push({"longitude": item.lng, "latitude": item.lat});
+			}
+			var data = {
+				"description": $("#description").val() != "" ? $("#description").val() : "Chưa có mô tả",
+				"lineColor": $("#lineColor :selected").val(),
+				"fillColor": $("#fillColor :selected").val(),
+				"listDetail": listDetail
+			}
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				method: 'POST',
+				url: "/system/map/area/add",
+				data: JSON.stringify(data),
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log("Lỗi rồi");
+				},
+			});
+		}
+
+		function showPolygonAreaEdited(e) {
+			e.layers.eachLayer(function (layer) {
+				var listDetail = [];
+				for (const item of layer.getLatLngs()[0]) {
+					listDetail.push({"longitude": item.lng, "latitude": item.lat});
+				}
+				var data = {
+					"id": layerId,
+					"description": $("#description").val() != "" ? $("#description").val() : "Chưa có mô tả",
+					"lineColor": $("#lineColor :selected").val(),
+					"fillColor": $("#fillColor :selected").val(),
+					"listDetail": listDetail
+				}
+				$.ajax({
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					url: "/system/map/area/edit",
+					data: JSON.stringify(data),
+					success: function (data) {
+						console.log(data);
+					},
+					error: function () {
+						console.log("Lỗi rồi");
+					},
+				});
+
+				showPolygonArea({layer: layer});
+			});
+		}
+
+
+		function showPolygonAreaDeleted(e) {
+			e.layers.eachLayer(function (layer) {
+				$.ajax({
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					url: "/system/map/area/remove",
+					data: JSON.stringify(layer.layerId),
+					success: function (data) {
+						console.log(data);
+					},
+					error: function () {
+						console.log("Lỗi rồi");
+					},
+				});
+			});
+		}
+	</script>
+	<script>
+		//hiển hị các vùng đã đánh dấu
+		function note() {
+			$.ajax({
+				method: 'POST',
+				url: "/system/map/area/list",
+				success: function (data) {
+					featureGroup.clearLayers();
+					data.data.forEach(function (item) {
+						showNote(item);
+					});
+				},
+				error: function () {
+					console.log("Lỗi rồi");
+				},
+			});
+		}
+		function showNote(data) {
+			let polygon = [
+			];
+			data.listDetail.forEach(function (item) {
+				polygon.push([item.latitude, item.longitude]);
+			});
+
+			let geojson = {
+				"type": "FeatureCollection",
+				"features": [{
+					"type": "Feature",
+					"properties": {
+					},
+					"geometry": {
+						"type": "Polygon",
+						"coordinates": []
+					}
+				}]
+			};
+			let arr = [];
+			polygon.forEach(function (item, index) {
+				arr.push([item[1], item[0]]);
+			});
+			geojson.features[0].geometry.coordinates.push(arr);
+
+			var drawnItems = new L.FeatureGroup();
+			var geoJsonGroup = L.geoJson(geojson).addTo(map);
+			addNonGroupLayers(geoJsonGroup, featureGroup);
+
+			// Would benefit from https://github.com/Leaflet/Leaflet/issues/4461
+			function addNonGroupLayers(sourceLayer, targetGroup) {
+				if (sourceLayer instanceof L.LayerGroup) {
+					sourceLayer.eachLayer(function (layer) {
+						layer.layerId = data.id;
+						layer.setStyle({
+							weight: 3,
+							color: data.lineColor,
+							dashArray: '',
+							fillOpacity: 0.5,
+							fillColor: data.fillColor
+						});
+						layer.bindPopup(data.description);
+						layer.openPopup();
+						addNonGroupLayers(layer, targetGroup);
+					});
+				} else {
+					targetGroup.addLayer(sourceLayer);
+				}
+			}
+		}
+	</script>
+</body>
+
+</html>

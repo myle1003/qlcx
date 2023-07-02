@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.WorkToolsMapper">
+    
+    <resultMap type="WorkTools" id="WorkToolsResult">
+        <result property="idWork"    column="id_work"    />
+        <result property="idTools"    column="id_tools"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectWorkToolsVo">
+        select id_word, id_tools, description from work_tools
+    </sql>
+
+    <select id="selectWorkToolsList" parameterType="WorkTools" resultMap="WorkToolsResult">
+        <include refid="selectWorkToolsVo"/>
+        <where>  
+            <if test="idWork != null "> and id_work = #{idWork}</if>
+            <if test="idTools != null "> and id_tools = #{idTools}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectWorkToolsById" parameterType="Long" resultMap="WorkToolsResult">
+        <include refid="selectWorkToolsVo"/>
+        where id_work = #{idWork}
+    </select>
+    
+    <select id="selectWorkToolsListById" parameterType="Long" resultMap="com.qlcx.system.mapper.ToolsMapper.ToolsResult">
+         select id, name, b1.description from tools b1 inner join work_tools c3 on b1.id = c3.id_tools
+         where c3.id_work = #{id}
+    </select>
+        
+    <insert id="insertWorkTools" parameterType="WorkTools">
+        insert into work_tools
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="idWork != null ">id_work,</if>
+            <if test="idTools != null ">id_tools,</if>
+            <if test="description != null  and description != ''">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="idWork != null ">#{idWork},</if>
+            <if test="idTools != null ">#{idTools},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkTools" parameterType="WorkTools">
+        update work_tools
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idTools != null ">id_tools = #{idTools},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+        </trim>
+        where id_work = #{idWork}
+    </update>
+
+    <delete id="deleteWorkToolsById" parameterType="Long">
+        delete from work_tools where id_work = #{idWork}
+    </delete>
+
+    <delete id="deleteWorkToolsByIds" parameterType="String">
+        delete from work_tools where id_work in 
+        <foreach item="idWork" collection="array" open="(" separator="," close=")">
+            #{idWork}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,5 @@
+09:42:04.857 [schedule-pool-1] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+16:23:21.013 [schedule-pool-1] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+17:24:23.772 [Thread-6] INFO  sys-user - [shutdownSpringSessionValidationScheduler,47] - ====Turn off session verification task====
+17:24:23.778 [Thread-6] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+17:24:23.779 [Thread-6] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====

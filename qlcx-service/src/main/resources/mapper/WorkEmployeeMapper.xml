@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.WorkEmployeeMapper">
+    
+    <resultMap type="WorkEmployee" id="WorkEmployeeResult">
+        <result property="idEmployee"    column="id_employee"    />
+        <result property="idWork"    column="id_work"    />
+    </resultMap>
+
+    <sql id="selectWorkEmployeeVo">
+        select id_employee, id_work from work_employee
+    </sql>
+
+    <select id="selectWorkEmployeeList" parameterType="WorkEmployee" resultMap="WorkEmployeeResult">
+        <include refid="selectWorkEmployeeVo"/>
+        <where>  
+            <if test="idEmployee != null "> and id_employee = #{idEmployee}</if>
+            <if test="idWork != null "> and id_work = #{idWork}</if>
+        </where>
+    </select>
+    
+    <select id="selectWorkEmployeeById" parameterType="Long" resultMap="WorkEmployeeResult">
+        <include refid="selectWorkEmployeeVo"/>
+        where id_employee = #{idEmployee}
+    </select>
+    
+    <select id="selectWorkEmployeeListById" parameterType="Long" resultMap="com.qlcx.system.mapper.EmployeeMapper.EmployeeResult">
+        select id, name, b1.description, id_position,(select name from position a2 where a2.id = b1.id_position) name_position from employee b1 
+        inner join work_employee c3 on b1.id = c3.id_employee
+        where c3.id_work = #{id}
+    </select>
+        
+    <insert id="insertWorkEmployee" parameterType="WorkEmployee">
+        insert into work_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="idEmployee != null ">id_employee,</if>
+            <if test="idWork != null ">id_work,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="idEmployee != null ">#{idEmployee},</if>
+            <if test="idWork != null ">#{idWork},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkEmployee" parameterType="WorkEmployee">
+        update work_employee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idWork != null ">id_work = #{idWork},</if>
+        </trim>
+        where id_work = #{idWork}
+    </update>
+
+    <delete id="deleteWorkEmployeeById" parameterType="Long">
+        delete from work_employee where id_work = #{idWork}
+    </delete>
+
+    <delete id="deleteWorkEmployeeByIds" parameterType="String">
+        delete from work_employee where id_work in 
+        <foreach item="idEmployee" collection="array" open="(" separator="," close=")">
+            #{idWork}
+        </foreach>
+    </delete>
+    
+</mapper>

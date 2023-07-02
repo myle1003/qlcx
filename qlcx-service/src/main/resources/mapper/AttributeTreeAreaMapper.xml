@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.AttributeTreeAreaMapper">
+    
+    <resultMap type="AttributeTreeArea" id="AttributeTreeAreaResult">
+        <result property="idTree"    column="id_tree"    />
+        <result property="idCategory"    column="id_category"    />
+        <result property="idAttribute"    column="id_attribute"    />
+    </resultMap>
+
+    <sql id="selectAttributeTreeAreaVo">
+        select id_tree, id_category, id_attribute from attribute_tree_area
+    </sql>
+
+    <select id="selectAttributeTreeAreaList" parameterType="AttributeTreeArea" resultMap="AttributeTreeAreaResult">
+        <include refid="selectAttributeTreeAreaVo"/>
+        <where>  
+            <if test="idTree != null "> and id_tree = #{idTree}</if>
+            <if test="idCategory != null "> and id_category = #{idCategory}</if>
+            <if test="idAttribute != null "> and id_attribute = #{idAttribute}</if>
+        </where>
+    </select>
+    
+    <select id="selectAttributeTreeAreaById" parameterType="Long" resultMap="AttributeTreeAreaResult">
+        <include refid="selectAttributeTreeAreaVo"/>
+        where id_tree = #{idTree}
+    </select>
+    
+    <select id="selectAttributeListByIdCategory" parameterType="Long" resultMap="com.qlcx.system.mapper.TreeAttributesMapper.TreeAttributesResult">
+         select id, name from tree_attributes f1 inner join attribute_tree_area g1 on f1.id = g1.id_attribute
+         where g1.id_category = #{id}
+    </select>
+    
+    <select id="selectAttributeListByIdTree" parameterType="Long" resultMap="com.qlcx.system.mapper.TreeAttributesMapper.TreeAttributesResult">
+         select id, name from tree_attributes f1 inner join attribute_tree_area g1 on f1.id = g1.id_attribute
+         where g1.id_tree = #{id}
+    </select>
+        
+    <insert id="insertAttributeTreeArea" parameterType="AttributeTreeArea">
+        insert into attribute_tree_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="idTree != null ">id_tree,</if>
+            <if test="idCategory != null ">id_category,</if>
+            <if test="idAttribute != null ">id_attribute,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="idTree != null ">#{idTree},</if>
+            <if test="idCategory != null ">#{idCategory},</if>
+            <if test="idAttribute != null ">#{idAttribute},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAttributeTreeArea" parameterType="AttributeTreeArea">
+        update attribute_tree_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idCategory != null ">id_category = #{idCategory},</if>
+            <if test="idAttribute != null ">id_attribute = #{idAttribute},</if>
+        </trim>
+        where id_tree = #{idTree}
+    </update>
+
+    <delete id="deleteAttributeTreeAreaByIdTree" parameterType="Long">
+        delete from attribute_tree_area where id_tree = #{id}
+    </delete>
+    
+    <delete id="deleteAttributeTreeAreaByIdCategory" parameterType="Long">
+        delete from attribute_tree_area where id_category = #{id}
+    </delete>
+
+    <delete id="deleteAttributeTreeAreaByIds" parameterType="String">
+        delete from attribute_tree_area where id_tree in 
+        <foreach item="idTree" collection="array" open="(" separator="," close=")">
+            #{idTree}
+        </foreach>
+    </delete>
+    
+</mapper>

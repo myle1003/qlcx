@@ -1,0 +1,130 @@
+# Project related configuration
+qlcx:
+  # Name
+  name: qlcx
+  # Version
+  version: 4.2.0
+  # Copyright year
+  copyrightYear: 2019
+  # Example demo switch
+  demoEnabled: true
+  # File path example (Windows configuration D:/qlcx/uploadPath, Linux configuration /home/centos/qlcx,mac /Users/mac)
+  profile: E:/PBL/image
+  # Get ip address switch
+  addressEnabled: false
+
+# Development environment configuration
+server:
+  # HTTP port of the server, the default is 80
+  port: 1005
+  servlet:
+    # Application access path
+    context-path: /
+  tomcat:
+    # tomcat URI encoding
+    uri-encoding: UTF-8
+    # tomcat maximum number of threads, default is 200
+    max-threads: 800
+    # Tomcat starts the initial number of threads, the default value is 25
+    min-spare-threads: 30
+ 
+# Log configuration
+logging:
+  level:
+    com.qlcx: debug
+    org.springframework: warn
+
+# User configuration
+user:
+  password:
+    # Password error {maxRetryCount} locked for 10 minutes
+    maxRetryCount: 5
+
+# Spring configuration
+spring:
+  # Template engine
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    # Disable cache
+    cache: false
+  # Resource information
+  messages:
+    # International resource file path
+    basename: static/i18n/messages
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles:
+    active: druid
+  # File Upload
+  servlet:
+     multipart:
+       # Single file size
+       max-file-size: 10MB
+       # Set the total uploaded file size
+       max-request-size: 20MB
+  # Service module
+  devtools:
+    restart:
+      # Hot deployment switch
+      enabled: true
+
+# MyBatis
+mybatis:
+    # Search for the specified package alias
+    typeAliasesPackage: com.qlcx.**.domain
+    # Configure mapper scanning to find all mapper.xml mapping files
+    mapperLocations: classpath*:mapper/**/*Mapper.xml
+    # Load the global configuration file
+    configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper paging plugin
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+# Shiro
+shiro:
+  user:
+    # Login address
+    loginUrl: /login
+    # Permission authentication failed address
+    unauthorizedUrl: /unauth
+    # Home address
+    indexUrl: /index
+    # Verification code switch
+    captchaEnabled: false
+    # Verification code type math array calculation char character
+    captchaType: math
+  cookie:
+    # Set the domain name of the cookie is empty by default, which is the domain name currently visited
+    domain:
+    # Set the effective access path of the cookie
+    path: /
+    # Set HttpOnly attribute
+    httpOnly: true
+    # Set the cookie expiration time, in days
+    maxAge: 30
+  session:
+    # Session timeout time, -1 means never expires (default 30 minutes)
+    expireTime: 30
+    # Synchronization session to database period (default 1 minute)
+    dbSyncPeriod: 1
+    # How often to check the validity of a session, the default is 10 minutes
+    validationInterval: 10
+    # The maximum number of sessions of the same user, for example, 2 means that the same account allows up to two people to log in at the same time (default -1 is not limited)
+    maxSession: -1
+    # Kick out the users who logged in before/after login, by default kick out the users who logged in before
+    kickoutAfter: false
+
+# Prevent XSS attacks
+xss:
+  # Filter switch
+  enabled: true
+  # Exclude links (multiple separated by commas)
+  excludes: /system/notice/*
+  # Match links
+  urlPatterns: /system/*,/monitor/*,/tool/*

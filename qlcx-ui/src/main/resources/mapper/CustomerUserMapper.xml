@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.mapper.CustomerUserMapper">
+    
+    <resultMap type="CustomerUser" id="CustomerUserResult">
+        <result property="id"    column="id"    />
+        <result property="nameLogin"    column="login_name"    />
+        <result property="password"    column="password"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectCustomerUserVo">
+        select id, login_name, password, user_name from customer_user
+    </sql>
+
+    <select id="selectCustomerUserList" parameterType="CustomerUser" resultMap="CustomerUserResult">
+        <include refid="selectCustomerUserVo"/>
+        <where>  
+            <if test="nameLogin != null  and nameLogin != ''"> and login_name = #{nameLogin}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerUserById" parameterType="Long" resultMap="CustomerUserResult">
+        <include refid="selectCustomerUserVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectCustomerUserByUserNamePass" parameterType="String" resultMap="CustomerUserResult">
+        <include refid="selectCustomerUserVo"/>
+        where login_name = #{nameLogin} and password = #{password}
+    </select>
+        
+        
+    <insert id="insertCustomerUser" parameterType="CustomerUser">
+        insert into customer_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="nameLogin != null  and nameLogin != ''">login_name,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="nameLogin != null  and nameLogin != ''">#{nameLogin},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerUser" parameterType="CustomerUser">
+        update customer_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nameLogin != null  and nameLogin != ''">login_name = #{nameLogin},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerUserById" parameterType="Long">
+        delete from customer_user where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerUserByIds" parameterType="String">
+        delete from customer_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

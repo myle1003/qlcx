@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="include :: header('Thêm vào ')" />
+	<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+	<style>
+		.select2-container {
+			border: 1px solid #e5e6e7;
+			border-radius: 2px;
+			padding-top: 3px;
+		}
+
+		.select2-container .select2-selection__rendered {
+			padding-top: 5px;
+		}
+
+		.select2-container .selection .select2-selection--multiple {
+			min-height: 28px;
+		}
+
+		.inp-select {
+			border: 1px solid #e5e6e7;
+			border-radius: 2px;
+			padding: 7px;
+			width: 100%;
+		}
+
+		.select2-selection--multiple {
+			border: solid #fff 1px !important;
+		}
+
+		.select2-selection__choice {
+			color: black !important;
+		}
+	</style>
+</head>
+
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-tree-add">
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Tên cây：</label>
+				<div class="col-sm-8">
+					<input th:value="${tree!=null}?${tree.name}" name="name" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Mã cây：</label>
+				<div class="col-sm-8">
+					<input th:value="${tree!=null}?${tree.treeCode}" name="treeCode" class="form-control" type="text"
+						required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Kích thước：</label>
+				<div class="col-sm-8">
+					<input th:value="${tree!=null}?${tree.size}" name="size" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Kinh độ：</label>
+				<div class="col-sm-8">
+					<input th:value="${tree!=null}?${tree.longitude}" name="longitude" class="form-control" type="text"
+						rangelength=[9,12] required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Vĩ độ：</label>
+				<div class="col-sm-8">
+					<input th:value="${tree!=null}?${tree.latitude}" name="latitude" class="form-control" type="text"
+						rangelength=[9,12] required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Thành phố :</label>
+				<div class="col-sm-8">
+					<select name="provinces" id="provinces" class="form-control m-b" required>
+						<option></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Quận / Huyện :</label>
+				<div class="col-sm-8">
+					<select name="cities" id="cities" class="form-control m-b" required>
+						<option></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Xã / Phường :</label>
+				<div class="col-sm-8">
+					<select name="wards" id="wards" class="form-control m-b" required>
+						<option></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Địa chỉ ：</label>
+				<div class="col-sm-8">
+					<input th:value="${tree!=null}?${tree.address}" name="address" class="form-control" type="text"
+						required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Thuộc tính：</label>
+				<div class="col-sm-8">
+					<select class="js-example-basic-multiple" name="lAttribute" multiple="multiple"
+						style="width:100%;height:30px ">
+						<th:block th:each="item, iState : ${listAttribute}">
+							<option th:value="${item.id}" th:text="${item.name}"></option>
+						</th:block>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Loại：</label>
+				<div class="col-sm-8">
+					<select name="type" class="form-control">
+						<option value="0">Cây non</option>
+						<option value="1">Cây loại I</option>
+						<option value="2">Cây loại II</option>
+						<option value="3">Cây loại III</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Danh mục：</label>
+				<div class="col-sm-8">
+					<select name="idCategory" class="form-control">
+						<th:block th:each="item, iState : ${category}">
+							<option th:value="${item.id}" th:text="${item.name}"></option>
+						</th:block>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Tình trạng cây：</label>
+				<div class="col-sm-8">
+					<select name="status" class="form-control m-b">
+						<option value="0">Tốt</option>
+						<option value="1">Khá</option>
+						<option value="2">Bình thường</option>
+						<option value="3">Cần chăm sóc</option>
+						<option value="4">Chăm sóc gấp</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Ảnh: </label>
+				<div class="col-sm-8">
+					<input accept="image/png, image/jpeg" id="image" name="file" class="form-control" type="file"
+						placeholder="Select" autocomplete="off">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"></label>
+				<div class="col-sm-8">
+					<img style="width:150px;height:100px;display:none" id="img" />
+				</div>
+			</div>
+		</form>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			var idProvinces;
+			var idCities;
+			var idWards;
+			var tree =  /*[[${tree}]]*/ 
+			if (tree != null) {
+				idProvinces = /*[[${tree != null ? tree.provinces : null}]]*/
+				idCities =/*[[${tree != null ? tree.cities : null}]]*/
+				idWards =/*[[${tree != null ? tree.wards : null}]]*/
+			}
+		/*]]>*/
+		</script>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+	<script type="text/javascript">
+		var prefix = ctx + "system/tree"
+		$("#form-tree-add").validate({
+			focusCleanup: true
+		});
+
+		function submitHandler() {
+			if ($.validate.form()) {
+				$.operate.save(prefix + "/add", $('#form-tree-add').serialize());
+			}
+		}
+		function submitHandler() {
+			if ($.validate.form()) {
+				var form = $('#form-tree-add')[0];
+				var data = new FormData(form);
+				$.ajax({
+					url: prefix + "/add",
+					method: 'POST',
+					enctype: 'multipart/form-data',
+					processData: false,
+					contentType: false,
+					data: data,
+					beforeSend: function () {
+						$.modal.loading("Đang xử lý, vui lòng chờ...");
+					},
+					success: function (data) {
+						if (data.code == 0) {
+							$.operate.successCallback(data);
+						} else {
+							$.modal.alertError(data.msg);
+							$.modal.closeLoading();
+						}
+					}
+				});
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		$(".js-example-basic-multiple").select2();
+		$(function () {
+			$.ajax({
+				url: prefix + "/getProvinces",
+				method: 'GET',
+				dataType: 'json',
+				success: function (data) {
+					$.each(data.data, function (key, value) {
+						if (idProvinces != value.id) {
+							$("select[name='provinces']").append(
+								"<option value=" + value.id + ">" + value.name + "</option>"
+							);
+						} else {
+							$("select[name='provinces']").append(
+								"<option selected value=" + value.id + ">" + value.name + "</option>"
+							);
+						}
+
+					});
+					if (idProvinces != null) {
+						getCities();
+					}
+				}
+
+			})
+		});
+
+		$("#provinces").change(function () {
+			$('#cities').val('');
+			$('#cities').text('');
+			$('#wards').val('');
+			$('#wards').text('');
+			getCities();
+		});
+
+		$("#cities").change(function () {
+			$('#wards').val('');
+			$('#wards').text('');
+			getWards();
+		});
+
+
+		function getCities() {
+			let provincesId = $("#provinces option:selected").val();
+			// if(provincesId == null || provincesId == '' || provincesId == undefined)
+			// {
+			//     $.modal.alertWarning("Vui lòng chọn thành phố!");
+			//     return;
+			// }
+			$.ajax({
+				url: prefix + "/getCities",
+				method: 'GET',
+				dataType: 'json',
+				data: {
+					provincesId: provincesId
+				},
+				success: function (data) {
+					$.each(data.data, function (key, value) {
+						if (idCities != value.id) {
+							$("select[name='cities']").append(
+								"<option value=" + value.id + ">" + value.name + "</option>"
+							);
+						} else {
+							$("select[name='cities']").append(
+								"<option selected value=" + value.id + ">" + value.name + "</option>"
+							);
+						}
+
+					});
+					if (idCities != null) {
+						getWards();
+					}
+				}
+			})
+		}
+
+		function getWards() {
+			let citiesId = $("#cities option:selected").val();
+			$.ajax({
+				url: prefix + "/getWards",
+				method: 'GET',
+				dataType: 'json',
+				data: {
+					citiesId: citiesId
+				},
+				success: function (data) {
+					$.each(data.data, function (key, value) {
+						if (idWards != value.id) {
+							$("select[name='wards']").append(
+								"<option value=" + value.id + ">" + value.name + "</option>"
+							);
+						} else {
+							$("select[name='wards']").append(
+								"<option selected value=" + value.id + ">" + value.name + "</option>"
+							);
+						}
+
+					});
+				}
+			})
+		}
+		$('#isActive').click(function () {
+			if ($(this).is(':checked')) {
+				$('#isActive').val(1);
+			} else {
+				$('#isActive').val(null);
+			}
+		});
+		$('#isFull').click(function () {
+			if ($(this).is(':checked')) {
+				$('#isFull').val(1);
+			} else {
+				$('#isFull').val(null);
+			}
+		});
+		$('#isRecommend').click(function () {
+			if ($(this).is(':checked')) {
+				$('#isRecommend').val(1);
+			} else {
+				$('#isRecommend').val(null);
+			}
+		});
+	</script>
+	<script>
+
+		var pdfjsLib = window['pdfjs-dist/build/pdf'];
+		// The workerSrc property shall be specified.
+		pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdflibs/pdf.worker.js';
+		$('input[type="file"]').change(function (event) {
+			RecurFadeIn();
+			var filename = this.value;
+			if (filename.substring(filename.length - 3, filename.length) === "pdf") {
+				readPDF(this);
+			} else {
+				readImage(this);
+			}
+		});
+		$('input[type="file"]').on('click', function (event) {
+			RecurFadeIn();
+		});
+
+		function readPDF(input) {
+			var file = event.target.files[0]
+			var idofInput = input.id;
+			var numberofMenuContent = idofInput.substring(9, idofInput.length);
+			if (file.type == "application/pdf") {
+				var fileReader = new FileReader();
+				fileReader.onload = function () {
+					var pdfData = new Uint8Array(this.result);
+					// Using DocumentInitParameters object to load binary data.
+					var loadingTask = pdfjsLib.getDocument({
+						data: pdfData
+					});
+					loadingTask.promise.then(function (pdf) {
+						console.log('PDF loaded');
+
+						// Fetch the first page
+						var pageNumber = 1;
+						pdf.getPage(pageNumber).then(function (page) {
+							var scale = 1.5;
+							var viewport = page.getViewport({
+								scale: scale
+							});
+
+							// Prepare canvas using PDF page dimensions
+							// var canvas = $("#pdfViewer1")[0];
+							var canvas = document.getElementById("pdfViewer" + numberofMenuContent);
+							canvas.style.display = "block";
+							var imagepreview = document.getElementById("image-preview" +
+								numberofMenuContent);
+							imagepreview.style.display = "none";
+							var context = canvas.getContext('2d');
+							canvas.height = viewport.height;
+							canvas.width = viewport.width;
+
+							// Render PDF page into canvas context
+							var renderContext = {
+								canvasContext: context,
+								viewport: viewport
+							};
+							var renderTask = page.render(renderContext);
+							renderTask.promise.then(function () {
+								console.log('Page rendered');
+							});
+						});
+					}, function (reason) {
+						// PDF loading error
+						console.error(reason);
+					});
+				};
+				fileReader.readAsArrayBuffer(file);
+			}
+		}
+
+		function readImage(input) {
+			var idofInput = input.id;
+			var numberofMenuContent = idofInput.substring(9, idofInput.length);
+			var reader = new FileReader();
+			var filename = input.value;
+			filename = filename.substring(filename.lastIndexOf('\\') + 1);
+			reader.onload = function (e) {
+				document.getElementById("img").src = e.target.result;
+				document.getElementById("img").style.display = "block";
+			}
+			reader.readAsDataURL(input.files[0]);
+			$(".alert").removeClass("loading").hide();
+		}
+
+		function RecurFadeIn() {
+			FadeInAlert("Wait for it...");
+		}
+
+		function FadeInAlert(text) {
+			$(".alert").show();
+			$(".alert").text(text).addClass("loading");
+		}
+	</script>
+</body>
+
+</html>

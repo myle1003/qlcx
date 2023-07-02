@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('Login log list')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="logininfor-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								<label>Login address：</label><input type="text" name="ipaddr"/>
+							</li>
+							<li>
+								<label>Login name: </label><input type="text" name="loginName"/>
+							</li>
+							<li>
+								<label>Login status: </label><select name="status" th:with="type=${@dict.getType('sys_common_status')}">
+									<option value="">all</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li class="select-time">
+								<label>Log in time: </label>
+								<input type="text" class="time-input" id="startTime" placeholder="Starting time" name="params[beginTime]"/>
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="End Time" name="params[endTime]"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;search for</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="monitor:logininfor:remove">
+		            <i class="fa fa-remove"></i> delete
+		        </a>
+		        <a class="btn btn-danger" onclick="$.operate.clean()" shiro:hasPermission="monitor:logininfor:remove">
+	                <i class="fa fa-trash"></i> Empty
+	            </a>
+				<a class="btn btn-primary single disabled" onclick="unlock()" shiro:hasPermission="monitor:logininfor:unlock">
+					<i class="fa fa-unlock"></i> Unlock
+				</a>
+	            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="monitor:logininfor:export">
+		            <i class="fa fa-download"></i> Export
+		        </a>
+	        </div>
+        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+	    var datas = [[${@dict.getType('sys_common_status')}]];
+		var prefix = ctx + "monitor/logininfor";
+	
+		$(function() {
+		    var options = {
+		        url: prefix + "/list",
+		        cleanUrl: prefix + "/clean",
+		        removeUrl: prefix + "/remove",
+		        exportUrl: prefix + "/export",
+		        sortName: "loginTime",
+		        sortOrder: "desc",
+		        modalName: "Login log",
+		        escape: true,
+		        showPageGo: true,
+		        rememberSelected: true,
+		        columns: [{
+		        	field: 'state',
+		            checkbox: true
+		        },
+		        {
+		            field: 'infoId',
+		            title: 'access number'
+		        },
+		        {
+		            field: 'loginName',
+		            title: 'login name',
+		            sortable: true
+		        },
+		        {
+		            field: 'ipaddr',
+		            title: 'login address'
+		        },
+		        {
+		            field: 'loginLocation',
+		            title: 'login location'
+		        },
+		        {
+		            field: 'browser',
+		            title: 'browser'
+		        },
+		        {
+		            field: 'os',
+		            title: 'operating system'
+		        },
+		        {
+		            field: 'status',
+		            title: 'login status',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	return $.table.selectDictLabel(datas, value);
+		            }
+		        },
+		        {
+		            field: 'msg',
+		            title: 'operation information'
+		        },
+		        {
+		            field: 'loginTime',
+		            title: 'log in time',
+		            sortable: true
+		        }]
+		    };
+		    $.table.init(options);
+		});
+		
+		function unlock() {
+            $.operate.post(prefix + "/unlock?loginName=" + $.table.selectColumns("loginName"));
+        }
+	</script>
+</body>
+</html>

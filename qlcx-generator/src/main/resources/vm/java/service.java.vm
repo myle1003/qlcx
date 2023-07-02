@@ -1,0 +1,73 @@
+package ${packageName}.service;
+
+import java.util.List;
+import ${packageName}.domain.${ClassName};
+#if($table.tree)
+import com.qlcx.common.core.domain.Ztree;
+#end
+
+/**
+ * ${functionName}Service接口
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${ClassName}Service 
+{
+    /**
+     * 查询${functionName}
+     * 
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return ${functionName}
+     */
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 查询${functionName}Danh sách
+     * 
+     * @param ${className} ${functionName}
+     * @return ${functionName}集合
+     */
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
+
+    /**
+     * Thêm vào${functionName}
+     * 
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    public int insert${ClassName}(${ClassName} ${className});
+
+    /**
+     *sửa đổi${functionName}
+     * 
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    public int update${ClassName}(${ClassName} ${className});
+
+    /**
+     * 批量Xóa${functionName}
+     * 
+     * @param ids 需要Xóa的数据ID
+     * @return 结果
+     */
+    public int delete${ClassName}ByIds(String ids);
+
+    /**
+     * Xóa${functionName}信息
+     * 
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return 结果
+     */
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+#if($table.tree)
+
+    /**
+     * 查询${functionName}树Danh sách
+     * 
+     * @return tất cả${functionName}信息
+     */
+    public List<Ztree> select${ClassName}Tree();
+#end
+}

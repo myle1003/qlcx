@@ -1,0 +1,90 @@
+qlcx:
+  # Name
+  name: qlcx
+  # Version
+  version: 4.2.0
+  # Copyright year
+  copyrightYear: 2019
+  # Example demo switch
+  demoEnabled: true
+  # File path example (Windows configuration D:/qlcx/uploadPath, Linux configuration /home/reitran/Desktop/image,mac /Users/mac)
+  profile: E:\PBL\image
+  # Get ip address switch
+  addressEnabled: false
+
+
+
+server:
+  port: 2000
+  servlet:
+    context-path: /ui
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 800
+    min-spare-threads: 30
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+    datasource:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/qlcx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: 
+#    jackson:
+#      default-property-inclusion: non_empty
+
+mybatis:
+    typeAliasesPackage: com.qlcx.domain
+    mapperLocations: classpath*:mapper/*Mapper.xml
+#    configLocation: classpath:mybatis/mybatis-config.xml
+
+security:
+  path-firebase-config: /biz-app-firebase.json
+  database-url: https://biz-app-c928f.firebaseio.com
+  allow-credentials: true
+  allowed-origins:
+    http://localhost:2000
+    http://localhost:3002
+    http://15.165.158.127:2000
+    https://bizciti.vn
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - OPTIONS
+  allowed-headers:
+    - Authorization
+    - Origin
+    - Content-Type
+    - Accept
+    - Accept-Encoding
+    - Accept-Language
+    - Access-Control-Allow-Origin
+    - Access-Control-Allow-Headers
+    - Access-Control-Request-Method
+    - X-Requested-With
+    - X-Auth-Token
+    - X-Xsrf-Token
+    - Cache-Control
+    - Id-Token
+  allowed-public-apis:
+    - /public/**
+    - /profile/upload/**
+    - /apm/uploadPath/**
+    - /D:/**
+  exposed-headers:
+    - X-Xsrf-Token       
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+    
+

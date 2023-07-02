@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.TreeAttributesMapper">
+    
+    <resultMap type="TreeAttributes" id="TreeAttributesResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectTreeAttributesVo">
+        select id, name, description from tree_attributes
+    </sql>
+
+    <select id="selectTreeAttributesList" parameterType="TreeAttributes" resultMap="TreeAttributesResult">
+        <include refid="selectTreeAttributesVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectTreeAttributesById" parameterType="Long" resultMap="TreeAttributesResult">
+        <include refid="selectTreeAttributesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTreeAttributes" parameterType="TreeAttributes" useGeneratedKeys="true" keyProperty="id">
+        insert into tree_attributes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="description != null  and description != ''">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="description != null  and description != ''">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTreeAttributes" parameterType="TreeAttributes">
+        update tree_attributes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="description != null  and description != ''">description = #{description},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTreeAttributesById" parameterType="Long">
+        delete from tree_attributes where id = #{id}
+    </delete>
+
+    <delete id="deleteTreeAttributesByIds" parameterType="String">
+        delete from tree_attributes where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

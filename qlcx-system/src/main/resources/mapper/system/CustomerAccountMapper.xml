@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.CustomerAccountMapper">
+    
+    <resultMap type="CustomerAccount" id="CustomerAccountResult">
+        <result property="id"    column="id"    />
+        <result property="email"    column="email"    />
+        <result property="password"    column="password"    />
+        <result property="salt"    column="salt"    />
+        <result property="fullName"    column="full_name"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginDate"    column="login_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCustomerAccountVo">
+        select id, email, password, salt, full_name, status, del_flag, login_ip, login_date, remark, create_by, create_time, update_by, update_time from customer_account
+    </sql>
+
+    <select id="selectCustomerAccountList" parameterType="CustomerAccount" resultMap="CustomerAccountResult">
+        <include refid="selectCustomerAccountVo"/>
+        <where>  
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="salt != null  and salt != ''"> and salt = #{salt}</if>
+            <if test="fullName != null  and fullName != ''"> and full_name like concat('%', #{fullName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="loginIp != null  and loginIp != ''"> and login_ip = #{loginIp}</if>
+            <if test="loginDate != null  and loginDate != ''"> and login_date = #{loginDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerAccountById" parameterType="Long" resultMap="CustomerAccountResult">
+        <include refid="selectCustomerAccountVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomerAccount" parameterType="CustomerAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="email != null  and email != ''">email,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="salt != null  and salt != ''">salt,</if>
+            <if test="fullName != null  and fullName != ''">full_name,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="loginIp != null  and loginIp != ''">login_ip,</if>
+            <if test="loginDate != null ">login_date,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="salt != null  and salt != ''">#{salt},</if>
+            <if test="fullName != null  and fullName != ''">#{fullName},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="loginIp != null  and loginIp != ''">#{loginIp},</if>
+            <if test="loginDate != null ">#{loginDate},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerAccount" parameterType="CustomerAccount">
+        update customer_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="salt != null  and salt != ''">salt = #{salt},</if>
+            <if test="fullName != null  and fullName != ''">full_name = #{fullName},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="loginIp != null  and loginIp != ''">login_ip = #{loginIp},</if>
+            <if test="loginDate != null ">login_date = #{loginDate},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerAccountById" parameterType="Long">
+        delete from customer_account where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerAccountByIds" parameterType="String">
+        delete from customer_account where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

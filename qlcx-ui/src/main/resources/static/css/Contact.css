@@ -1,0 +1,174 @@
+*{
+	font-family: Helvetica, sans-serif;
+}
+
+section{
+	width: 100%;
+}
+
+#top{
+	background-color: #088A08;
+	width: 100%;
+	height: 5px;
+	margin-bottom: 10px;
+}
+
+
+.menu nav{
+	margin-bottom: 20px;
+	/*position: fixed;*/
+}
+
+.menu nav ul{
+	list-style-type: none;
+	text-align: center;
+}
+
+.menu nav li{
+	display: inline-block;
+	width: 150px;
+	height: 50px;
+	line-height: 50px;
+}
+
+.menu nav a{
+	display: inline-block;
+	color: black;
+	text-decoration: none;
+}
+
+.menu nav a:hover{
+	color: #01DF74;
+	border-bottom: 1px solid #01DF74;
+	transition: 0.5s all;
+}
+
+.menu #link2{
+	display: inline-block;
+	border: 1px solid #01DF74;
+	border-radius: 10px;
+	width: 150px;
+	height: 50px;
+	font-size: 18px;
+	text-align: center;
+	line-height: 50px;
+	background-color: #01DF74;
+	color: white;
+	position: relative;
+	left: 60px;
+}
+
+.menu #link2:hover{
+	border: solid 1px #04B45F;
+	background-color: #04B45F;
+	transition: 0.5s all;
+}
+
+.menu #link3{
+	display: inline-block;
+	border: 1px solid #01A9DB;
+	border-radius: 10px;
+	width: 150px;
+	height: 50px;
+	font-size: 18px;
+	text-align: center;
+	line-height: 50px;
+	background-color: #01A9DB;
+	color: white;
+	position: relative;
+	left: 148px;
+}
+
+.menu #link3:hover{
+	background-color: #045FB4;
+	border: solid 1px #045FB4;
+	transition: 0.6s all;
+}
+
+hr{
+	position: relative;
+	bottom: 50px;
+}
+
+#contact{
+	margin-bottom: 30px;
+}
+
+#contact #contact_left{
+	width: 40%;
+	display: inline-block;
+	margin-left: 100px;
+	margin-right: 40px;
+	position: relative;
+	bottom: 185px;
+}
+
+#title{
+	font-size: 25px;
+}
+
+#contact #contact_left p i{
+	margin-right: 30px;
+	margin-bottom: 10px;
+}
+
+#contact #contact_left p span{
+	font-size: 18px;
+}
+
+#contact #contact_right{
+	width: 43.5%;
+	display: inline-block;
+}
+
+#contact #contact_right input{
+	display: block;
+	margin-bottom: 20px;
+	width: 100%;
+	height: 40px;
+	background-color: #E6E6E6;
+	border-radius: 5px;
+	border: solid 1px #E6E6E6;
+}
+
+#contact #contact_right textarea{
+	display: block;
+	margin-bottom: 20px;
+	width: 100%;
+	height: 100px;
+	background-color: #E6E6E6;
+	border-radius: 5px;
+	border: solid 1px #E6E6E6;
+}
+
+#contact #contact_right a{
+	display: inline-block;
+	text-decoration: none;
+	border: solid 1px #01DF74;
+	background-color: #01DF74;
+	color: white;
+	width: 100px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-radius: 10px;
+}
+
+#contact #contact_right a:hover{
+	border: solid 1px #04B45F;
+	background-color: #04B45F;
+	transition: 0.5s all;
+}
+
+footer{
+    background-color: #1260AB;
+    color: white;
+    height: auto;
+    text-align: justify;
+}
+
+.list-unstyled li a{
+    color:white;
+    text-decoration-color: #1260AB;
+    padding: 7px;
+}

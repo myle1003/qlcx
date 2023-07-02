@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Đăng Nhập / Đăng Ký</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/susi.css}">
+</head>
+<body>
+	<script th:inline="javascript">
+			/*<![CDATA[*/
+				var user =/*[[${user}]]*/ ;
+			/*]]>*/
+	</script>
+	<section class="user">
+  		<div class="user_options-container">
+    		<div class="user_options-text">
+      			<div class="user_options-unregistered">
+        			<h2 class="user_unregistered-title">Bạn chưa có tài khoản?</h2>
+        			<p class="user_unregistered-text">Vui lòng điền thông tin cá nhân của bạn và bắt đầu trải nghiệm phần mềm của chúng tôi.</p>
+        			<button class="user_unregistered-signup" id="signup-button">Đăng Ký</button>
+      			</div>
+
+      			<div class="user_options-registered">
+        			<h2 class="user_registered-title">Bạn đã có tài khoản?</h2>
+        			<p class="user_registered-text">Đăng nhập vào tài khoản của bạn và trải nghiệm các tính năng trong phần mềm của chúng tôi.</p>
+        			<button class="user_registered-login" id="login-button">Đăng Nhập</button>
+      			</div>
+    		</div>
+    
+    		<div class="user_options-forms" id="user_options-forms">
+      			<div class="user_forms-login">
+        			<h2 class="forms_title">Đăng Nhập</h2>
+        			<!-- <form id="form-sign-in" class="forms_form"  method="POST">  -->
+          				<fieldset class="forms_fieldset">
+            				<div class="forms_field" style="padding-top:12px;">
+              					<input id="nameLogin" name="nameLogin" type="email"  placeholder="Nhập email của bạn" class="forms_field-input" required autofocus />
+            				</div>
+            				<div class="forms_field">
+              					<input id="password" name="password" type="password" placeholder="Mật khẩu" class="forms_field-input" required />
+            				</div>
+          				</fieldset>
+          				<div class="forms_buttons">
+            				<button type="button" class="forms_buttons-forgot">Quên mật khẩu?</button>
+            				<input onclick="login()" id="loginButton" type="submit" value="Đăng Nhập" class="forms_buttons-action">							
+          				</div>
+						<p style="color:red" id="stt"></p>
+        			<!-- </form> -->
+      			</div>
+      		<div class="user_forms-signup">
+        		<h2 class="forms_title1">Đăng Ký</h2>
+        	    <!-- <form id="form-sign-up" class="forms_form"  method="POST">  -->
+          			<fieldset class="forms_fieldset">
+            			<div class="forms_field" style="padding-top:12px;">
+              				<input id="userNameU" type="text" name="userName" placeholder="Tên người dùng" class="forms_field-input" required autofocus/>
+            			</div>
+            			<div class="forms_field">
+              				<input id="nameLoginU" type="email" name="nameLogin" placeholder="Email" class="forms_field-input" required />
+            			</div>
+            			<div class="forms_field">
+              				<input id="passwordU" type="password" name="password" placeholder="Mật khẩu" class="forms_field-input" required />
+            			</div>
+					<div class="forms_field">
+						<input id="confirmPasswordU" type="password" name="confirmPassword"  placeholder="Xác nhận mật khẩu" class="forms_field-input" required/>
+					</div>
+          			</fieldset>
+          			<div class="forms_buttons">
+						<input onclick="registration()" type="submit" value="Đăng Ký" class="forms_buttons-action1">
+          			</div>
+					<p style="color: red;" id="sttU" ></p>
+        		<!-- </form> -->
+      		</div>
+    		</div>
+  		</div>
+	</section>
+	<div id="wait" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px;"><img src='http://www.hadecoration.gift/public/images/ajax-loader-green.gif' width="64" height="64" /><br>Vui lòng chờ..</div>
+	<script type="text/javascript" th:src="@{/js/susi.js}"></script>
+		
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	
+	<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+	<script>
+		const firebaseConfig = {
+		apiKey: "AIzaSyDcEQKAUluWCjG_DWsrzChLnZIedCTdB1Y",
+		authDomain: "qlcx-a67b9.firebaseapp.com",
+		projectId: "qlcx-a67b9",
+		storageBucket: "qlcx-a67b9.appspot.com",
+		messagingSenderId: "787839252839",
+		appId: "1:787839252839:web:2c7036b25254ec9593d7c2",
+		measurementId: "G-YLBWN5G5FP"
+		};
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+		const db = firebase.firestore();
+	</script>
+
+	<script th:src="@{/js/realchat.js}"></script>
+	<script>
+	$(document).ajaxStart(function(){
+    $("#wait").css("display", "block");
+  });
+  $(document).ajaxComplete(function(){
+    $("#wait").css("display", "none");
+  });
+	function login(){
+		if($("#nameLogin").val()=="" ||  $("#password").val()=="")
+		{
+			$("#stt").text("Không được để trống...");
+			return;
+		}
+		$.ajax({
+			headers: { 
+        		'Accept': 'application/json',
+        		'Content-Type': 'application/json' 
+    		},
+              method : "POST",
+              url: "/ui/login/sign-in",
+              data : JSON.stringify({
+					nameLogin : $("#nameLogin").val(),
+					password : $("#password").val()
+			}),
+              success: function (data) {
+                if(data.code!=0)
+				{
+					$("#stt").text(data.msg);
+				}else{
+					findUserId();
+				}
+              },
+              error: function () {
+                console.log("Lỗi rồi");
+              },
+        });
+	} 
+	
+	function registration(){
+		$.ajax({
+			headers: { 
+        		'Accept': 'application/json',
+        		'Content-Type': 'application/json' 
+    		},
+              method : "POST",
+              url: "/ui/login/sign-up",
+              data : JSON.stringify({
+					nameLogin : $("#nameLoginU").val(),
+					password : $("#passwordU").val(),
+					confirmPassword : $("#confirmPasswordU").val(),
+					userName : $("#userNameU").val()
+			}),
+              success: function (data) {
+                if(data.code!=0)
+				{
+					$("#sttU").text(data.msg);
+				}else{
+					createAccount();
+				}
+              },
+              error: function () {
+                console.log("Lỗi rồi");
+              },
+        });
+	} 
+	
+	</script>
+</body>
+</html>

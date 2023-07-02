@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Log storage path -->
+	<property name="log.path" value="home/qlcx/logs" />
+    <!-- Log output format -->
+	<property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n" />
+
+	<!-- Console output -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- System log output -->
+	<appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${log.path}/sys-info.log</file>
+        <!-- Circular policy: create log files based on time -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Log file name format -->
+			<fileNamePattern>${log.path}/sys-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- The largest history of the log 60 days -->
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- Filtered level别 -->
+            <level>INFO</level>
+            <!-- Operation when matching: receiving (recording) -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- Action in case of mismatch: rejected (not recorded) -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+	</appender>
+	
+	<appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${log.path}/sys-error.log</file>
+        <!-- Circular policy: create log files based on time-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Log file name format -->
+            <fileNamePattern>${log.path}/sys-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- The largest history of the log 60 days-->
+			<maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- Filter level -->
+            <level>ERROR</level>
+			<!-- Operation when matching: receiving (recording) -->
+            <onMatch>ACCEPT</onMatch>
+			<!-- Action in case of mismatch: rejected (not recorded) -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+	
+	<!-- User access log output  -->
+    <appender name="sys-user" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/sys-user.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Rollback daily -->
+            <fileNamePattern>${log.path}/sys-user.%d{dd-MM-yyyy}.log</fileNamePattern>
+            <!-- The largest history of the log 60 days-->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+	
+	<!-- System module log level control  -->
+	<logger name="com.qlcx" level="info" />
+	<!-- Spring log level control  -->
+	<logger name="org.springframework" level="warn" />
+
+	<root level="info">
+		<appender-ref ref="console" />
+	</root>
+	
+	<!--System operation log-->
+    <root level="info">
+        <appender-ref ref="file_info" />
+        <appender-ref ref="file_error" />
+    </root>
+	
+	<!--System user operation log-->
+    <logger name="sys-user" level="info">
+        <appender-ref ref="sys-user"/>
+    </logger>
+</configuration> 

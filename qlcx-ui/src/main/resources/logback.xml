@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property name="log.path" value="./logs"/>
+  <property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n"/>
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${log.pattern}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.path}/qlcx-ui-info.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.path}/qlcx-ui-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log.pattern}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <appender name="file_debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.path}/qlcx-ui-debug.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.path}/qlcx-ui-debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log.pattern}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>DEBUG</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.path}/qlcx-ui-error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.path}/qlcx-ui-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log.pattern}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <appender name="qlcx-ui-user" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.path}/qlcx-ui-user.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.path}/qlcx-ui-user.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${log.pattern}</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="com.qlcx" level="debug"/>
+  <logger name="org.springframework" level="error"/>
+
+  <root level="debug">
+    <appender-ref ref="console"/>
+    <appender-ref ref="file_debug"/>
+  </root>
+
+  <root level="info">
+    <appender-ref ref="file_info"/>
+    <appender-ref ref="file_error"/>
+  </root>
+
+  <logger name="qlcx-ui-user" level="debug">
+    <appender-ref ref="qlcx-ui-user"/>
+  </logger>
+</configuration> 

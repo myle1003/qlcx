@@ -1,0 +1,2 @@
+Application Version: ${qlcx.version}
+Spring Boot Version: ${spring-boot.version}

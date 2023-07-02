@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.mapper.TreeMapper">
+    
+    <resultMap type="Tree" id="TreeResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="treeCode"    column="tree_code"    />
+        <result property="size"    column="size"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="address"    column="address"    />
+        <result property="provinces"    column="provinces"    />
+        <result property="cities"    column="cities"    />
+        <result property="wards"    column="wards"    />
+        <result property="idCategory"    column="id_category"    />
+        <result property="nameCategory"    column="name_category"    />
+        <result property="waterTheTree"    column="water_the_tree"    />
+        <result property="prune"    column="prune"    />
+        <result property="fertilize"    column="fertilize"    />
+        <result property="againstTree"    column="against_tree"    />
+        <result property="cleanTheStump"    column="clean_the_stump"    />
+        <result property="statusCleanTheStump"    column="status_clean_the_stump"    />
+        <result property="statusAgainstTree"    column="status_against_tree"    />
+        <result property="statusFertilize"    column="status_fertilize"    />
+        <result property="statusPrune"    column="status_prune"    />
+        <result property="statusWaterTheTree"    column="status_water_the_tree"    />
+        <result property="type"    column="type"    />
+        <result property="createNew"    column="create_new"    />
+        <result property="status"    column="status"    />
+        <result property="statusUpdate"    column="status_update"    />
+    </resultMap>
+
+    <sql id="selectTreeVo">
+        select id, name, tree_code, size, longitude, latitude, create_by, create_time, update_by, update_time, address,provinces,cities,wards, id_category,(select name from tree_category a2 where a2.id=b1.id_category) name_category,
+        water_the_tree, prune, fertilize, against_tree, clean_the_stump,status_clean_the_stump, status_against_tree, status_fertilize, status_prune, status_water_the_tree,type,status,status_update from tree b1
+    </sql>
+
+    <select id="selectTreeList" parameterType="Tree" resultMap="TreeResult">
+        <include refid="selectTreeVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="treeCode != null  and treeCode != ''"> and tree_code = #{treeCode}</if>
+            <if test="size != null "> and size = #{size}</if>
+            <if test="longitude != null and longitude != '' "> and longitude = #{longitude}</if>
+            <if test="latitude != null and latitude != ''"> and latitude = #{latitude}</if>
+            <if test="address != null ">address = #{address},</if>
+            <if test="provinces != null ">provinces = #{provinces},</if>
+            <if test="cities != null ">cities = #{cities},</if>
+            <if test="wards != null ">wards = #{wards},</if>
+            <if test="idCategory != null "> and id_category = #{idCategory}</if>
+            <if test="statusCleanTheStump != null "> and status_clean_the_stump = #{statusCleanTheStump}</if>
+            <if test="statusAgainstTree != null "> and status_against_tree = #{statusAgainstTree}</if>
+            <if test="statusFertilize != null "> and status_fertilize = #{statusFertilize}</if>
+            <if test="statusPrune != null "> and status_prune = #{statusPrune}</if>
+            <if test="statusWaterTheTree != null "> and status_water_the_tree = #{statusWaterTheTree}</if>
+            <if test="type != null"> and type = #{type}</if>
+            <if test="status != null"> and status = #{status}</if>
+            <if test="statusUpdate != null"> and status_update = #{statusUpdate}</if>
+        </where>
+    </select>
+    
+</mapper>	

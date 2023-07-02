@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A simple example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+    #panorama {
+        width: 800px;
+        height: 500px;
+    }
+    </style>
+</head>
+<body>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	    var image360 =/*[[${image360}]]*/ ;
+	/*]]>*/
+</script>
+<div id="panorama"></div>
+<script>
+pannellum.viewer('panorama', {
+    "type": "equirectangular",
+    "panorama": image360,
+    "autoLoad": true,
+    "autoRotate": -2
+});
+</script>
+
+</body>
+</html>

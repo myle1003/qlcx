@@ -1,0 +1,4 @@
+09:29:36.877 [schedule-pool-1] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+10:03:42.772 [schedule-pool-2] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+23:00:10.625 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+23:00:10.629 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====

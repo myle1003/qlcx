@@ -1,0 +1,141 @@
+package ${packageName}.service.impl;
+
+import java.util.List;
+#if($table.tree)
+import java.util.ArrayList;
+import com.qlcx.common.core.domain.Ztree;
+#end
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
+import com.qlcx.common.utils.DateUtils;
+#break
+#end
+#end
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import com.qlcx.common.core.text.Convert;
+
+/**
+ * ${functionName}Service业务层处理
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+{
+    @Autowired
+    private ${ClassName}Mapper ${className}Mapper;
+
+    /**
+     * 查询${functionName}
+     * 
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return ${functionName}
+     */
+    @Override
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField})
+    {
+        return ${className}Mapper.select${ClassName}ById(${pkColumn.javaField});
+    }
+
+    /**
+     * 查询${functionName}Danh sách
+     * 
+     * @param ${className} ${functionName}
+     * @return ${functionName}
+     */
+    @Override
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className})
+    {
+        return ${className}Mapper.select${ClassName}List(${className});
+    }
+
+    /**
+     * Thêm vào${functionName}
+     * 
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @Override
+    public int insert${ClassName}(${ClassName} ${className})
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime')
+        ${className}.setCreateTime(DateUtils.getNowDate());
+#end
+#end
+        return ${className}Mapper.insert${ClassName}(${className});
+    }
+
+    /**
+     *sửa đổi${functionName}
+     * 
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @Override
+    public int update${ClassName}(${ClassName} ${className})
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'updateTime')
+        ${className}.setUpdateTime(DateUtils.getNowDate());
+#end
+#end
+        return ${className}Mapper.update${ClassName}(${className});
+    }
+
+    /**
+     * Xóa${functionName}对象
+     * 
+     * @param ids 需要Xóa的数据ID
+     * @return 结果
+     */
+    @Override
+    public int delete${ClassName}ByIds(String ids)
+    {
+        return ${className}Mapper.delete${ClassName}ByIds(Convert.toStrArray(ids));
+    }
+
+    /**
+     * Xóa${functionName}信息
+     * 
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return 结果
+     */
+    @Override
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField})
+    {
+        return ${className}Mapper.delete${ClassName}ById(${pkColumn.javaField});
+    }
+#if($table.tree)
+
+    /**
+     * 查询${functionName}树Danh sách
+     * 
+     * @return tất cả${functionName}信息
+     */
+    @Override
+    public List<Ztree> select${ClassName}Tree()
+    {
+        List<${ClassName}> ${className}List = ${className}Mapper.select${ClassName}List(new ${ClassName}());
+        List<Ztree> ztrees = new ArrayList<Ztree>();
+        for (${ClassName} ${className} : ${className}List)
+        {
+            Ztree ztree = new Ztree();
+#set($TreeCode=$treeCode.substring(0,1).toUpperCase() + ${treeCode.substring(1)})
+#set($TreeParentCode=$treeParentCode.substring(0,1).toUpperCase() + ${treeParentCode.substring(1)})
+#set($TreeName=$treeName.substring(0,1).toUpperCase() + ${treeName.substring(1)})
+            ztree.setId(${className}.get${TreeCode}());
+            ztree.setpId(${className}.get${TreeParentCode}());
+            ztree.setName(${className}.get${TreeName}());
+            ztree.setTitle(${className}.get${TreeName}());
+            ztrees.add(ztree);
+        }
+        return ztrees;
+    }
+#end
+}

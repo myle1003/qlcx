@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('表格拖拽Action')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 select-table table-striped">
+                <p class="select-title">Drag and hold the table</p>
+                <table id="bootstrap-table" data-use-row-attr-func="true" data-reorderable-rows="true"></table>
+            </div>
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <th:block th:include="include :: bootstrap-table-reorder-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "demo/table";
+        var datas = [
+            [$ {
+                @dict.getType('sys_normal_disable')
+            }]
+        ];
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                onReorderRow: function(data) {
+                    //When the drag and drop ends, data is the data of the entire table
+                    console.log('End of dragging' + JSON.stringify(data))
+                    return false;
+                },
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'userId',
+                    title: 'User ID'
+                }, {
+                    field: 'userCode',
+                    title: 'User ID'
+                }, {
+                    field: 'userName',
+                    title: 'User name'
+                }, {
+                    field: 'userPhone',
+                    title: 'User phone'
+                }, {
+                    field: 'userEmail',
+                    title: 'User mailbox'
+                }, {
+                    field: 'userBalance',
+                    title: 'User balance'
+                }, {
+                    field: 'status',
+                    title: 'User status',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(datas, value);
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qlcx.system.mapper.WorkMapper">
+    
+    <resultMap type="Work" id="WorkResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="startDay"    column="start_day"    />
+        <result property="endDay"    column="end_day"    />
+        <result property="level"    column="level"    />
+        <result property="status"    column="status"    />
+        <result property="listWork"    column="list_work"    />
+        <collection property="listTree" ofType="Tree" select="com.qlcx.system.mapper.WorkTreeMapper.selectWorkTreeListById" column="id" />
+        <collection property="listTool" ofType="Tools" select="com.qlcx.system.mapper.WorkToolsMapper.selectWorkToolsListById" column="id" />
+        <collection property="listEmployee" ofType="Employee" select="com.qlcx.system.mapper.WorkEmployeeMapper.selectWorkEmployeeListById" column="id" />
+    </resultMap>
+
+    <sql id="selectWorkVo">
+        select id, name, create_by, create_time, update_by, update_time, start_day, end_day, level,list_work,status,excep from work
+    </sql>
+
+    <select id="selectWorkList" parameterType="Work" resultMap="WorkResult">
+        <include refid="selectWorkVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="startDay != null "> and #{startDay} >= start_day</if>
+            <if test="endDay != null "> and #{endDay}>=end_day</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectWorkById" parameterType="Long" resultMap="WorkResult">
+        <include refid="selectWorkVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWork" parameterType="Work" useGeneratedKeys="true" keyProperty="id">
+        insert into work
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="startDay != null ">start_day,</if>
+            <if test="endDay != null ">end_day,</if>
+            <if test="level != null ">level,</if>
+            <if test="listWork != null ">list_work,</if>
+            <if test="status!=null">status,</if>
+            <if test="excep!=null">excep,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="startDay != null ">#{startDay},</if>
+            <if test="endDay != null ">#{endDay},</if>
+            <if test="level != null ">#{level},</if>
+            <if test="listWork != null ">#{listWork},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="excep!=null">#{excep},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWork" parameterType="Work">
+        update work
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="startDay != null ">start_day = #{startDay},</if>
+            <if test="endDay != null ">end_day = #{endDay},</if>
+            <if test="level != null ">level = #{level},</if>
+            <if test="listWork != null ">list_work = #{listWork},</if>
+            <if test="status!=null">status = #{status},</if>
+            <if test="true">excep = #{excep},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWorkById" parameterType="Long">
+        delete from work where id = #{id}
+    </delete>
+
+    <delete id="deleteWorkByIds" parameterType="String">
+        delete from work where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

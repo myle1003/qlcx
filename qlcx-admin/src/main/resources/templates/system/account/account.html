@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('Customer accountDanh sách')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>Email：</label>
+                                <input type="text" name="email"/>
+                            </li>
+                            <li>
+                                <label>Password：</label>
+                                <input type="text" name="password"/>
+                            </li>
+                            <li>
+                                <label>Salt：</label>
+                                <input type="text" name="salt"/>
+                            </li>
+                            <li>
+                                <label>Ho Va Ten：</label>
+                                <input type="text" name="fullName"/>
+                            </li>
+                            <li>
+                                <label>Status：</label>
+                                <select name="status">
+                                    <option value="">tất cả</option>
+                                    <option value="-1">Tạo mã请选择字典属性</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Login IP：</label>
+                                <input type="text" name="loginIp"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:account:add">
+                    <i class="fa fa-plus"></i>Thêm vào
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:account:edit">
+                    <i class="fa fa-edit"></i>sửa đổi
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:account:remove">
+                    <i class="fa fa-remove"></i>xóa bỏ</a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:account:export">
+                    <i class="fa fa-download"></i> Xuất khẩu
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:account:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:account:remove')}]];
+        var prefix = ctx + "system/account";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "Customer account",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id', 
+                    title: 'ID',
+                    visible: false
+                },
+                {
+                    field: 'email', 
+                    title: 'Email'
+                },
+                {
+                    field: 'password', 
+                    title: 'Password'
+                },
+                {
+                    field: 'salt', 
+                    title: 'Salt'
+                },
+                {
+                    field: 'fullName', 
+                    title: 'Ho Va Ten'
+                },
+                {
+                    field: 'status', 
+                    title: 'Status'
+                },
+                {
+                    field: 'loginIp', 
+                    title: 'Login IP'
+                },
+                {
+                    field: 'loginDate', 
+                    title: 'Login Date'
+                },
+                {
+                    field: 'remark', 
+                    title: 'Remark'
+                },
+                {
+                    title: 'Action',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>Sửa</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>Xóa</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

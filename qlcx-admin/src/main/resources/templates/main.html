@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360 browsers prefer to use webkit kernel analysis-->
+    <title>Thống kê</title>
+    <link rel="shortcut icon" href="icon_tree.png">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript" src="jscript/graph.js"></script>
+</head>
+
+<body class="gray-bg">
+    <div class="container" style="height:150px;">
+        <div class="row">
+            <h2>Số lượng cây theo tháng</h2>
+            <div style="margin-top: 10px;">
+                <input id="ipDay1" type="date" value="2020-12-12">
+                <input id="ipDay2" type="date" value="2021-12-12">
+                <input id="submit" type="submit" value="Thống kê">
+            </div>
+            <div style="margin:0 auto;width:75%;">
+                <canvas id="myChartLine"></canvas>
+            </div>
+        </div> 
+
+        <div class="row" style="margin-top: 25px;">
+            <h2>Thống kê loại cây</h2>
+            <div style="margin:0 auto;width:75%;">
+                <canvas id="myChartBar"></canvas>
+            </div>
+        </div> 
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-sm-6" style="height:100px;">
+                <h2>Tình trạng cây xanh</h2>
+                <div>
+                    <canvas style="height:100px;" id="myChartStatusTree"></canvas>
+                </div>
+            </div> 
+            <div class="col-sm-6">
+                <h2>Tình trạng công việc</h2>
+                <div>
+                    <canvas style="height:100px;" id="myChartStatusWork"></canvas>
+                </div>
+            </div>          
+        </div>
+        <script th:inline="javascript">
+								/*<![CDATA[*/
+									var listTreeId =/*[[ ${listTreeId}]]*/ 
+								/*]]>*/
+		</script>
+    </div>
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script type="text/javascript">
+	    $('#pay-qlcx').click(function(){
+	        var html=$(this).html();
+	        parent.layer.open({
+	            title: false,
+	            type: 1,
+	            closeBtn:false,
+	            shadeClose:true,
+	            area: ['600px', 'auto'],
+	            content: html
+	        });
+        });
+    </script>
+    <script>
+        function chartGraph(data1,idCanvas)
+        {
+            var ctx = document.getElementById(idCanvas).getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Tốt", "Khá", "Bình thường", "Cần chăm sóc", "Chăm sóc ngay"],
+                datasets: [{
+                backgroundColor: [
+                    "#008000",
+                    "#2ecc71",
+                    "#99FF33",
+                    "#9b59b6",
+                    "#800000"
+                ],
+                data: [data1.good, data1.kha, data1.medium, data1.needCare, data1.immediately]
+                }]
+            }
+            });
+        }
+        function chartLine(data1,idCanvas)
+        {
+
+            var label =[];
+            var value1 =[]; 
+            var value2 =[]; 
+            data1.forEach(function(item, index, array) {
+                label.push(item.day);
+                value1.push(item.sumTree);
+                value2.push(item.qtt);
+            });
+            var chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(231,233,237)'
+            };
+            var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var config = {
+            type: 'line',
+            data: {
+                labels: label,
+                datasets: [ {
+                label: "Số lượng cây chết",
+                fill: false,
+                backgroundColor: chartColors.red,
+                borderColor: chartColors.blue,
+                data:value1,
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                display: true,
+                text: 'Lược đồ đường'
+                },
+                tooltips: {
+                mode: 'label',
+                },
+                hover: {
+                mode: 'nearest',
+                intersect: true
+                },
+                scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                    display: true,
+                    labelString: 'Ngày theo tìm kiếm'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                    display: true,
+                    labelString: 'Số lượng cây'
+                    }
+                }]
+                }
+            }
+            };
+
+
+            var ctx = document.getElementById(idCanvas).getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        }    
+        function chartBar(data1,idCanvas){	
+			let labels = [];
+			let type0 = [] ;	
+			let type1 = [] ;	
+			let type2 = [] ;	
+			let type3 = [] ;	
+			data1.forEach(function(item, index, array) {
+				labels.push(item.wardName);
+				type0.push(item.type0);
+				type1.push(item.type1);
+				type2.push(item.type2);
+				type3.push(item.type3);
+			});
+            var ctx = document.getElementById(idCanvas).getContext("2d");
+            var data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Mới trồng",
+                        backgroundColor: "#008000",
+                        data: type0
+                    },
+                    {
+                        label: "Loại I",
+                        backgroundColor: "#00CC66",
+                        data: type1
+                    },
+                    {
+                        label: "Loại II",
+                        backgroundColor: "#99FF00",
+                        data: type2
+                    },
+                    {
+                        label: "Loại III",
+                        backgroundColor: "#99FFCC",
+                        data: type3
+                    }
+                ]
+            };
+
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    barValueSpacing: 20,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        //lược đồ đường
+         $.ajax({
+              method : 'GET',
+              url: "/system/tree/listLineAjax?listTreeId="+listTreeId,
+              data : {
+                    startDay : $('#ipDay1').val(),
+                    endDay:$('#ipDay2').val()
+              },
+              success: function (data) {
+                console.log(data);
+                chartLine(data.data,"myChartLine");
+              },
+              error: function () {
+                console.log("Lỗi rồi");
+              },
+        });
+
+        //lược đồ cột
+         $.ajax({
+              method : 'GET',
+              url: "/system/tree/listBarAjax?listTreeId="+listTreeId,
+              success: function (data) {
+				console.log(data);
+                chartBar(data.data,"myChartBar");
+              },
+              error: function () {
+                console.log("Lỗi rồi");
+              },
+        });
+        //lược đồ tròn
+         $.ajax({
+              method : 'GET',
+              url: "/system/tree/listAjax?listTreeId="+listTreeId,
+              data : {
+                id1 : 1
+              },
+              success: function (data) {
+                console.log(data);
+                chartGraph(data.data,"myChartStatusTree");
+                chartGraph(data.data,"myChartStatusWork");
+              },
+              error: function () {
+                console.log("Lỗi rồi");
+              },
+        });
+    </script>
+    <script>
+        //kiểm tra sức khỏe cây
+        $.ajax({
+              method : 'GET',
+              url: "/system/tree/checkStatus",
+              success: function (data) {
+                console.log("Thành công");
+              },
+              error: function () {
+                console.log("Lỗi rồi");
+              },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+
+</head>
+
+<body>
+	<input type="hidden" th:value="${roomId}" th:id="roomId">
+	<input type="hidden" th:value="${email}" th:id="email">
+	<div class="titel">
+		<div class="incoming_msg">
+			<div class="incoming_msg_img"> <img id="avatarCustomer" src="" alt="sunil"> </div>
+			<div class="received_msg">
+				<div class="received_withd_msg">
+					<p id="nameCustomer"></p>
+				</div>
+				<div class="end-chat" style="margin:7px 0px 0px 410px ;">
+					<button class="btn btn-danger btn-sm btn-end-chat">Kết thúc thoại</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<div class="msg_history" id="messages-data">
+
+	</div>
+	<div class="message-input-chat type_msg row" style="margin-right: 0px;margin-left: 0px;">
+		<div class="wrap input_msg_write col-sm-11" style="margin-left: -15px;margin-left:-15px;">
+			<input class="write_msg" id="ip_submit" type="text" placeholder="Nhập gì vào đi người ấy ơi..."
+				autocomplete="off" required />
+
+			<button style="margin-right:17px;margin-top:3px;" class="submit msg_send_btn"><i class="fa fa-paper-plane"
+					aria-hidden="true"></i></button>
+		</div>
+		<div class="col-sm-1" style="width:60px;height:50px;margin-left:-10px">
+			<label>
+
+				<input onchange="change(this)" id="file" type="file"
+					style="margin-left:-15px;margin-top:-10px;border:0px;visibility: hidden;" />
+				<img style="width:50px;height:30px" th:src="@{/icon_upload.png}" />
+			</label>
+		</div>
+
+	</div>
+	<script th:inline="javascript">
+		var type = 0;
+		function change(f) {
+			if (isFileImage(f.files[0]) != -1) {
+				type = 1;
+			} else {
+				type = 2;
+			}
+			console.log(type);
+			$("#ip_submit").val(f.files[0].name);
+		}
+
+		function isFileImage(file) {
+			const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+			return file && $.inArray(file['type'], acceptedImageTypes)
+		}
+	</script>
+
+
+
+
+
+	<script th:inline="javascript">
+		const KEY_ENTER = 13;
+		const COL_NAME = "messages";
+		const COL_ROOM = "rooms";
+		const DEFAULT_PW = "";
+		const DISPLAY_NAME = $("#userName").val();
+		const EMAIL = $("#email").val();
+		const PLEASE_WAIT = "Đang tải dữ liệu, vui lòng chờ...";
+		const ROOM_ID = $("#roomId").val();
+		var curRoom;
+		let USER_LOGIN = null;
+		list.forEach(function (item, index, array) {
+			const ROOM_ID = item;
+		});
+		$(window).on('keydown', function (e) {
+			if (e.which == KEY_ENTER) {
+
+				chatDetailController.newMessage();
+				return false;
+			}
+		});
+
+		chatDetailController = {
+			init: function () {
+				// Start loading
+				$.modal.loading(PLEASE_WAIT);
+				chatDetailController.initialFirebase();
+				chatDetailController.registerEvent();
+				chatDetailController.loadData();
+			},
+			initialFirebase: function () {
+				var firebaseConfig = {
+
+					apiKey: "AIzaSyDcEQKAUluWCjG_DWsrzChLnZIedCTdB1Y",
+					authDomain: "qlcx-a67b9.firebaseapp.com",
+					projectId: "qlcx-a67b9",
+					storageBucket: "qlcx-a67b9.appspot.com",
+					messagingSenderId: "787839252839",
+					appId: "1:787839252839:web:2c7036b25254ec9593d7c2",
+					measurementId: "G-YLBWN5G5FP"
+				};
+				// Initialize Firebase
+				if (!firebase.apps.length) {
+					firebase.initializeApp(firebaseConfig);
+				}
+			},
+			newMessage: function () {
+				let message = $(".message-input-chat input").val();
+				if ($.trim(message) == '') {
+					type = 0;
+					return false;
+				}
+				if (type != 0) {
+					let type1 = type;
+					type = 0;
+					var formData = new FormData();
+					formData.append('file', $('#file')[0].files[0]);
+					$.ajax({
+						url: prefix + "/uploadFile",
+						method: 'POST',
+						enctype: 'multipart/form-data',
+						processData: false,
+						contentType: false,
+						data: formData,
+						success: function (data) {
+							firebase
+								.firestore()
+								.collection(COL_NAME)
+								.add({
+									content: data.data,
+									groupId: ROOM_ID,
+									isRead: false,
+									sender: USER_LOGIN.uid,
+									timestamp: moment(new Date()).format("X"),
+									type: type1
+								},
+
+								)
+								.then((ref) => {
+									console.log("Added doc with ID: ", ref);
+								});
+						},
+					});
+				} else {
+					firebase
+						.firestore()
+						.collection(COL_NAME)
+						.add({
+							content: message,
+							groupId: ROOM_ID,
+							isRead: false,
+							sender: USER_LOGIN.uid,
+							timestamp: moment(new Date()).format("X"),
+							type: type
+						})
+						.then((ref) => {
+							console.log("Added doc with ID: ", ref);
+						});
+				}
+				let roomRef = firebase.firestore().collection(COL_ROOM).doc(ROOM_ID);
+				roomRef.get().then(doc => {
+					if (!doc.exists)
+						return;
+					roomRef
+						.update({
+							timestamp: moment(new Date()).format("X"),
+							isCheckAdmin: true
+						})
+				});
+				$('.message-input-chat input').val(null);
+			},
+			registerEvent: function () {
+				$('.submit').click(function () {
+					chatDetailController.newMessage();
+					$("#messages-data").animate({scrollTop: 20000000}, "slow");
+				});
+				$('.btn-end-chat').click(function () {
+					// close room
+					if (confirm("Bạn có chắc muốn đóng đoạn thoại này?")) {
+						chatDetailController.closeRoom();
+					}
+				});
+			},
+			signInOrSignUp: function (email) {
+				firebase.auth().fetchSignInMethodsForEmail(email)
+					.then(function (providers) {
+						if (providers.length > 0) {
+							return firebase.auth().signInWithEmailAndPassword(email, DEFAULT_PW).then((data) => {
+								return data
+							}).catch((error) => {
+								console.log(error)
+							});
+						} else {
+							// No account exists with this email address.
+							return firebase.auth().createUserWithEmailAndPassword(email, DEFAULT_PW)
+								.then((data) => {
+									// add display name during signup
+									if (data.user) {
+										data.user.updateProfile({
+											displayName: DISPLAY_NAME,
+										});
+									}
+									return data;
+								}).catch((error) => {
+									console.log(error);
+								});
+						}
+					}).then(function (data) {
+						// User is signed in!
+						return data;
+					});
+			},
+			loadData: function () {
+				firebase.auth().onAuthStateChanged(async function (user) {
+					if (user) {
+						// User is signed in.
+						USER_LOGIN = user;
+						// update admin in rooms and load chat
+						chatDetailController.updateRoom(ROOM_ID);
+					} else {
+						// No user is signed in.
+						chatDetailController.signInOrSignUp(EMAIL);
+					}
+				});
+			},
+			loadChat: function (userCustomer) {
+				let html = '';
+				firebase
+					.firestore()
+					.collection(COL_NAME).where("groupId", "==", ROOM_ID).orderBy("timestamp")
+					.onSnapshot((snapshot) => {
+						html = '';
+						if (snapshot.docs.length == 0) {
+							html = `<div class="no-messages">
+                                            <p>Không có tin nhắn nào!!!</p>
+                                        </div>`;
+						} else {
+							$("#messages-data").animate({scrollTop: 20000000}, "slow");
+							snapshot.docs.forEach(doc => {
+								let message = doc.data();
+								if (message.type == 1) {
+									html += ` ${message.sender == USER_LOGIN.uid ?
+										`
+                                            <div class="outgoing_msg">
+                                                                <div class="sent_msg">
+                                                                		<div style="text-align:right">
+                                                                			<img style="word-wrap: break-word;text-align:right" src="http://localhost:1005${message.content}"/>
+                                                                		</div>
+                                                                        	
+                                                                        <span style="text-align:right" class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span> </div>
+                                                                </div>
+                                            ` :
+										`
+                                            <div class="incoming_msg">
+                                                                      <div class="incoming_msg_img" style="border-radius:50%"> 
+                                                                                        <img src="https://res.cloudinary.com/hungta/image/upload/v1603474355/images/avatar-default.png" alt="sunil"> 
+                                                                                  </div>
+                                                                      <div class="received_msg">
+                                                                                        <div class="receive_msg">
+                                                                                        	<div>
+                                                                                                <img style="word-wrap: break-word;" src="${message.content}"/>
+                                                                                                <span  class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span>
+                                                                                         	</div>
+                                                                                         </div>
+                                                                      </div>
+                                                                         </div>           
+                                            `}
+                                        `;
+								} else if (message.type == 2) {
+									html += ` ${message.sender == USER_LOGIN.uid ?
+										`
+                                            <div class="outgoing_msg">
+                                                                <div class="sent_msg">
+                                                                        <div style="text-align:right">
+                                                                        		<a download href="http://localhost:1005${message.content}" style="text-align:right;border:1px solid #ccc;padding:3px 3px 3px 30px;background:#ccc">File đính kèm<a/>
+                                                                         </div>
+                                                                         <div>
+                                                                        		<span style="text-align:right" class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span>
+                                                                        </div>
+                                                                 </div>       
+                                             </div>
+                                            ` :
+										`
+                                            <div class="incoming_msg">
+                                                                      <div class="incoming_msg_img" style="border-radius:50%"> 
+                                                                                        <img src="https://res.cloudinary.com/hungta/image/upload/v1603474355/images/avatar-default.png" alt="sunil"> 
+                                                                      </div>
+                                                                      <div class="received_msg">
+                                                                                        <div class="receive_msg">
+                                                                                            <div>
+                                                                                                <div>
+                                                                        					
+                                                                                 					<a download href="http://localhost:1005${message.content}" style="border:1px solid #ccc;padding:3px 30px 3px 3px;background:#ccc">File đính kè<a/>
+                                                                                                	
+                                                                                                </div>	
+                                                                                        	</div>
+                                                                                                <span  class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span>
+                                                                                         	</div>
+                                                                                         </div>
+                                                                      </div>
+                                                                      
+                                                </div>                            
+                                            `}
+                                        `;
+								} else if (message.type == 3) {
+									html += ` ${message.sender == USER_LOGIN.uid ?
+										`
+                                            <div class="outgoing_msg">
+                                                                <div class="sent_msg">
+                                                                        <div style="text-align:right">
+																				<img src="map_location.jpeg" />
+                                                                        		<p onClick="locationMap(${message.content})" style="text-align:right;border:1px solid #ccc;padding:3px 3px 3px 30px;background:#ccc">Vị trí:<p/>
+                                                                         </div>
+                                                                         <div>
+                                                                        		<span style="text-align:right" class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span>
+                                                                        </div>
+                                                                 </div>       
+                                             </div>
+                                            ` :
+										`
+                                            <div class="incoming_msg">
+                                                                      <div class="incoming_msg_img" style="border-radius:50%"> 
+                                                                                        <img src="https://res.cloudinary.com/hungta/image/upload/v1603474355/images/avatar-default.png" alt="sunil"> 
+                                                                      </div>
+                                                                      <div class="received_msg">
+                                                                                        <div class="">
+                                                                                            <div>
+                                                                                                <div onClick="locationMap('${message.content}')">
+                                                                                 					<img  src="/map_location.jpeg" />
+                                                                                 					<p style="border:1px solid #ccc;padding:3px 30px 3px 3px;background:#ccc;color:blue">${userCustomer.displayName} đã chia sẽ vị trí</p>
+                                         
+                                                                                                </div>	
+                                                                                        	</div>
+                                                                                                <span  class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span>
+                                                                                         	</div>
+                                                                                         </div>
+                                                                      </div>
+                                                                      
+                                                </div>                            
+                                            `}
+                                        `;
+								} else {
+									html += ` ${message.sender == USER_LOGIN.uid ?
+										`
+                                            <div class="outgoing_msg">
+                                                                 <div class="sent_msg">
+                                                                        <p style="word-wrap: break-word;">${message.content}</p>
+                                                                        <span style="text-align:right" class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span>
+                                                                 </div>
+                                            </div>
+                                            ` :
+										`
+                                            <div class="incoming_msg">
+                                                                      <div class="incoming_msg_img" style="border-radius:50%"> 
+                                                                                        <img src="https://res.cloudinary.com/hungta/image/upload/v1603474355/images/avatar-default.png" alt="sunil"> 
+                                                                       </div>
+                                                                      <div class="received_msg">
+                                                                                        <div class="receive_msg">
+                                                                                        	<div>
+                                                                                                <p style="word-wrap: break-word;"> ${message.content}</p>
+                                                                                                <span  class="time_date"> ${moment.unix(message.timestamp).format("DD/MM/YYYY HH:mm:ss")}</span>
+                                                                                         	</div>
+                                                                                         </div>
+                                                                      </div>
+                                             </div>           
+                                            `}
+                                        `;
+								}
+
+							})
+
+						}
+
+						$('#messages-data').html(html);
+						$(".messages").animate({scrollTop: 999999}, "fast");
+						// End loading
+						$.modal.closeLoading();
+					});
+			},
+			updateRoom: function () {
+				const roomRef = firebase.firestore().collection(COL_ROOM).doc(ROOM_ID);
+				roomRef.get().then(doc => {
+					if (!doc.exists)
+						return;
+					let room = doc.data();
+					console.log(room.user);
+					$("#nameCustomer").text(room.user.displayName);
+					$("#avatarCustomer").attr("src", "https://res.cloudinary.com/hungta/image/upload/v1603474355/images/avatar-default.png");
+					acRoom = ROOM_ID;
+
+					document.getElementById("notification" + ROOM_ID).style.width = "0px";
+					document.getElementById("notification" + ROOM_ID).style.height = "0px";
+					let roomRef = firebase.firestore().collection(COL_ROOM).doc(ROOM_ID);
+					roomRef.get().then(doc => {
+						if (!doc.exists)
+							return;
+						roomRef
+							.update({
+								isCheckAdmin: true
+							})
+					});
+					if (!room.admin) {
+						roomRef
+							.update({
+								admin: {
+									avatar: USER_LOGIN.photoURL,
+									displayName: USER_LOGIN.displayName,
+									id: USER_LOGIN.uid
+								},
+							})
+							.then(() => {
+								console.log("Document updated");
+							})
+							.catch((error) => {
+								console.error("Error updating doc", error);
+							})
+					}
+					// load log chat
+					console.log(room.user);
+					chatDetailController.loadChat(room.user);
+				});
+			},
+			closeRoom: function () {
+				const roomRef = firebase.firestore().collection(COL_ROOM).doc(ROOM_ID);
+				roomRef.get().then(doc => {
+					if (!doc.exists)
+						return;
+					roomRef
+						.update({
+							isClosed: true
+						})
+						.then(() => {
+							console.log("Close room success");
+							// Close modal
+							$.modal.close();
+						})
+						.catch((error) => {
+							console.error("Close room error", error);
+						})
+				});
+			}
+		}
+		var input = document.getElementById("ip_submit");
+		input.addEventListener("keyup", function (event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				$("#messages-data").animate({scrollTop: 20000000}, "slow");
+			}
+		});
+		chatDetailController.init();
+
+	</script>
+	<script>
+		function locationMap(location) {
+			$.modal.open("Map", "/chat/map?location=" + location, 800, 500);
+			console.log(location);
+		}
+	</script>
+</body>
+
+</html>

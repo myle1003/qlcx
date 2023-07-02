@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('冻结列')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success">
+                    <i class="fa fa-plus"></i> New
+                </a>
+                <a class="btn btn-primary single disabled">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a class="btn btn-danger multiple disabled">
+                    <i class="fa fa-remove"></i> Delete
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "demo/table";
+        var datas = [
+            [$ {
+                @dict.getType('sys_normal_disable')
+            }]
+        ];
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                fixedColumns: true,
+                fixedNumber: 3,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'userId',
+                    title: 'User ID'
+                }, {
+                    field: 'userCode',
+                    title: 'User ID'
+                }, {
+                    field: 'userName',
+                    title: 'User name'
+                }, {
+                    field: 'userPhone',
+                    title: 'User phone'
+                }, {
+                    field: 'userEmail',
+                    title: 'User mailbox'
+                }, {
+                    field: 'userBalance',
+                    title: 'User balance'
+                }, {
+                    field: 'status',
+                    title: 'User status',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(datas, value);
+                    }
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 1'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 2'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 3'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 4'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 5'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 6'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 7'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 8'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 9'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 10'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 11'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 12'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 13'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 14'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 15'
+                }, {
+                    field: 'userBalance',
+                    title: 'Test 16'
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+
+</html>

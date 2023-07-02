@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <th:block th:include="include :: header('模态窗口')" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content fadeInRight">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Modal window</h5>
+
+                    </div>
+                    <div class="ibox-content">
+                        <p>Creating a custom qlcx modal window can be achieved by adding the <code>.inmodal</code> class. </p>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Open the sample window</button>
+                        </div>
+                        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content animated bounceInRight">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                                    </button>
+                                        <i class="fa fa-laptop modal-icon"></i>
+                                        <h4 class="modal-title">Window title</h4>
+                                        <small class="font-bold">Subtitles can be displayed here.
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>qlcx</strong> is a fully responsive, flat theme based on the latest version of Bootstrap3.3.6. She uses the mainstream two-column layout and uses modern technologies such as Html5+CSS3. Provides a lot of powerful UI components that can be recombined, and integrates the latest jQuery version (v2.1.1), of course, also integrates a lot of powerful and versatile jQuery plug-ins, she can be used in all Web applications , Such as website management background, website member center, CMS, CRM, OA, etc. Of course, you can also customize her in depth to make a stronger system. </p>                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" placeholder="Please enter your Email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Size setting</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <p>Modal windows are available in two sizes and sizes, which can be achieved by adding classes to the <code>.modal-dialog</code> of the modal window </p>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">Large modal window</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">Small Modal Window</button>
+                    </div>
+                    <div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <h4 class="modal-title">Window title</h4>
+                                    <small class="font-bold">Subtitles can be displayed here.
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>qlcx</strong> is a fully responsive, flat theme based on the latest version of Bootstrap3.3.6. She uses the mainstream two-column layout and uses modern technologies such as Html5+CSS3. Provides a lot of powerful UI components that can be recombined, and integrates the latest jQuery version (v2.1.1), of course, also integrates a lot of powerful and versatile jQuery plug-ins, she can be used in all Web applications , Such as website management background, website member center, CMS, CRM, OA, etc. Of course, you can also customize her in depth to make a stronger system. </p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <h4 class="modal-title">Window title</h4>                                </div>
+                                <div class="modal-body">
+                                    <p><strong>qlcx</strong> is a fully responsive, flat theme based on the latest version of Bootstrap3.3.6. She uses the mainstream two-column layout and uses modern technologies such as Html5+CSS3. Provides a lot of powerful UI components that can be recombined, and integrates the latest jQuery version (v2.1.1), of course, also integrates a lot of powerful and versatile jQuery plug-ins, she can be used in all Web applications , Such as website management background, website member center, CMS, CRM, OA, etc. Of course, you can also customize her in depth to make a stronger system. </p>                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                     <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Animated window</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <p>You can achieve animation effects by adding classes to the <code>.modal-content</code> of the modal window </p>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Turn along the X axis</button>                    <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content animated flipInY">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <h4 class="modal-title">Window title</h4>
+                                    <small class="font-bold">Subtitles can be displayed here.
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>qlcx</strong> is a fully responsive, flat theme based on the latest version of Bootstrap3.3.6. She uses the mainstream two-column layout and uses modern technologies such as Html5+CSS3. Provides a lot of powerful UI components that can be recombined, and integrates the latest jQuery version (v2.1.1), of course, also integrates a lot of powerful and versatile jQuery plug-ins, she can be used in all Web applications , Such as website management background, website member center, CMS, CRM, OA, etc. Of course, you can also customize her in depth to make a stronger system. </p>                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                     <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Basic Animation</button>                    <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content animated fadeIn">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                                    </button>
+                                    <i class="fa fa-clock-o modal-icon"></i>
+                                     <h4 class="modal-title">Window title</h4>
+                                     <small>Subtitles can be displayed here.
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>qlcx</strong> is a fully responsive, flat theme based on the latest version of Bootstrap3.3.6. She uses the mainstream two-column layout and uses modern technologies such as Html5+CSS3. Provides a lot of powerful UI components that can be recombined, and integrates the latest jQuery version (v2.1.1), of course, also integrates a lot of powerful and versatile jQuery plug-ins, she can be used in all Web applications , Such as website management background, website member center, CMS, CRM, OA, etc. Of course, you can also customize her in depth to make a stronger system. </p>                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Set options</h5>
+                </div>
+                <div class="ibox-content">
+                    <p>The relevant functions of the modal window can be realized through data binding or Javascript. If you use data binding, you can add <code>data-</code> to the element, such as <code>data-backdrop=""< /code>. </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px;">Name</th>
+                                    <th style="width: 50px;">Type</th>
+                                    <th style="width: 50px;">default value</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>backdrop</td>
+                                    <td>boolean or string <code>'static'</code></td>
+                                    <td>true</td>
+                                    <td>Mask layer, or use <code>'static'</code> to specify that the mask layer is not associated with closing the modal window</td>
+                                </tr>
+                                <tr>
+                                    <td>keyboard</td>
+                                    <td>boolean</td>
+                                    <td>true</td>
+                                    <td>Exit the modal window when pressing Esc</td>
+                                </tr>
+                                <tr>
+                                    <td>show</td>
+                                    <td>boolean</td>
+                                    <td>true</td>
+                                    <td>Display modal window after initialization is complete</td>
+                                </tr>
+                            <tr>
+                                <td>remote</td>
+                                <td>path</td>
+                                <td>false</td>
+                                <td>
+                                    <p><strong class="text-danger">Recommended to use data binding, or use
+                                        <a href="http://api.jquery.com/load/">jQuery.load</a></p>
+                                    <p>Remote URL example:</p>
+                                    <div class="highlight">
+                                        <pre><code class="language-html" data-lang="html"><span class="nt">&lt;a</span> <span class="na">data-toggle=</span><span class="s">"modal"</span> <span class="na">href=</span><span class="s">"remote.html"</span> <span class="na">data-target=</span><span class="s">"#modal"</span><span class="nt">&gt;</span>Click me<span class="nt">&lt;/a&gt;</span></code></pre>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <th:block th:include="include :: footer" />
+</body>
+</html>

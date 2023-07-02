@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('Quản lý cây xanh')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>Tên cây：</label>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <label>Mã cây：</label>
+                                <input type="text" name="treeCode"/>
+                            </li>
+                            <li>
+                                <label>Địa chỉ：</label>
+                                <input type="text" name="address"/>
+                            </li>
+							<li>
+                                <label>Vệ sinh gốc cây：</label>
+                                <select id="statusCleanTheStump" name="statusCleanTheStump">
+                                	<option value="" >Tất cả</option>
+                                    <option value="0" >Không </option>
+									<option value="1" >Cần</option>
+                                </select>
+                            </li>
+							<li>
+                                <label>Chống cây：</label>
+                                <select id="statusAgainstTree" name="statusAgainstTree">
+                                	<option value="" >Tất cả</option>
+                                    <option value="0" >Không </option>
+									<option value="1" >Cần</option>
+                                </select>
+                            </li>
+							<li>
+                                <label>Bón phân cây：</label>
+                                <select id="statusFertilize" name="statusFertilize">
+                                	<option value="" >Tất cả</option>
+                                    <option value="0" >Không </option>
+									<option value="1" >Cần</option>
+                                </select>
+                            </li>
+							<li>
+                                <label>Tỉa cây:</label>
+                                <select id="statusPrune" name="statusPrune">
+                                	<option value="" >Tất cả</option>
+                                    <option value="0" >Không </option>
+									<option value="1" >Cần</option>
+                                </select>
+                            </li>
+							<li>
+                                <label>Tưới nước cho cây：</label>
+                                <select id="statusWaterTheTree" name="statusWaterTheTree">
+                                	<option value="" >Tất cả</option>
+                                    <option value="0" >Không </option>
+									<option value="1" >Cần</option>
+                                </select>
+                            </li>
+ 							<li>
+                                <label>Danh mục cây：</label>
+                                <select id="idCategory" name="idCategory">
+                                	<option value="" >Tất cả</option>
+                                    <th:block th:each="item, iState : ${category}">
+                                        <option th:value="${item.id}" th:text="${item.name}" ></option>
+                                    </th:block>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Danh mục cây：</label>
+                                <select id="type" name="type">
+                                	<option value="" >Tất cả</option>
+                                    <option value="0" >Cây non</option>
+									<option value="1" >Loại I</option>
+									<option value="2" >Loại II</option>
+									<option value="3" >Loại III</option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:tree:add">
+                    <i class="fa fa-plus"></i>Thêm vào
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:tree:edit">
+                    <i class="fa fa-edit"></i>Sửa
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:tree:remove">
+                    <i class="fa fa-remove"></i>Xóa bỏ</a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:tree:export">
+                    <i class="fa fa-download"></i> Xuất file
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+		<script th:inline="javascript">
+								/*<![CDATA[*/
+									var listTreeId =/*[[ ${listTreeId}]]*/ 
+								/*]]>*/
+		</script>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:tree:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:tree:remove')}]];
+        var prefix = ctx + "system/tree";
+        $(function() {
+            var options = {
+                url: prefix + "/list?listTreeId="+listTreeId,
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}/{rowsEdit}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "",
+                columns: [{
+                    checkbox: true
+                },
+				{
+                    field: 'id', 
+                    title: 'id',
+					visible: false
+                },
+                {
+                    field: 'name', 
+                    title: 'Tên cây'
+                },
+                {
+                    field: 'treeCode', 
+                    title: 'Mã'
+                },
+                {
+                    field: 'size', 
+                    title: 'Kích thước',
+					visible: false
+                },
+                {
+                    field: 'longitude', 
+                    title: 'Kinh độ',
+					visible: false
+                },
+                {
+                    field: 'latitude', 
+                    title: 'Vĩ độ',
+					visible: false
+                },
+                {
+                    field: 'address', 
+                    title: 'Địa chỉ',
+					formatter: function(value, row, index) {
+                    	return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'nameCategory', 
+                    title: 'Danh mục',
+					visible: false
+                },
+                {
+                    field: 'waterTheTree', 
+                    title: 'Tưới cây',
+                    formatter: function(value, row, index) {
+                       if(row["type"]==0)
+                       {
+                             return 120-value + "/120";
+                       }else
+                       {
+                             return null;
+                       }
+                       
+                    }
+                },
+                {
+                    field: 'statusWaterTheTree', 
+                    title: 'TT tưới cây',
+                    formatter: function(value, row, index) {
+                    	if (value == 1)
+                        {
+                            return "<img src='/ico_dx.png' width='15px' height='15px'/>"
+                        }else{
+                            return "<img src='/ico_kdx.png' width='15px' height='15px'/>"
+                        }
+                       
+                    }
+                },
+                {
+                    field: 'prune', 
+                    title: 'Tỉa cây',
+                    formatter: function(value, row, index) {
+                       if(row["type"]==0 || row["type"]==1)
+                       {
+                             return 4-value + "/4";
+                       }else
+                       {
+                             return 2-value + "/2";
+                       }
+                       
+                    }
+                },
+                {
+                    field: 'statusPrune', 
+                    title: 'TT Tỉa cây',
+                    formatter: function(value, row, index) {
+                    	if (value == 1)
+                        {
+                            return "<img src='/ico_dx.png' width='15px' height='15px'/>"
+                        }else{
+                            return "<img src='/ico_kdx.png' width='15px' height='15px'/>"
+                        }
+                       
+                    }
+                },
+                {
+                    field: 'fertilize', 
+                    title: 'Bón phân',
+                    formatter: function(value, row, index) {
+                       if(row["type"]==0)
+                       {
+                             return 1-value + "/1";
+                       }else
+                       {
+                             return null;
+                       }
+                       
+                    }
+                },
+                {
+                    field: 'statusFertilize', 
+                    title: 'TT Bón phân',
+                    formatter: function(value, row, index) {
+                    	if (value == 1)
+                        {
+                            return "<img src='/ico_dx.png' width='15px' height='15px'/>"
+                        }else{
+                            return "<img src='/ico_kdx.png' width='15px' height='15px'/>"
+                        }
+                       
+                    }
+                },
+                {
+                    field: 'againstTree', 
+                    title: 'Chống cây',
+                    formatter: function(value, row, index) {
+                       if(row["type"]!=0)
+                       {
+                             return 1-value + "/1";
+                       }else
+                       {
+                             return null;
+                       }
+                       
+                    }
+                },
+                {
+                    field: 'statusAgainstTree', 
+                    title: 'TT Chống cây',
+                    formatter: function(value, row, index) {
+                    	if (value == 1)
+                        {
+                            return "<img src='/ico_dx.png' width='15px' height='15px'/>"
+                        }else{
+                            return "<img src='/ico_kdx.png' width='15px' height='15px'/>"
+                        }
+                       
+                    }
+                },
+                {
+                    field: 'cleanTheStump', 
+                    title: 'VS gốc cây',
+                    formatter: function(value, row, index) {
+                       return 12-value + "/12";
+                       
+                    }
+                },
+				{
+                    field: 'statusCleanTheStump', 
+                    title: 'TT VS gốc cây',
+                    formatter: function(value, row, index) {
+                    	if (value == 1)
+                        {
+                            return "<img src='/ico_dx.png' width='15px' height='15px'/>"
+                        }else{
+                            return "<img src='/ico_kdx.png' width='15px' height='15px'/>"
+                        }
+                       
+                    }
+                },
+                {
+                    field: 'type', 
+                    title: 'Loại',
+                    formatter: function(value, row, index) {
+                       if(value==0)
+                       {
+                             return "Cây non";
+                       }else if(value==1)
+                       {
+                             return "Cây loại I";
+                       }else if(value==2)
+                       {
+                             return "Cây loại II";
+                       }else
+                       {
+                             return "Cây loại III";
+                       }
+                       
+                    }
+                },
+                {
+                    field: 'status', 
+                    title: 'Tình trạng cây',
+                    formatter: function(value, row, index) {
+                       if(value==0)
+                       {
+                             return "Tốt";
+                       }else if(value==1)
+                       {
+                             return "Khá";
+                       }else if(value==2)
+                       {
+                             return "Bình thường";
+                       }else if(value==3)
+                       {
+                             return "Cần chăm sóc";
+                       }else{
+                             return "Chăm sóc gấp";
+                       }
+                       
+                    }
+                },
+                {
+                    title: 'Action',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editTreeList(\'' + row.id + '\')"><i class="fa fa-edit"></i>Sửa</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>Xóa</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

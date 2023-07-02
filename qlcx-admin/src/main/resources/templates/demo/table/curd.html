@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('动态增删改查')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="insertRow()">
+                <i class="fa fa-plus"></i> New line
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="removeRow()">
+                <i class="fa fa-remove"></i> delete selection line
+            </a>
+            <a class="btn btn-danger" onclick="removeRowByUniqueId()">
+                <i class="fa fa-remove"></i> delete rows based on value
+            </a>
+            <a class="btn btn-danger" onclick="removeRowAll()">
+                <i class="fa fa-remove"></i> delete all lines
+            </a>
+            <a class="btn btn-info" onclick="updateRow()">
+                <i class="fa fa-edit"></i> Edit line
+            </a>
+            <a class="btn btn-info" onclick="updateRowByUniqueId()">
+                <i class="fa fa-edit"></i> Modify the line based on the value
+            </a>
+            <a class="btn btn-info" onclick="getSelections()">
+                <i class="fa fa-search"></i> Query selection data
+            </a>
+            <a class="btn btn-info" onclick="getRowByUniqueId()">
+                <i class="fa fa-search"></i> Query rows based on value
+            </a>
+            <a class="btn btn-primary" onclick="getData()">
+                <i class="fa fa-search"></i> Query all data
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "demo/table";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                pagination: false,
+                uniqueId: "userId",
+                height: 400,
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'userId',
+                    title: 'User ID'
+                }, {
+                    field: 'userCode',
+                    title: 'User ID'
+                }, {
+                    field: 'userName',
+                    title: 'User name'
+                }, {
+                    field: 'userPhone',
+                    title: 'User Phone'
+                }, {
+                    field: 'userEmail',
+                    title: 'User mailbox'
+                }, {
+                    field: 'userBalance',
+                    title: 'User balance'
+                }]
+            };
+            $.table.init(options);
+        });
+
+        /* Add table row */
+        function insertRow() {
+            var randomId = 100 + ~~(Math.random() * 100)
+            $("#" + table.options.id).bootstrapTable('insertRow', {
+                index: 0, // where do you want to insert, 0 means the first row
+                row: {
+                    userId: randomId,
+                    userCode: 2000000 + randomId,
+                    userName: 'Test' + randomId,
+                    userPhone: '1588888888',
+                    userEmail: 'ry1@qq.com',
+                    userBalance: 10 + randomId,
+                }
+            })
+        }
+
+        /* Delete the specified table row */
+        function removeRow() {
+            var ids = $.table.selectColumns("userId");
+            if (ids.length == 0) {
+                $.modal.alertWarning("Please select at least one record");
+                return;
+            }
+            $("#" + table.options.id).bootstrapTable('remove', {
+                field: 'userId',
+                values: ids
+            })
+        }
+
+        /* Delete the data whose row ID value is 1 */
+        function removeRowByUniqueId() {
+            $("#" + table.options.id).bootstrapTable('removeByUniqueId', 1)
+        }
+
+        /* Delete all table rows */
+        function removeRowAll() {
+            $("#" + table.options.id).bootstrapTable('removeAll')
+        }
+
+        /* Modify table row */
+        function updateRow() {
+            var randomId = 100 + ~~(Math.random() * 100)
+            $("#" + table.options.id).bootstrapTable('updateRow', {
+                index: 0, // Which line do you want to modify, 0 means the first line
+                row: {
+                    userId: randomId,
+                    userCode: 3000000 + randomId,
+                    userName: 'Test' + randomId,
+                    userPhone: '1599999999',
+                    userEmail: 'ry2@qq.com',
+                    userBalance: 50 + randomId,
+                }
+            })
+        }
+
+        /* Modify the data whose row ID value is 1 */
+        function updateRowByUniqueId() {
+            var randomId = 100 + ~~(Math.random() * 100)
+            $("#" + table.options.id).bootstrapTable('updateByUniqueId', {
+                id: 1,
+                row: {
+                    userId: randomId,
+                    userCode: 3000000 + randomId,
+                    userName: 'Test' + randomId,
+                    userPhone: '1599999999',
+                    userEmail: 'ry2@qq.com',
+                    userBalance: 50 + randomId,
+                }
+            })
+        }
+
+        /* Query all data values in the table */
+        function getData() {
+            var data = $("#" + table.options.id).bootstrapTable('getData');
+            alert(JSON.stringify(data))
+        }
+
+        /* Query data whose row ID value is 1 */
+        function getRowByUniqueId() {
+            var data = $("#" + table.options.id).bootstrapTable('getRowByUniqueId', 1);
+            alert(JSON.stringify(data))
+        }
+        /* Query table selection row data value */
+        function getSelections() {
+            var data = $("#" + table.options.id).bootstrapTable('getSelections');
+            alert(JSON.stringify(data))
+        }
+    </script>
+</body>
+
+</html>

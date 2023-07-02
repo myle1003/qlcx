@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <head>
+    
+    <style>
+        #map { position: absolute; top: 250px; bottom: 0;left: 90px;width: 85%;height: 100%; }
+        .css-icon {
+                width: 0;
+                height: 0;
+                border-top: 30px solid transparent;
+                border-bottom: 30px solid transparent;
+                border-left: 30px solid #ff8888;
+        }
+    </style>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg theme-dark skin-blue" style="overflow: hidden; width: auto; height: auto; margin: 0px; position: absolute; top: 300px; bottom: 0px; left: 0px; right: 0px;">
+    <div class="row" style="height: 350px;"> 
+         <div id="map"></div>
+    </div>
+ <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script>
+	
+    L.mapbox.accessToken = 'pk.eyJ1IjoidHJhbm1pbmgxMTM0IiwiYSI6ImNrZ2dibm42djFzcnIyem1pd284YXJybmUifQ.T3IqDYHXhViboY0F3O23cw';
+    var map = L.mapbox.map('map')
+    .setView([16.0782236, 108.213238], 17)
+    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'))
+  	.addControl(L.mapbox.geocoderControl('mapbox.places', {
+        keepOpen: true
+    })
+    );
+var info = document.getElementById('info');
+
+// Creates a single, draggable marker on the page.
+var m = L.marker(new L.LatLng(16.0782236, 108.213238), {
+    icon: L.mapbox.marker.icon({
+        'marker-color': '1087bf'
+    }),
+    draggable: true
+}).bindPopup('Trường nề!!!').addTo(map);
+
+m.on('dragend', function() {
+    // Repopulate the features layer in
+    // the menu listing based on the
+    // dragged markers proximity to them.
+    // console.log(marker.getLatLng());
+    populateListing();
+});
+
+// Here we load the features.json from another project
+// to use with the map initialized above.
+	function genTitle(item)
+	{
+		var title;
+		var type;
+		if(item.type==0)
+		{
+			type = "Cây non";
+		}else if(item.type==1)
+		{
+			type = "Cây loại 1";
+		}else if(item.type==2)
+		{
+			type = "Cây loại 2";
+		}else{
+			type = "Cây loại 3";
+		}
+		var img = "<div><img style='width:120px;height:120px;' src='https://phuongtrunggreen.com/resource/gellary/images/C%C3%A2y%20c%C3%B4ng%20tr%C3%ACnh/b%C3%A0ng%20ta/cay-bang-ta-04.jpg'/></div>"
+		title=img + 'Tên cây: '+item.name+'<br/>'+'Mã cây: '+item.treeCode+'<br/>'+'Loại: '+type+'<br/>'+'Danh mục: '+item.nameCategory+'<br/>'+'Địa chỉ : '+item.address;
+		return title;
+	}
+ //load tree
+   var treeList=[];
+   function genDataTree(item)
+   {
+	   if(item.status==0){
+		    var t = {
+				      'type': 'Feature',
+				      'properties': {
+				        'title': genTitle(item),
+				        'marker-color': '#008000',
+				        'marker-size': 'medium',
+				        'marker-symbol': 'park2',
+				        'marker-zoom': '17'
+				      },
+				      'geometry': {
+				        'coordinates': [
+				        	item.longitude,
+				        	item.latitude
+				        ],
+				        'type': 'Point'
+				      }
+				}
+		    treeList.push(t);
+	   }else if(item.status==1){
+		   var t = {
+				      'type': 'Feature',
+				      'properties': {
+				        'title':genTitle(item),
+				        'marker-color': '#008080',
+				        'marker-size': 'medium',
+				        'marker-symbol': 'park2',
+				        'marker-zoom': '17'
+				      },
+				      'geometry': {
+				        'coordinates': [
+				        	item.longitude,
+				        	item.latitude
+				        ],
+				        'type': 'Point'
+				      }
+				}
+		   treeList.push(t);
+	   }else if(item.status==2 ){
+		   var t = {
+				      'type': 'Feature',
+				      'properties': {
+				        'title': genTitle(item),
+				        'marker-color': '#00FF00',  
+				        'marker-size': 'medium',
+				        'marker-symbol': 'park2',
+				        'marker-zoom': '17'
+				      },
+				      'geometry': {
+				        'coordinates': [
+				        	item.longitude,
+				        	item.latitude
+				        ],
+				        'type': 'Point'
+				      }
+				}
+		   treeList.push(t);
+	   }else if(item.status==3){
+		   var t = {
+				      'type': 'Feature',
+				      'properties': {
+				        'title': genTitle(item),
+				        'marker-color': '#FFFF00',
+				        'marker-size': 'medium',
+				        'marker-symbol': 'park2',
+				        'marker-zoom': '17'
+				      },
+				      'geometry': {
+				        'coordinates': [
+				        	item.longitude,
+				        	item.latitude
+				        ],
+				        'type': 'Point'
+				      }
+				}
+		   treeList.push(t);
+	   }else if(item.status>3){
+		   var t = {
+				      'type': 'Feature',
+				      'properties': {
+				        'title': genTitle(item),
+				        'marker-color': '#800000',
+				        'marker-size': 'medium',
+				        'marker-symbol': 'park2',
+				        'marker-zoom': '17'
+				      },
+				      'geometry': {
+				        'coordinates': [
+				        	item.longitude,
+				        	item.latitude
+				        ],
+				        'type': 'Point'
+				      }
+				}
+		   treeList.push(t);
+	   }
+	  
+	  
+    } 
+   showStations();
+   function showStations()
+   {
+     $.ajax({
+           method : 'GET',
+           url: "/ui/map/listTreeByMapAjax",
+           success: function (data) {
+        	   treeList=[];
+	         	data.data.forEach(function(item){
+	         		genDataTree(item);         		
+	         	});
+	         	loadGeojson();
+
+           },
+           error: function () {
+             console.log("Lỗi rồi");
+           },
+        });
+   }
+   var features;
+	function loadGeojson()
+	{	
+		var geojson = {
+				  type: 'FeatureCollection',
+				  features: treeList
+				}
+				if(features!=null)
+				{
+					features.clearLayers();
+				}
+				
+				features = L.mapbox.featureLayer(geojson).addTo(map);
+		
+				map.on('ready', function() {
+				    // Display the tooltip after the
+				    // marker has been added to the map.
+				    m.openPopup();
+				});
+
+				// When the features layer is ready,
+				// ie. added to the map, run populateListing.
+				features.on('ready', populateListing);
+
+				function populateListing() {
+				    // Clear out the listing container first.
+				    info.innerHTML = '';
+				    var listings = [];
+
+				    // Build a listing of markers
+				    features.eachLayer(function(marker) {
+				    	
+				        // Draggable marker coordinates.
+				        var home = m.getLatLng();
+				        var metresToMiles = 0.000621371192;
+				        var distance = (metresToMiles * home.distanceTo(marker.getLatLng())).toFixed(1);
+
+				        var link = document.createElement('a');
+				        link.className = 'item';
+				        link.href = '#';
+				        link.setAttribute('data-distance', distance);
+				        // Populate content from each markers object.
+				        link.innerHTML = marker.feature.properties.title +
+				            '<br /><small>' + distance + ' mi. away</small>';
+
+				        link.onclick = function() {
+				            if (/active/.test(this.className)) {
+				                this.className = this.className.replace(/active/, '').replace(/\s\s*$/, '');
+				            } else {
+				                var siblings = info.getElementsByTagName('a');
+				                for (var i = 0; i < siblings.length; i++) {
+				                    siblings[i].className = siblings[i].className
+				                    .replace(/active/, '').replace(/\s\s*$/, '');
+				                };
+				                this.className += ' active';
+
+				                // When a menu item is clicked, animate the map to center
+				                // its associated marker and open its popup.
+				                map.panTo(marker.getLatLng());
+				                marker.openPopup();
+				            }
+				            return false;
+				        };
+
+				        listings.push(link);
+				    });
+
+				    // Sort the listing based on the
+				    // assigned attribute, 'data-listing'
+				    listings.sort(function(a, b) {
+				        return a.getAttribute('data-distance') - b.getAttribute('data-distance');
+				    });
+
+				    listings.forEach(function(listing) {
+				        info.appendChild(listing);
+				    });
+				}	
+				
+	}
+
+</script>
+</body>
+</html>

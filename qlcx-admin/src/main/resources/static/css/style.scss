@@ -1,0 +1,139 @@
+.pdfViewer{
+    display: none;
+    height: 250px;
+    width: 100%;
+}
+.contentMenu{
+    padding: 20px;
+}
+.image-preview__image{
+    display: none;
+    height: 250px;
+    width: 100%;
+}
+.file-upload-wrapper{
+    position: relative;
+    background-color: #c8dadf;
+    outline-offset: -10px;
+    outline: 2px dashed #92b0b3;
+    height: 250px;
+    text-align: center;
+    input{
+        position: absolute;
+        left: 50px;
+        top: 140px;
+    }
+    i{
+        position: absolute;
+        left: 170px;
+        top: 80px;
+    }
+}
+.qlcx_info{
+    &__image{
+        max-width: 100%;
+        height: auto;
+    }
+    &__text{
+        padding-top: 1rem;
+    }
+}
+.sticky-banner {
+    display: flex;
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    text-align: center;
+    padding: .5rem 1rem !important;
+
+    &__text {
+        padding-top: .5rem;
+    }
+
+    &__button {
+        display: inline-block;
+        font-weight: 400;
+        font-size: 10px;
+        text-align: center;
+        white-space: pre-wrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        background-color: yellowgreen;
+        margin-left: 1rem;
+    }
+}
+
+.label-qrcount {
+    display: block;
+    padding: 1rem 1rem !important;
+}
+
+.btn-gray {
+    background-color: #4AC3BA;
+    border-color: #4AC3BA;
+    color: #FFFFFF;
+    margin-right: 5px ;
+    margin-top: 5px;
+}
+
+.btn-accent {
+    background-color: #FE5B54;
+    border-color: #FE5B54;
+    color: #FFFFFF;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.form-login {
+    width: 340px;
+    margin: {
+        top: 25px;
+        bottom: 50px;
+    }
+    &__inputWithIcon {
+        position: relative;
+
+        i {
+            position: absolute;
+            left: 315px;
+            top: 10px;
+            color: #aaa;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .navbar {
+        &__logo {
+            width: 150px;
+            position: absolute;
+            img {
+                width: 100%;
+                position: relative;
+                left: 500px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        &__logo {
+            width: 150px;
+            img {
+                width: 100%;
+            }
+        }
+    }
+}

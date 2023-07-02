@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <th:block th:include="include :: header('多级联动下拉')" />
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Multi-level linkage pull-down<small>https://github.com/ciaoca/cxSelect</small></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <p>Simple linkage example.</p>
+                        <div id="element" class="row">
+                            <div class="col-sm-2">
+                                <select class="type form-control m-b" data-first-title="please choose">
+				                  <option value="">please choose</option>
+				                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="router form-control m-b" data-first-title="please choose">
+				                  <option value="">please choose</option>
+				                </select>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <p>Linkage of domestic provinces and cities.</p>
+                        <div id="element1" class="row">
+                            <div class="col-sm-2">
+                                <select class="province form-control m-b" data-first-title="Choose province">
+				                  <option value="">please choose</option>
+				                  <option value="Guangdong Province" selected>Guangdong Province</option>
+				                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="city form-control m-b" data-first-title="Choose City">
+				                  <option value="">please choose</option>
+				                  <option value="Shenzhen" selected>Shenzhen</option>
+				                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="area form-control m-b" data-first-title="Choose region">
+				                  <option value="">please choose</option>
+				                  <option value="Nanshan District" selected>Nanshan District</option>
+				                </select>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <p>Custom options.</p>
+                        <div id="element2" class="row">
+                            <div class="col-sm-2">
+                                <select class="first form-control m-b"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="second form-control m-b"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="third form-control m-b"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="fourth form-control m-b"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="fifth form-control m-b"></select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="font-noraml">Related parameter details</label>
+                            <div><a href="http://doc.qlcx.vip/qlcx/document/zjwd.html#jquery-cxselect" target="_blank">http://doc.qlcx.vip/qlcx/document/zjwd.html#jquery-cxselect</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: jquery-cxselect-js" />
+    <script th:inline="javascript">
+        // Return directly to get
+        var data = [
+            [$ {
+                data
+            }]
+        ];
+        $('#element').cxSelect({
+            selects: ['type', 'router'],
+            jsonValue: 'v',
+            data: data
+        });
+
+        // Get by default url
+        var urlChina = 'cityData';
+        $.cxSelect.defaults.url = urlChina;
+        $('#element1').cxSelect({
+            selects: ['province', 'city', 'area'],
+            nodata: 'none'
+        });
+
+        // Fixed value acquisition
+        $('#element2').cxSelect({
+            selects: ['first', 'second', 'third', 'fourth', 'fifth'],
+            required: true,
+            jsonValue: 'v',
+            data: [{
+                'v': '1',
+                'n': 'First level >',
+                's': [{
+                    'v': '2',
+                    'n': 'second level >',
+                    's': [{
+                        'v': '3',
+                        'n': 'Third level >',
+                        's': [{
+                            'v': '4',
+                            'n': 'Fourth level >',
+                            's': [{
+                                'v': '5',
+                                'n': 'Fifth level >',
+                                's': [{
+                                    'v': '6',
+                                    'n': 'Sixth level >'
+                                }]
+                            }]
+                        }]
+                    }]
+                }]
+            }, {
+                'v': 'test number',
+                'n': 'Test number',
+                's': [{
+                    'v': 'text',
+                    'n': 'Text type',
+                    's': [{
+                        'v': '4',
+                        'n': '4'
+                    }, {
+                        'v': '5',
+                        'n': '5'
+                    }, {
+                        'v': '6',
+                        'n': '6'
+                    }, {
+                        'v': '7',
+                        'n': '7'
+                    }, {
+                        'v': '8',
+                        'n': '8'
+                    }, {
+                        'v': '9',
+                        'n': '9'
+                    }, {
+                        'v': '10',
+                        'n': '10'
+                    }]
+                }, {
+                    'v': 'number',
+                    'n': 'Numeric type',
+                    's': [{
+                        'v': 11,
+                        'n': 11
+                    }, {
+                        'v': 12,
+                        'n': 12
+                    }, {
+                        'v': 13,
+                        'n': 13
+                    }, {
+                        'v': 14,
+                        'n': 14
+                    }, {
+                        'v': 15,
+                        'n': 15
+                    }, {
+                        'v': 16,
+                        'n': 16
+                    }, {
+                        'v': 17,
+                        'n': 17
+                    }]
+                }]
+            }, {
+                'v': 'test boolean',
+                'n': 'test Boolean Types of',
+                's': [{
+                    'v': true,
+                    'n': true
+                }, {
+                    'v': false,
+                    'n': false
+                }]
+            }, {
+                v: 'test quotes',
+                n: 'Test attribute without quotation marks',
+                s: [{
+                    v: 'quotes',
+                    n: 'Quotation marks'
+                }]
+            }, {
+                v: 'test other',
+                n: 'Test strange value',
+                s: [{
+                    v: '[]',
+                    n: 'Array (empty)'
+                }, {
+                    v: [1, 2, 3],
+                    n: 'Array (value)'
+                }, {
+                    v: ['a', 'b', 'c'],
+                    n: 'Array (text)'
+                }, {
+                    v: new Date(),
+                    n: 'Date'
+                }, {
+                    v: new RegExp('\\d+'),
+                    n: 'Regular object'
+                }, {
+                    v: /\d+/,
+                    n: 'Regular direct quantity'
+                }, {
+                    v: {},
+                    n: 'object'
+                }, {
+                    v: document.getElementById('custom_data'),
+                    n: 'DOM'
+                }, {
+                    v: null,
+                    n: 'Null'
+                }, {
+                    n: 'value not set'
+                }]
+            }, {
+                'v': '',
+                'n': 'No children'
+            }]
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+# Data source configuration
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            # Main library data source
+            master:
+                url: jdbc:mysql://localhost:3306/qlcx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                username: root 
+                password: 
+            # From the library data source
+            slave:
+                # Switch from data source / off by default
+                enabled: false
+                url: 
+                username: 
+                password: 
+            # Initial connections
+            initialSize: 5
+            # Minimum number of connection pools
+            minIdle: 10
+            # Maximum number of connection pools
+            maxActive: 20
+            # Configure the time to wait for a connection to time out
+            maxWait: 60000
+            # How often to configure the interval before performing a test to detect idle connections that need to be closed, in milliseconds
+            timeBetweenEvictionRunsMillis: 60000
+            # Configure the minimum survival time of a connection in the pool, in milliseconds
+            minEvictableIdleTimeMillis: 300000
+            # Configure the maximum survival time of a connection in the pool, in milliseconds
+            maxEvictableIdleTimeMillis: 900000
+            # Configure to detect whether the connection is valid
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter: 
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # Set a white list, if not filled, all access is allowed
+                allow:
+                url-pattern: /druid/*
+                # Console management username and password
+                login-username: 
+                login-password: 
+            filter:
+                stat:
+                    enabled: true
+                    # Slow SQL logging
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true

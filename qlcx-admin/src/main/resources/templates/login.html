@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Đăng nhập vào hệ thống</title>
+    <meta name="description" content="Background management framework" />
+	<link th:href="@{/icon_tree.png}" rel="icon"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/login.min.css" rel="stylesheet" />
+    <link href="/qlcx/css/ry-ui.css?v=4.2.0" rel="stylesheet" />
+    <!-- 360Browser Quick Mode -->
+    <meta name="renderer" content="webkit" />
+    <!-- Avoid IE using compatibility mode -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="icon_tree.png" />
+    <style type="text/css">label.error {position: inherit;}</style>
+  </head>
+  <body class="signin">
+    <div class="signinpanel">
+      <div class="row">
+        <div class="col-sm-12">
+          <form id="signupForm" autocomplete="off">
+            <div class="signForm-title">
+              <div class="signForm-title-register"><span>ĐĂNG NHẬP QUẢN LÝ CÂY XANH</span></div>
+              <div class="signForm-title-image">
+              <img src="../../img/aiwrap.png">
+              </div>
+            </div>
+            <input type="text" name="username" class="form-control input-lg" placeholder="Tên đăng nhập"/>
+            <input type="password" name="password" class="form-control input-lg" placeholder="Mật khẩu"/>
+            <!-- <div class="row m-t capcha-container">
+              <div class="col-xs-12 capcha-input-login">
+                <input type="text" name="validateCode" class="form-control code input-lg" placeholder="Input inputCapcha" maxlength="5" />
+              </div>
+              <div class="col-xs-6 capcha-image-login">
+                <a href="javascript:void(0);" title="Click to replace the verification code">
+                  <img src="captcha/captchaImage?type=math" class="imgcode" width="85%" />
+                </a>
+              </div>
+            </div> -->
+            <button class="btn btn-block" id="btnSubmit" data-loading="Đang xác minh đăng nhập, vui lòng chờ...">Đăng nhập</button>
+            <div class="row m-t">
+              <!-- Forgot your password -->
+              <div class="col-xs-9">
+                <!--modal-->
+                <form id="signupForm">
+                  <a href="#" data-target="#pwdModal" data-toggle="modal">Quên mật khẩu?</a>
+                    <div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog dialog-container">
+                      <div class="modal-content">
+                          <div class="modal-header modal-header-container">
+                              <button type="button" class="close exits" data-dismiss="modal" aria-hidden="true">×</button>
+                              <h2 class="text-center">Bạn đã quên mật khẩu đăng nhập?</h2>
+                              <p class="text-center">Đừng lo lắng. Bạn điền đầy đủ email chũng tôi sẽ giúp bạn tạo lại mật khẩu đăng nhập.</p>
+                          </div>
+                          <div class="modal-body modal-forgotPassword">
+                              <div class="text-center">
+                                  <div class="panel-body panel-input-modal">
+                                      <fieldset>
+                                        <div class="row m-t input-email-container">
+                                          <div class="col-xs-12 modal-input-email">
+                                            <input class="form-control modal-input-email col-xs-9" placeholder="Vui lòng nhập địa chỉ email của bạn!" name="email" type="email">
+                                          </div>
+                                          <div class="col-xs-2 form-group-email">
+                                            <img src="../img/mail.png" alt="">
+                                          </div>
+                                        </div>
+                                          <input class="btn btn-primary btn-block" value="Gửi" type="submit">
+                                      </fieldset>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="modal-footer modal-footer-center">
+                              <div class="col-md-12">
+                              <u><a href="#">Quay trở lại</a></u>
+                          </div>	
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                </form>
+              </div>
+           <!--    <div class="col-xs-3">
+                <li class="dropdown dropdown-language">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="../../img/language.png"></img> <span class="caret"></span></a>
+                   <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                      <li><a href="#"><img src="../img/us.png" alt=""> English</a></li>
+                      <li><a href="#"><img src="../img/vietnam.png" alt=""> Vietnamese</a></li>
+                   </ul>
+               </li>
+              </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      var ctx = "\/"; var captchaType = "math";
+    </script>
+    <!-- Global js -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Verify plugin -->
+    <script src="/ajax/libs/validate/jquery.validate.min.js"></script>
+    <script src="/ajax/libs/validate/messages_zh.min.js"></script>
+    <script src="/ajax/libs/layer/layer.min.js"></script>
+    <script src="/ajax/libs/blockUI/jquery.blockUI.js"></script>
+    <script src="/qlcx/js/ry-ui.js?v=4.2.0"></script>
+    <script src="/qlcx/login.js"></script>
+  </body>
+</html>
