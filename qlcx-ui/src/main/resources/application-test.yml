@@ -6,9 +6,12 @@ spring:
         druid:
             # Main library data source
             master:
-                url: jdbc:mysql://localhost:3306/qlcx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-                username: root 
-                password: 
+                 url: jdbc:mysql://34.143.148.145:3306/qlcx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                 username: mytltt
+                 password: 123456
+                # url: jdbc:mysql://localhost:3306/qlcx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                # username: root
+                # password: 
             # From the library data source
             slave:
                 # Switch from data source / off by default

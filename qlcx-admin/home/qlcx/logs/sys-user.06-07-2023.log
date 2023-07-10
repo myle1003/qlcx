@@ -1,0 +1,21 @@
+23:43:47.576 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+23:43:47.630 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+23:45:12.100 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+23:45:12.104 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+23:48:08.225 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+23:48:08.229 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:06:47.134 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+00:06:47.138 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:09:31.912 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+00:09:31.914 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:11:30.912 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+00:11:30.917 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:12:46.800 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+00:12:46.802 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:14:16.193 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+00:14:16.229 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:15:43.179 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+00:15:43.185 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:20:19.727 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+00:20:19.729 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+00:23:20.817 [schedule-pool-2] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]

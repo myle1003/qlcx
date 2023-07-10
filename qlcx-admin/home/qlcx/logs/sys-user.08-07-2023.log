@@ -1,0 +1,4 @@
+16:35:41.993 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+16:35:42.035 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+16:36:36.816 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+16:36:36.820 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====

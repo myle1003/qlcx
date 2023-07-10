@@ -1,24 +1,20 @@
-21:06:46.265 [restartedMain] INFO  c.qlcx.uiApplication - [logStarting,50] - Starting uiApplication on DESKTOP-IFEAUMD with PID 5476 (E:\PBL\qlcx-develop\qlcx-ui\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-ui)
-21:06:46.282 [restartedMain] INFO  c.qlcx.uiApplication - [logStartupProfileInfo,675] - No active profile set, falling back to default profiles: default
-21:06:48.496 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-2000"]
-21:06:48.513 [restartedMain] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
-21:06:48.514 [restartedMain] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet Engine: Apache Tomcat/9.0.13
-21:06:48.533 [restartedMain] INFO  o.a.c.c.AprLifecycleListener - [log,173] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Users\OS\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin/server;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;D:\Maven\apache-maven-3.8.7-bin\apache-maven-3.8.7\bin;D:\Java_JDK\jdk1.8.0_191\jdk1.8.0_191\bin;C:\Program Files\dotnet\;C:\Users\OS\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\OS\AppData\Local\Programs\Python\Python311\;C:\Users\OS\AppData\Local\Microsoft\WindowsApps;C:\Users\OS\AppData\Roaming\npm;C:\Users\OS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\OS\AppData\Local\Programs\Python\Python310;;C:\Windows\System32;;.]
-21:06:48.664 [restartedMain] INFO  o.a.c.c.C.[.[.[/ui] - [log,173] - Initializing Spring embedded WebApplicationContext
-21:06:50.016 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-2000"]
-21:06:50.076 [restartedMain] INFO  o.a.t.u.n.NioSelectorPool - [log,173] - Using a shared selector for servlet write/read
-21:06:50.107 [restartedMain] INFO  c.qlcx.uiApplication - [logStarted,59] - Started uiApplication in 4.352 seconds (JVM running for 5.334)
-21:12:55.144 [http-nio-2000-exec-2] INFO  o.a.c.c.C.[.[.[/ui] - [log,173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-21:12:55.623 [http-nio-2000-exec-2] INFO  c.z.h.HikariDataSource - [getConnection,110] - HikariPool-1 - Starting...
-21:12:55.860 [http-nio-2000-exec-2] INFO  c.z.h.HikariDataSource - [getConnection,123] - HikariPool-1 - Start completed.
-21:51:57.035 [Thread-1] INFO  c.z.h.HikariDataSource - [close,350] - HikariPool-1 - Shutdown initiated...
-21:51:57.059 [Thread-1] INFO  c.z.h.HikariDataSource - [close,352] - HikariPool-1 - Shutdown completed.
-21:51:57.522 [restartedMain] INFO  c.qlcx.uiApplication - [logStarting,50] - Starting uiApplication on DESKTOP-IFEAUMD with PID 5476 (E:\PBL\qlcx-develop\qlcx-ui\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-ui)
-21:51:57.522 [restartedMain] INFO  c.qlcx.uiApplication - [logStartupProfileInfo,675] - No active profile set, falling back to default profiles: default
-21:51:59.388 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-2000"]
-21:51:59.389 [restartedMain] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
-21:51:59.389 [restartedMain] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet Engine: Apache Tomcat/9.0.13
-21:51:59.437 [restartedMain] INFO  o.a.c.c.C.[.[.[/ui] - [log,173] - Initializing Spring embedded WebApplicationContext
-21:51:59.936 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-2000"]
-21:51:59.940 [restartedMain] INFO  o.a.t.u.n.NioSelectorPool - [log,173] - Using a shared selector for servlet write/read
-21:51:59.955 [restartedMain] INFO  c.qlcx.uiApplication - [logStarted,59] - Started uiApplication in 2.553 seconds (JVM running for 2715.182)
+10:38:32.752 [restartedMain] INFO  c.qlcx.uiApplication - [logStarting,50] - Starting uiApplication on DESKTOP-IFEAUMD with PID 12588 (E:\PBL\qlcx-develop\qlcx-ui\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-ui)
+10:38:32.769 [restartedMain] INFO  c.qlcx.uiApplication - [logStartupProfileInfo,675] - No active profile set, falling back to default profiles: default
+10:38:34.832 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-2000"]
+10:38:34.846 [restartedMain] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+10:38:34.847 [restartedMain] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet Engine: Apache Tomcat/9.0.13
+10:38:34.860 [restartedMain] INFO  o.a.c.c.AprLifecycleListener - [log,173] - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Users\OS\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin/server;C:/Users/OS/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729/jre/bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;D:\Maven\apache-maven-3.8.7-bin\apache-maven-3.8.7\bin;D:\Java_JDK\jdk1.8.0_191\jdk1.8.0_191\bin;C:\Program Files\dotnet\;C:\Users\OS\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\OS\AppData\Local\Programs\Python\Python311\;C:\Users\OS\AppData\Local\Microsoft\WindowsApps;C:\Users\OS\AppData\Roaming\npm;C:\Users\OS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\OS\AppData\Local\Programs\Python\Python310;;C:\Windows\System32;;.]
+10:38:34.978 [restartedMain] INFO  o.a.c.c.C.[.[.[/ui] - [log,173] - Initializing Spring embedded WebApplicationContext
+10:38:35.924 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-2000"]
+10:38:35.978 [restartedMain] INFO  o.a.t.u.n.NioSelectorPool - [log,173] - Using a shared selector for servlet write/read
+10:38:36.005 [restartedMain] INFO  c.qlcx.uiApplication - [logStarted,59] - Started uiApplication in 3.715 seconds (JVM running for 4.637)
+10:38:50.784 [http-nio-2000-exec-1] INFO  o.a.c.c.C.[.[.[/ui] - [log,173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+10:47:47.965 [restartedMain] INFO  c.qlcx.uiApplication - [logStarting,50] - Starting uiApplication on DESKTOP-IFEAUMD with PID 12588 (E:\PBL\qlcx-develop\qlcx-ui\target\classes started by OS in E:\PBL\qlcx-develop\qlcx-ui)
+10:47:47.966 [restartedMain] INFO  c.qlcx.uiApplication - [logStartupProfileInfo,675] - No active profile set, falling back to default profiles: default
+10:47:48.439 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-2000"]
+10:47:48.440 [restartedMain] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+10:47:48.440 [restartedMain] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet Engine: Apache Tomcat/9.0.13
+10:47:48.470 [restartedMain] INFO  o.a.c.c.C.[.[.[/ui] - [log,173] - Initializing Spring embedded WebApplicationContext
+10:47:48.728 [restartedMain] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-2000"]
+10:47:48.730 [restartedMain] INFO  o.a.t.u.n.NioSelectorPool - [log,173] - Using a shared selector for servlet write/read
+10:47:48.739 [restartedMain] INFO  c.qlcx.uiApplication - [logStarted,59] - Started uiApplication in 0.862 seconds (JVM running for 557.372)

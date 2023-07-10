@@ -1,12 +1,19 @@
-15:49:44.494 [schedule-pool-2] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
-15:57:42.711 [Thread-6] INFO  sys-user - [shutdownSpringSessionValidationScheduler,47] - ====Turn off session verification task====
-15:57:42.712 [Thread-6] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
-15:57:42.712 [Thread-6] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
-15:58:32.998 [Thread-14] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
-15:58:33.001 [Thread-14] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
-16:02:25.183 [Thread-25] INFO  sys-user - [shutdownSpringSessionValidationScheduler,47] - ====Turn off session verification task====
-16:02:25.185 [Thread-25] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
-16:02:25.185 [Thread-25] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
-16:32:42.603 [Thread-36] INFO  sys-user - [shutdownSpringSessionValidationScheduler,47] - ====Turn off session verification task====
-16:32:42.606 [Thread-36] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
-16:32:42.607 [Thread-36] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+09:13:58.776 [schedule-pool-2] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+09:27:47.575 [Thread-6] INFO  sys-user - [shutdownSpringSessionValidationScheduler,47] - ====Turn off session verification task====
+09:27:47.577 [Thread-6] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+09:27:47.577 [Thread-6] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+12:48:41.225 [restartedMain] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+12:48:41.230 [restartedMain] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+12:50:06.790 [Thread-6] INFO  sys-user - [shutdownSpringSessionValidationScheduler,47] - ====Turn off session verification task====
+12:50:06.793 [Thread-6] INFO  sys-user - [shutdownAsyncManager,64] - ====Close background task task thread pool====
+12:50:06.796 [Thread-6] INFO  sys-user - [shutdownEhCacheManager,77] - ====Turn off the cache====
+13:27:38.433 [schedule-pool-2] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]
+16:33:44.379 [schedule-pool-1] INFO  sys-user - [run,111] - [14.243.45.59]XX XX[admin][Success][Login successful]
+16:36:12.227 [schedule-pool-1] INFO  sys-user - [run,111] - [14.243.45.74]XX XX[admin][Success][Login successful]
+16:41:07.338 [schedule-pool-7] INFO  sys-user - [run,111] - [14.243.45.74]XX XX[admin][Success][Login successful]
+16:46:12.337 [schedule-pool-2] INFO  sys-user - [run,111] - [14.243.45.74]XX XX[admin][Success][Login successful]
+16:46:32.423 [schedule-pool-2] INFO  sys-user - [run,111] - [14.243.45.74]XX XX[admin][Success][Login successful]
+16:48:18.266 [schedule-pool-2] INFO  sys-user - [run,111] - [14.243.45.74]XX XX[admin][Success][Login successful]
+16:50:48.862 [schedule-pool-2] INFO  sys-user - [run,111] - [14.243.45.74]XX XX[admin][Success][Login successful]
+16:53:24.517 [schedule-pool-2] INFO  sys-user - [run,111] - [14.243.45.74]XX XX[admin][Success][Login successful]
+16:55:57.363 [schedule-pool-5] INFO  sys-user - [run,111] - [127.0.0.1]Intranet IP[admin][Success][Login successful]

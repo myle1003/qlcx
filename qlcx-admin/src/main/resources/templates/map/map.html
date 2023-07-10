@@ -71,7 +71,7 @@
 		<div id="map"></div>
 	</div>
 	<div id="menu">
-		<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+		<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" >
 		<!-- See a list of Mapbox-hosted public styles at -->
 		<!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
 		<label for="satellite-v9">satellite</label>
@@ -79,10 +79,10 @@
 		<label for="light-v10">light</label>
 		<input id="dark-v10" type="radio" name="rtoggle" value="dark">
 		<label for="dark-v10">dark</label>
-		<input id="streets-v11" type="radio" name="rtoggle" value="streets">
+		<input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
 		<label for="streets-v11">streets</label>
-		<input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
-		<label for="outdoors-v11">outdoors</label>
+		<!-- <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+		<label for="outdoors-v11">outdoors</label> -->
 	</div>
 	<div id="controlerTree">
 		<div>
@@ -110,9 +110,9 @@
 				</p>
 			</div>
 			<div id="divManagerTree">
-				<div style="margin-top:5px">
+				<!-- <div style="margin-top:5px">
 					<button style=" width: 160px;" onclick="showimage360()">Xem thông tin ảnh 360 </button>
-				</div>
+				</div> -->
 				<div style=" display: flex;flex-wrap: nowrap;margin-top:5px">
 					<div>
 						<button style=" width: 78px;margin-right:4px" onclick="addTree()">Thêm cây</button>
@@ -167,14 +167,14 @@
 							<option style="background:#008800" value="#008800">Xanh lá</option>
 							
 						</select>
-						<select id="fillColor" style="margin-top:5px;height:25px;width: 160px;">
+						<!-- <select id="fillColor" style="margin-top:5px;height:25px;width: 160px;">
 							<option value="#CCFFFF">Chọn màu nền</option>
 							<option style="background:#CCFFFF" value="#CCFFFF">Xanh da trời</option>							
 							<option style="background:#FFFFCC" value="#99CCFF">Màu vàng</option>
 							<option style="background:#FF3366" value="#FF3366">Màu đỏ</option>
 							<option style="background:#33CC66" value="#33CC66">Xanh lá</option>	
 							
-						</select>
+						</select> -->
 					</div>
 				</div>
 
@@ -227,8 +227,8 @@
 	<script>
 		L.mapbox.accessToken = 'pk.eyJ1IjoicXVvY25naGlhIiwiYSI6ImNrb2syd2xncjBmYzMydnFmZW4yYnhka24ifQ.zFBA79NyujB4ihFqnKfLmQ';
 		var map = L.mapbox.map('map')
-			.setView([16.076061, 108.213076], 17)
-			.addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9'))
+			.setView([16.074742, 108.154733], 17)
+			.addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'))
 			.addControl(L.mapbox.geocoderControl('mapbox.places', {
 				keepOpen: true
 			})
@@ -237,14 +237,14 @@
 		var info = document.getElementById('info');
 
 		// Creates a single, draggable marker on the page.
-		var m = L.marker(new L.LatLng(16.0782236, 108.213238), {
+		var m = L.marker(new L.LatLng(16.074742, 108.154733), {
 			icon: L.mapbox.marker.icon({
 				'marker-color': 'FFFF66',
 				'marker-symbol': 'school',
 				'marker-size': 'large'
 			}),
 			draggable: false
-		}).bindPopup('Trường SPKT!!!').addTo(map);
+		}).bindPopup('Trường ĐHBKĐN').addTo(map);
 
 		//thay đổi kiểu (tot, kha,can cham soc, cham soc gap)
 		const layerList = document.getElementById('menu');

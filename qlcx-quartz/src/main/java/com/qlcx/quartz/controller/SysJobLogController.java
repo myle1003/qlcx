@@ -63,7 +63,7 @@ public class SysJobLogController extends BaseController
         return getDataTable(list);
     }
 
-    @Log(title = "调度Nhật ký", businessType = BusinessType.EXPORT)
+    @Log(title = "Nhật ký", businessType = BusinessType.EXPORT)
     @RequiresPermissions("monitor:job:export")
     @PostMapping("/export")
     @ResponseBody
@@ -71,10 +71,10 @@ public class SysJobLogController extends BaseController
     {
         List<SysJobLog> list = jobLogService.selectJobLogList(jobLog);
         ExcelUtil<SysJobLog> util = new ExcelUtil<SysJobLog>(SysJobLog.class);
-        return util.exportExcel(list, "调度Nhật ký");
+        return util.exportExcel(list, "Nhật ký");
     }
 
-    @Log(title = "调度Nhật ký", businessType = BusinessType.DELETE)
+    @Log(title = "Nhật ký", businessType = BusinessType.DELETE)
     @RequiresPermissions("monitor:job:remove")
     @PostMapping("/remove")
     @ResponseBody
@@ -92,7 +92,7 @@ public class SysJobLogController extends BaseController
         return prefix + "/detail";
     }
 
-    @Log(title = "调度Nhật ký", businessType = BusinessType.CLEAN)
+    @Log(title = "Nhật ký", businessType = BusinessType.CLEAN)
     @RequiresPermissions("monitor:job:remove")
     @PostMapping("/clean")
     @ResponseBody

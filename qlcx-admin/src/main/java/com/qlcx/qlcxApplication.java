@@ -9,7 +9,7 @@ public class qlcxApplication
 {
     public static void main(String[] args)
     {
-        //System.setProperty("spring.devtools.restart.enabled", "true");
+//        System.setProperty("spring.devtools.restart.enabled", "true");
         SpringApplication.run(qlcxApplication.class, args);
     }
 }

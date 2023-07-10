@@ -23,11 +23,7 @@ import com.qlcx.common.utils.poi.ExcelUtil;
 import com.qlcx.quartz.domain.SysJob;
 import com.qlcx.quartz.service.ISysJobService;
 
-/**
- * 调度任务信息Action处理
- * 
- * @author qlcx
- */
+
 @Controller
 @RequestMapping("/monitor/job")
 public class SysJobController extends BaseController
